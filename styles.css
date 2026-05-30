@@ -524,7 +524,8 @@ body.in-story .twk-panel { display: none !important; }
   .masthead .eyebrow { font-size: 8.5px; letter-spacing: 0.18em; margin-bottom: 2px; }
   .masthead h1 { font-size: 25px; }
   .credit { display: none; }
-  .mast-grab { cursor: default; }
+  /* on mobile the title is fixed in place — only the counter below it drags */
+  .mast-grab { cursor: default; pointer-events: none; }
 
   .toolbar { top: 8px; right: 8px; gap: 5px; padding: 4px 5px 4px 9px; border-radius: 20px; }
   .mobile-only { display: grid; }
