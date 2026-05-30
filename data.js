@@ -15,8 +15,9 @@ window.TIME = {
 // Each seeds the expanding "settled region" (a geo-circle that
 // fades in and grows once its arrival date is reached).
 window.MILESTONES = [
-  { id: "origin",    name: "East & North Africa",   coord: [38, 8],     ya: 300000, grow: 60000, maxDeg: 22, label: "Homo sapiens emerges" },
-  { id: "south_afr", name: "Southern Africa",       coord: [24, -28],   ya: 200000, grow: 40000, maxDeg: 24 },
+  { id: "origin",    name: "East Africa",           coord: [38, 8],     ya: 300000, grow: 60000, maxDeg: 20, label: "Homo sapiens · East Africa (Omo)" },
+  { id: "origin_n",  name: "North Africa",          coord: [-7, 32],    ya: 300000, grow: 55000, maxDeg: 13, label: "North Africa · Jebel Irhoud (~315 ka)" },
+  { id: "south_afr", name: "Southern Africa",       coord: [24, -28],   ya: 300000, grow: 55000, maxDeg: 24, label: "Southern Africa · Florisbad" },
   { id: "west_afr",  name: "West Africa",           coord: [-2, 9],     ya: 150000, grow: 40000, maxDeg: 22 },
   { id: "levant1",   name: "The Levant (early)",    coord: [35, 32],    ya: 90000,  grow: 25000, maxDeg: 5, label: "First steps beyond Africa", diedAt: 86000 },
   { id: "arabia",    name: "Arabia",                coord: [47, 22],    ya: 68000,  grow: 18000, maxDeg: 16 },
@@ -40,8 +41,10 @@ window.MILESTONES = [
 // progressively along the whole chain as the timeline crosses
 // [startYa .. endYa]. Paths hug coasts, straits, and corridors.
 window.ROUTES = [
-  // origin -> Southern Africa
-  { path: [[38, 8], [33, 2], [28, -10], [26, -20], [24, -28]], startYa: 280000, endYa: 200000 },
+  // pan-African metapopulation — at the dawn of our species, interconnected
+  // populations of East, North & Southern Africa emerge together and share traits
+  { path: [[38, 8], [33, 2], [28, -12], [25, -22], [24, -28]], startYa: 300000, endYa: 262000 }, // East <-> Southern Africa (network)
+  { path: [[38, 8], [24, 18], [8, 27], [-7, 32]], startYa: 300000, endYa: 262000 }, // East <-> North Africa (network)
   // origin -> West Africa (across the Sahel)
   { path: [[38, 8], [28, 10], [15, 12], [4, 11], [-2, 9]], startYa: 220000, endYa: 150000 },
   // Africa -> Levant, up the Nile corridor (early dispersal)

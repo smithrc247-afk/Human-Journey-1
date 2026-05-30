@@ -39,26 +39,28 @@ function roundYa(ya) {
   if (ya >= 1000) return Math.round(ya / 100) * 100;
   return Math.round(ya / 10) * 10;
 }
-function epochLabel(ya) {
-  if (ya >= 12000) return "Palaeolithic";
-  if (ya >= 5200) return "Neolithic";
-  if (ya >= 3200) return "Bronze Age";
-  if (ya >= 1500) return "Iron Age / Classical";
-  return "Common Era";
+function epochLabel(ya, tl) {
+  const e = (tl || window.I18N.en).epochs;
+  if (ya >= 12000) return e.palaeolithic;
+  if (ya >= 5200) return e.neolithic;
+  if (ya >= 3200) return e.bronze;
+  if (ya >= 1500) return e.iron;
+  return e.ce;
 }
-function calendarLabel(ya) {
+function calendarLabel(ya, tl) {
+  const era = (tl || window.I18N.en).era;
   const yr = 2025 - ya;
   if (ya > 12000) return null;
   if (yr < 0) {
     const v = Math.round(-yr / (ya > 3000 ? 100 : 10)) * (ya > 3000 ? 100 : 10);
-    return `≈ ${v} BCE`;
+    return `≈ ${v} ${era.bce}`;
   }
-  return `≈ ${Math.round(yr / 10) * 10} CE`;
+  return `≈ ${Math.round(yr / 10) * 10} ${era.ce}`;
 }
 
 // ---- story keyframes (≈5 minutes, wide framing) -----------
 const STORY = [
-  { dur: 11, ya: 300000, yaTo: 270000, coord: [34, 6],   zoom: 1.5,  kicker: "300,000 years ago · East Africa", body: "In the African sun, a new kind of human appears — Homo sapiens. Tall, lightly built, and endlessly curious." },
+  { dur: 11, ya: 300000, yaTo: 270000, coord: [34, 6],   zoom: 1.5,  kicker: "≈ 300,000 years ago · Africa", body: "A new kind of human takes shape — Homo sapiens. Not in one cradle but across the whole continent at once — the pan-African origin: an interconnected web of populations, from Morocco to Ethiopia to the Cape, slowly blending into us." },
   { dur: 12, ya: 270000, yaTo: 200000, coord: [20, 2],   zoom: 1.35, kicker: "The African homeland", body: "For thousands of generations they spread across the continent alone — from the Cape to the Sahara — mastering fire, tools, and language." },
   { dur: 12, ya: 200000, yaTo: 122000, coord: [24, 0],   zoom: 1.3,  kicker: "≈ 200,000 years ago", body: "They bury their dead, paint their bodies with ochre, and begin to sense spirits in animals, rivers, and stone — the dawn of animism." },
   { dur: 11, ya: 120000, yaTo: 74000,  coord: [40, 20],  zoom: 1.4,  kicker: "First steps beyond", body: "Early bands wander north into the Levant. But the world beyond Africa is harsh, and these first ventures fade away." },
@@ -209,7 +211,7 @@ function approachAngle(cur, target, k) {
 }
 
 // ---- population graph (log–log curve with a live marker) ----
-function PopGraph({ ya, variant, logScale, onToggle, dragProps }) {
+function PopGraph({ ya, variant, logScale, onToggle, dragProps, title }) {
   const W = 236, H = 110, PADL = 32, PADR = 10, PADT = 12, PADB = 26;
   const MAXP = 8.2e9, START = window.TIME.start;
   const plotW = W - PADL - PADR, plotH = H - PADT - PADB;
@@ -254,7 +256,7 @@ function PopGraph({ ya, variant, logScale, onToggle, dragProps }) {
   return (
     <div className={"pop-graph " + variant + (dragProps ? " draggable" : "")} {...(dragProps || {})}>
       <div className="pg-head">
-        <p className="pg-title">Human population</p>
+        <p className="pg-title">{title || "Human population"}</p>
         {onToggle && (
           <button className="pg-scale" onClick={onToggle} title="Toggle axis scale">
             <span className={logScale ? "" : "on"}>LIN</span>
@@ -320,6 +322,15 @@ function App() {
   const [ya, setYa] = useState(TIME.start);
   const [active, setActive] = useState(() => new Set(RELIGIONS.map((r) => r.id)));
   const [pinned, setPinned] = useState(null);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [lang, setLang] = useState(() => { try { return localStorage.getItem("hj-lang") || "en"; } catch (e) { return "en"; } });
+  useEffect(() => { try { localStorage.setItem("hj-lang", lang); } catch (e) {} }, [lang]);
+  const TL = window.I18N[lang] || window.I18N.en;
+  const EN = window.I18N.en;
+  const ui = (k) => (TL.ui && TL.ui[k] != null) ? TL.ui[k] : EN.ui[k];
+  const locStory = (s, i) => { const x = TL.story && TL.story[i]; return x ? { ...s, kicker: x.k, body: x.b } : s; };
+  const locRel = (r) => { const x = TL.religions && TL.religions[r.id]; return x ? { ...r, name: x.name, blurb: x.blurb, examples: x.examples, when: x.when } : r; };
   const [exploring, setExploring] = useState(false); // explore autoplay
   const [story, setStory] = useState(false);
   const [storyPlaying, setStoryPlaying] = useState(false);
@@ -531,15 +542,18 @@ function App() {
   // ---- derived ----------------------------------------------
   const dispYa = roundYa(ya);
   const isPresent = ya <= 1.5;
-  const cal = calendarLabel(ya);             // "≈ 3000 BCE" / "≈ 1990 CE" for the historical era
+  const cal = calendarLabel(ya, TL);         // "≈ 3000 BCE" / "≈ 1990 CE" for the historical era
   // keep the "<n> years ago" reading AND the calendar year side by side all the
   // way to the present (only the very end collapses to "Today").
-  const bigText = isPresent ? "Today" : ya <= 60 ? String(Math.round(ya)) : fmt(dispYa);
-  const unitText = isPresent ? "" : "years ago";
+  const bigText = isPresent ? ui("today") : ya <= 60 ? String(Math.round(ya)) : fmt(dispYa);
+  const unitText = isPresent ? "" : ui("yearsAgo");
   const calYear = isPresent ? null : cal;
-  const eraText = isPresent ? "Present day · 2025" : epochLabel(ya);
+  const eraText = isPresent ? ui("presentDay") : epochLabel(ya, TL);
   const popText = fmtPop(window.popAt(ya));
-  const chapter = CHAPTERS.find((c) => ya <= c.from && ya > c.to) || CHAPTERS[CHAPTERS.length - 1];
+  const chapterRaw = CHAPTERS.find((c) => ya <= c.from && ya > c.to) || CHAPTERS[CHAPTERS.length - 1];
+  const cIdx = CHAPTERS.indexOf(chapterRaw);
+  const cTr = TL.chapters && TL.chapters[cIdx];
+  const chapter = cTr ? { ...chapterRaw, title: cTr.t, body: cTr.b } : chapterRaw;
 
   const liveReligions = RELIGIONS.filter((r) => ya <= r.from && ya >= r.to);
   let focus = null;
@@ -619,16 +633,16 @@ function App() {
 
   const pos = yaToPos(ya);
   const ticks = [
-    { ya: 300000, label: "300ka" },
-    { ya: 70000, label: "Out of Africa" },
-    { ya: 12000, label: "First villages" },
-    { ya: 5000, label: "First cities" },
-    { ya: 2000, label: "2 ka" },
-    { ya: 1, label: "Today" },
+    { ya: 300000, label: ui("tick_300ka") },
+    { ya: 70000, label: ui("tick_ooa") },
+    { ya: 12000, label: ui("tick_villages") },
+    { ya: 5000, label: ui("tick_cities") },
+    { ya: 2000, label: ui("tick_2ka") },
+    { ya: 1, label: ui("tick_today") },
   ];
 
-  const curSeg = story ? STORY[segAt(storyElapsed).i] : STORY[storyPosForYa(ya).i];
   const curSegIdx = story ? segAt(storyElapsed).i : storyPosForYa(ya).i;
+  const curSeg = locStory(STORY[curSegIdx], curSegIdx);
   const fmtClock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
   return (
@@ -640,28 +654,50 @@ function App() {
       {/* masthead */}
       {!story && <div className="masthead">
         <div className="draggable mast-grab" {...dragMast}>
-          <p className="eyebrow">An Interactive Atlas</p>
-          <h1>The Human <em>Journey</em></h1>
+          <p className="eyebrow">{ui("eyebrow")}</p>
+          <h1>{ui("titleA")} <em>{ui("titleB")}</em></h1>
+          <p className="credit">{ui("credit1")} · {ui("credit2")}</p>
         </div>
-        <div className="credit">Out of Africa<br/>& the Origins of Belief</div>
       </div>}
+
+      {/* consolidated utility toolbar (top-right) */}
+      {!story && <div className="toolbar">
+        <button className="tb-panel mobile-only" onClick={() => setSheetOpen(true)} aria-label={ui("mapLayers")}>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <span className="tb-group">
+          <span className="tb-label">{ui("globeType")}</span>
+          <select className="tb-select" value={t.globeTheme} onChange={(e) => setTweak("globeTheme", e.target.value)} aria-label={ui("globeType")}>
+            <option value="slate">{ui("theme_slate")}</option>
+            <option value="relief">{ui("theme_relief")}</option>
+            <option value="twilight">{ui("theme_twilight")}</option>
+            <option value="atlas">{ui("theme_atlas")}</option>
+          </select>
+        </span>
+        <select className="tb-select" value={lang} onChange={(e) => setLang(e.target.value)} aria-label={ui("language")}>
+          {window.LANGS.map((L) => <option key={L.code} value={L.code}>{L.label}</option>)}
+        </select>
+        <button className="tb-about" onClick={() => setAboutOpen(true)}>{(TL.about || EN.about).open}</button>
+      </div>}
+
+      {/* About modal */}
 
       {/* narrative reader */}
       {!story && <div className="reader draggable" {...dragReader}>
         <p className="chapter-kicker">{chapter.title}</p>
         <h2 className="read-fade">{chapter.title}</h2>
         <p className="read-fade">{chapter.body}</p>
-        {focus && (
+        {focus && (() => { const f = locRel(focus); return (
           <div className="relfocus">
             <div className="rf-head">
-              <span className="dot" style={{ background: focus.color, color: focus.color }}></span>
-              <h3>{focus.name}</h3>
+              <span className="dot" style={{ background: f.color, color: f.color }}></span>
+              <h3>{f.name}</h3>
             </div>
-            <p className="rf-when">{focus.when}</p>
-            <p>{focus.blurb}</p>
-            <p className="rf-ex">{focus.examples}</p>
+            <p className="rf-when">{f.when}</p>
+            <p>{f.blurb}</p>
+            <p className="rf-ex">{f.examples}</p>
           </div>
-        )}
+        ); })()}
       </div>}
 
       {/* story-style caption box (also shown during Play) */}
@@ -676,19 +712,19 @@ function App() {
 
       {/* "On the map" legend (from the film) */}
       {!story && <div className="story-legend play-onmap">
-        <p className="sl-title">On the map</p>
-        <div className="sl-row"><span className="sl-g sl-region"></span><span>Settled land — belief colour</span></div>
-        <div className="sl-row"><span className="sl-g sl-route"></span><span>Migration route</span></div>
-        <div className="sl-row"><span className="sl-g sl-dot"></span><span>Settlement reached</span></div>
-        <div className="sl-row"><span className="sl-g sl-flow"></span><span>Belief spreads</span></div>
-        <div className="sl-row"><span className="sl-g sl-bar"></span><span>Population (height)</span></div>
+        <p className="sl-title">{ui("onTheMap")}</p>
+        <div className="sl-row"><span className="sl-g sl-region"></span><span>{ui("map_region")}</span></div>
+        <div className="sl-row"><span className="sl-g sl-route"></span><span>{ui("map_route")}</span></div>
+        <div className="sl-row"><span className="sl-g sl-dot"></span><span>{ui("map_settlement")}</span></div>
+        <div className="sl-row"><span className="sl-g sl-flow"></span><span>{ui("map_flow")}</span></div>
+        <div className="sl-row"><span className="sl-g sl-bar"></span><span>{ui("map_pop")}</span></div>
       </div>}
 
       {/* legend */}
       {!story && <div className="legend draggable" {...dragLegend}>
         <p className="leg-title">
-          <span>Forms of Belief</span>
-          <button onClick={() => { setPinned(null); setActive(new Set(RELIGIONS.map((r) => r.id))); }}>Reset</button>
+          <span>{ui("formsOfBelief")}</span>
+          <button onClick={() => { setPinned(null); setActive(new Set(RELIGIONS.map((r) => r.id))); }}>{ui("reset")}</button>
         </p>
         {RELIGIONS.map((r) => {
           const live = ya <= r.from && ya >= r.to;
@@ -698,11 +734,11 @@ function App() {
               className={"leg-item" + (on ? "" : " off") + (live ? " live" : " dormant")}
               onClick={(e) => { if (e.shiftKey) { toggleReligion(r.id); } else { focusReligion(r); } }}
               onDoubleClick={() => toggleReligion(r.id)}
-              title="Click to focus · Shift-click to toggle">
+              title={ui("legItemTitle")}>
               <span className="swatch" style={{ background: on ? r.color : "transparent", borderColor: r.color }}></span>
               <span>
-                <span className="lname">{r.name}</span><br/>
-                <span className="ldate">{r.when}</span>
+                <span className="lname">{locRel(r).name}</span><br/>
+                <span className="ldate">{locRel(r).when}</span>
               </span>
               <span className="pip"></span>
             </button>
@@ -710,13 +746,13 @@ function App() {
         })}
       </div>}
 
-      {!story && <div className={"hint" + (hintGone ? " gone" : "")}>Drag to rotate · Scroll to zoom · Drag the timeline</div>}
+      {!story && <div className={"hint" + (hintGone ? " gone" : "")}>{ui("hint")}</div>}
 
       {/* on-page layer toggles */}
       {!story && (
         <div className="layers-box draggable" {...dragLayers}>
-          <p className="lb-title">Map layers</p>
-          {[["settlement", "Settlement"], ["migration", "Migration lines"], ["religion", "Religion"], ["population", "Population"], ["ice", "Polar ice"]].map(([k, lbl]) => (
+          <p className="lb-title">{ui("mapLayers")}</p>
+          {[["settlement", ui("layer_settlement")], ["migration", ui("layer_migration")], ["religion", ui("layer_religion")], ["population", ui("layer_population")], ["ice", ui("layer_ice")]].map(([k, lbl]) => (
             <button key={k} className={"lb-row" + (layers[k] ? " on" : "")}
               onClick={() => setLayers((p) => ({ ...p, [k]: !p[k] }))}>
               <span className="lb-check"></span><span>{lbl}</span>
@@ -726,18 +762,11 @@ function App() {
       )}
 
       {/* on-page globe-type selector */}
-      {!story && (
-        <div className="globe-box draggable" {...dragGlobe}>
-          <p className="lb-title">Globe type</p>
-          {[["slate", "Slate"], ["relief", "Relief"], ["twilight", "Twilight"], ["atlas", "Atlas"]].map(([v, lbl]) => (
-            <button key={v} className={"gt-row" + (t.globeTheme === v ? " on" : "")}
-              onClick={() => setTweak("globeTheme", v)}>{lbl}</button>
-          ))}
-        </div>
-      )}
+      {/* on-page globe-type selector — consolidated into the top-right toolbar */}
+
 
       {/* on-page population graph */}
-      {!story && <PopGraph ya={ya} variant="explore" logScale={graphLog} onToggle={() => setGraphLog((v) => !v)} dragProps={dragGraph} />}
+      {!story && <PopGraph ya={ya} variant="explore" logScale={graphLog} onToggle={() => setGraphLog((v) => !v)} dragProps={dragGraph} title={ui("humanPopulation")} />}
 
       {/* timeline */}
       {!story && <div className="timeline draggable" {...dragTimeline}>
@@ -749,7 +778,7 @@ function App() {
             <span className="era">{eraText}</span>
           </div>
           <div className="tl-pop">
-            <span className="lab">Humans alive</span>
+            <span className="lab">{ui("humansAlive")}</span>
             <span className="val">≈ {popText}</span>
           </div>
           <div className="tl-controls">
@@ -758,7 +787,7 @@ function App() {
               if (!exploring && ya <= 2) setYa(TIME.start);
               setExploring((v) => !v);
             }}>
-              {exploring ? Ico.pause : Ico.play}{exploring ? "Pause" : "Play"}
+              {exploring ? Ico.pause : Ico.play}{exploring ? ui("pause") : ui("play")}
             </button>
           </div>
         </div>
@@ -803,7 +832,7 @@ function App() {
               <span className="sy-pop">≈ {popText} humans alive</span>
             </div>
           )}
-          {!showTitle && <PopGraph ya={ya} variant="film" logScale={graphLog} />}
+          {!showTitle && <PopGraph ya={ya} variant="film" logScale={graphLog} title={ui("humanPopulation")} />}
           {!showTitle && (
             <div className="story-legend">
               <p className="sl-title">On the map</p>
@@ -849,6 +878,66 @@ function App() {
         </>
       )}
       </div>
+
+      {/* About modal — outside .ui-scale so it shows full-scale above everything */}
+      {!story && aboutOpen && (() => { const A = TL.about || EN.about; return (
+        <div className="about-overlay" onClick={() => setAboutOpen(false)}>
+          <div className="about-card" onClick={(e) => e.stopPropagation()}>
+            <button className="about-close" onClick={() => setAboutOpen(false)} aria-label={A.close}>✕</button>
+            <h2 className="about-title">{A.title}</h2>
+            <p className="about-intro">{A.intro}</p>
+            {A.s.map((sec, i) => (
+              <div className="about-sec" key={i}>
+                <h3>{sec.h}</h3>
+                <p>{sec.b}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ); })()}
+
+      {/* Mobile controls sheet — layer toggles, beliefs & population graph */}
+      {!story && sheetOpen && (
+        <div className="sheet-overlay" onClick={() => setSheetOpen(false)}>
+          <div className="sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="sheet-grip"></div>
+            <button className="about-close sheet-close" onClick={() => setSheetOpen(false)} aria-label={(TL.about || EN.about).close}>✕</button>
+
+            <PopGraph ya={ya} variant="explore" logScale={graphLog} onToggle={() => setGraphLog((v) => !v)} title={ui("humanPopulation")} />
+
+            <p className="sheet-h">{ui("mapLayers")}</p>
+            <div className="sheet-layers">
+              {[["settlement", ui("layer_settlement")], ["migration", ui("layer_migration")], ["religion", ui("layer_religion")], ["population", ui("layer_population")], ["ice", ui("layer_ice")]].map(([k, lbl]) => (
+                <button key={k} className={"lb-row" + (layers[k] ? " on" : "")} onClick={() => setLayers((p) => ({ ...p, [k]: !p[k] }))}>
+                  <span className="lb-check"></span><span>{lbl}</span>
+                </button>
+              ))}
+            </div>
+
+            <p className="sheet-h">{ui("formsOfBelief")}</p>
+            {focus && (() => { const f = locRel(focus); return (
+              <div className="relfocus sheet-focus">
+                <div className="rf-head"><span className="dot" style={{ background: f.color, color: f.color }}></span><h3>{f.name}</h3></div>
+                <p className="rf-when">{f.when}</p>
+                <p>{f.blurb}</p>
+              </div>
+            ); })()}
+            <div className="sheet-beliefs">
+              {RELIGIONS.map((r) => {
+                const live = ya <= r.from && ya >= r.to; const on = active.has(r.id);
+                return (
+                  <button key={r.id} className={"leg-item" + (on ? "" : " off") + (live ? " live" : " dormant")}
+                    onClick={() => focusReligion(r)} onDoubleClick={() => toggleReligion(r.id)}>
+                    <span className="swatch" style={{ background: on ? r.color : "transparent", borderColor: r.color }}></span>
+                    <span><span className="lname">{locRel(r).name}</span><br/><span className="ldate">{locRel(r).when}</span></span>
+                    <span className="pip"></span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Tweaks */}
       <TweaksPanel>
