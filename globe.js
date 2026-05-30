@@ -129,7 +129,7 @@
         }
       }
       if (!topo) { console.warn("globe: could not load world data"); return false; }
-      this.land = topojson.merge(topo, topo.objects.countries.geometries);
+      this.land = this._cleanLand(topojson.merge(topo, topo.objects.countries.geometries));
       this.borders = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b);
       this._loaded = true;
       this._dirty = true;
@@ -137,24 +137,63 @@
       return true;
     }
 
+    // Remove degenerate rings (fewer than 3 distinct vertices, i.e. zero-area
+    // slivers left by aggressive simplification). On an orthographic globe d3's
+    // circle-clip turns such a sliver into a full horizon ring at certain view
+    // angles, which floods the ocean with the land colour (land/water appear
+    // to swap). Stripping them keeps land/water colours stable at every angle.
+    _cleanLand(geo) {
+      const distinct = (ring) => {
+        const s = new Set();
+        for (const p of ring) s.add(p[0].toFixed(5) + "," + p[1].toFixed(5));
+        return s.size;
+      };
+      const polys = geo.type === "Polygon" ? [geo.coordinates] : geo.coordinates;
+      const out = [];
+      for (const poly of polys) {
+        const rings = poly.filter((r) => distinct(r) >= 3);
+        if (rings.length) out.push(rings);
+      }
+      return { type: "MultiPolygon", coordinates: out };
+    }
+
     // ---- public API -----------------------------------------
-    setTime(ya) { this.timeYa = ya; this._dirty = true; }
-    setTheme(name) { if (THEMES[name]) { this.theme = name; this._dirty = true; } }
+    setTime(ya) { this.timeYa = ya; this._dirty = true; }    setTheme(name) { if (THEMES[name]) { this.theme = name; this._dirty = true; } }
     setReligions(set) { this.activeReligions = set; this._dirty = true; }
     setLayer(key, on) { this[key] = on; this._dirty = true; }
     setIdleSpin(on) { this._idleSpin = on; }
 
-    flyTo(coord, zoom, ms = 1600) {
-      const startCenter = [-this.rotate[0], -this.rotate[1]];
-      const endCenter = coord;
-      const interp = d3.geoInterpolate(startCenter, endCenter);
+    // spin: 0 = shortest great-circle path (default); -1 = force the camera to
+    // travel WEST (centre longitude decreasing); +1 = force EAST. Use a forced
+    // direction to steer the globe the intuitive way across a long traverse
+    // (e.g. follow belief west from Europe across the Atlantic to the Americas
+    // rather than letting it whip east across Asia and the empty Pacific).
+    flyTo(coord, zoom, ms = 1600, spin = 0) {
+      const start = [-this.rotate[0], -this.rotate[1]];
+      const end = coord;
       const z0 = this.zoom, z1 = zoom != null ? zoom : this.zoom;
       const t0 = performance.now();
+      const useDir = spin !== 0;
+      let dLon = 0;
+      if (useDir) {
+        dLon = end[0] - start[0];
+        while (dLon > 180) dLon -= 360;
+        while (dLon <= -180) dLon += 360;
+        if (spin > 0 && dLon < 0) dLon += 360;   // force eastward
+        if (spin < 0 && dLon > 0) dLon -= 360;   // force westward
+      }
+      const interp = useDir ? null : d3.geoInterpolate(start, end);
       this._anim = (now) => {
         let k = Math.min(1, (now - t0) / ms);
         const e = d3.easeCubicInOut(k);
-        const c = interp(e);
-        this.rotate = [-c[0], -c[1], 0];
+        let lon, lat;
+        if (useDir) {
+          lon = start[0] + dLon * e;
+          lat = start[1] + (end[1] - start[1]) * e;
+        } else {
+          const c = interp(e); lon = c[0]; lat = c[1];
+        }
+        this.rotate = [-lon, -lat, 0];
         this.zoom = z0 + (z1 - z0) * e;
         this._dirty = true;
         if (k >= 1) this._anim = null;
@@ -323,11 +362,17 @@
       }
       for (const f of window.RELIGION_FLOWS) {
         if (!this.activeReligions.has(f.rel)) continue;
-        if (this.timeYa <= f.endYa) {
+        if (this.timeYa <= f.startYa) {
           const rel = window.RELIGIONS.find((x) => x.id === f.rel);
           if (rel) {
-            const w = Math.max(0, Math.min(1, (f.endYa - this.timeYa) / 1500));
-            pts.push({ coord: f.to, color: rel.color, w });
+            // presence grows as the transmission line draws, full once it lands
+            let w = Math.max(0, Math.min(1, (f.startYa - this.timeYa) / (f.startYa - f.endYa)));
+            // optional recession: presence wanes between fadeStart and fadeEnd
+            // (years ago) — used to retreat al-Andalus through the Reconquista.
+            if (f.fadeStart != null && this.timeYa < f.fadeStart) {
+              w *= Math.max(0, (this.timeYa - f.fadeEnd) / (f.fadeStart - f.fadeEnd));
+            }
+            if (w > 0) pts.push({ coord: f.to, color: rel.color, w });
           }
         }
       }
@@ -393,6 +438,22 @@
         m.fillStyle = g; m.fillRect(0, 0, this.w, this.h);
         m.restore();
         any = true;
+      }
+      // Until the Bab-el-Mandeb crossing (the `arabia` milestone), keep the
+      // Arabian Peninsula unsettled — don't let the African homeland's colour
+      // bleed across the narrow Red Sea. Mask the whole peninsula (a polygon
+      // hugging its coasts, bounded west by the Red-Sea axis so African land is
+      // untouched, and kept south of the Levant so that early site stays lit).
+      const arabiaGate = (window.MILESTONES.find((x) => x.id === "arabia") || {}).ya || 68000;
+      if (any && this.timeYa > arabiaGate) {
+        const arabia = { type: "Polygon", coordinates: [[
+          [38, 30], [44, 31], [50, 30], [58, 26], [60, 20], [55, 14],
+          [48, 12], [43, 13], [41, 16], [38, 20], [37, 24], [35, 28], [38, 30],
+        ]] };
+        m.save();
+        m.globalCompositeOperation = "destination-out";
+        m.beginPath(); mpath(arabia); m.fillStyle = "#000"; m.fill();
+        m.restore();
       }
       if (!any) return;
       // composite the layer at a fixed opacity, clipped to sphere ∩ land
@@ -483,6 +544,22 @@
         const p = this.projection(ms.coord);
         ctx.beginPath(); ctx.arc(p[0], p[1], 2.4, 0, 2 * Math.PI);
         ctx.fillStyle = T.milestone; ctx.fill();
+        // a dispersal that died out — strike its dot with an X a little while
+        // after it first appears, then hold it as the venture fades away
+        if (ms.diedAt != null && this.timeYa <= ms.diedAt) {
+          const fade = Math.max(0, Math.min(1, (ms.diedAt - this.timeYa) / 1200));
+          const r = 4.8;
+          ctx.save();
+          ctx.globalAlpha = fade;
+          ctx.strokeStyle = "#e0593e";
+          ctx.lineWidth = 1.7; ctx.lineCap = "round";
+          ctx.shadowColor = "rgba(0,0,0,0.7)"; ctx.shadowBlur = 3;
+          ctx.beginPath();
+          ctx.moveTo(p[0] - r, p[1] - r); ctx.lineTo(p[0] + r, p[1] + r);
+          ctx.moveTo(p[0] + r, p[1] - r); ctx.lineTo(p[0] - r, p[1] + r);
+          ctx.stroke();
+          ctx.restore();
+        }
         if (ms.label && this.timeYa <= ms.ya && this.timeYa > ms.ya - ms.grow * 1.4) {
           ctx.fillStyle = T.text;
           ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 4;
@@ -504,24 +581,38 @@
         const interp = d3.geoInterpolate(f.from, f.to);
         const N = 40, pts = [];
         for (let i = 0; i <= N; i++) pts.push(interp((i / N) * frac));
+        // soft base line in the faith's colour (stays once the flow lands)
         ctx.beginPath(); this.path({ type: "LineString", coordinates: pts });
-        ctx.strokeStyle = this._hexA(rel.color, 0.92);
-        ctx.lineWidth = 2; ctx.lineCap = "round";
-        ctx.shadowColor = this._hexA(rel.color, 0.85); ctx.shadowBlur = 7;
-        ctx.stroke(); ctx.shadowBlur = 0; ctx.lineCap = "butt";
+        ctx.strokeStyle = this._hexA(rel.color, 0.85);
+        ctx.lineWidth = 2.6; ctx.lineCap = "round";
+        ctx.shadowColor = this._hexA(rel.color, 0.85); ctx.shadowBlur = 8;
+        ctx.stroke(); ctx.shadowBlur = 0;
+        // bright dashes streaming along it — reads as an active, directional
+        // spread of belief and sets the faith-flows apart from migration routes
+        ctx.beginPath(); this.path({ type: "LineString", coordinates: pts });
+        ctx.strokeStyle = this._hexA(rel.color, 1);
+        ctx.lineWidth = 2.6; ctx.lineCap = "round";
+        ctx.setLineDash([2.5, 13]); ctx.lineDashOffset = -(performance.now() * 0.03) % 15.5;
+        ctx.shadowColor = this._hexA(rel.color, 1); ctx.shadowBlur = 6;
+        ctx.stroke();
+        ctx.setLineDash([]); ctx.shadowBlur = 0; ctx.lineCap = "butt";
         if (frac < 1) {
           const head = pts[pts.length - 1];
           if (this._visible(head)) {
             const p = this.projection(head);
-            ctx.beginPath(); ctx.arc(p[0], p[1], 3, 0, 2 * Math.PI);
-            ctx.fillStyle = rel.color; ctx.shadowColor = rel.color; ctx.shadowBlur = 8; ctx.fill();
+            const pulse = 0.5 + 0.5 * Math.sin(performance.now() * 0.005);
+            const g = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], 16);
+            g.addColorStop(0, this._hexA(rel.color, 0.55));
+            g.addColorStop(1, this._hexA(rel.color, 0));
+            ctx.beginPath(); ctx.arc(p[0], p[1], 16, 0, 2 * Math.PI); ctx.fillStyle = g; ctx.fill();
+            ctx.beginPath(); ctx.arc(p[0], p[1], 3.4 + pulse * 1.2, 0, 2 * Math.PI);
+            ctx.fillStyle = rel.color; ctx.shadowColor = rel.color; ctx.shadowBlur = 9; ctx.fill();
             ctx.shadowBlur = 0;
           }
         }
       }
     }
 
-    _renderIce(T) {
     _renderIce(T) {
       const ctx = this.ctx;
       const f = window.iceAt(this.timeYa);
@@ -566,9 +657,13 @@
       const world = window.popAt(this.timeYa);
       const REF = 49e6;
       const items = [];
+      const FADE = 600; // years over which a centre fades in (after founding) / out (before it is superseded)
       for (const c of window.POP_CENTERS) {
         if (this.timeYa > c.startYa) continue;            // not founded yet
-        if (c.endYa != null && this.timeYa < c.endYa) continue; // region superseded
+        let fade = Math.min(1, (c.startYa - this.timeYa) / FADE);
+        if (c.endYa != null) fade = Math.min(fade, (this.timeYa - c.endYa) / FADE);
+        fade = Math.max(0, Math.min(1, fade));
+        if (fade <= 0) continue;                          // gone (or not yet visible)
         if (!this._visible(c.coord)) continue;
         const local = world * c.w;
         const h = 95 * Math.cbrt(local / REF);
@@ -576,10 +671,11 @@
         const p = this.projection(c.coord);
         let dx = p[0] - cx, dy = p[1] - cy;
         const len = Math.hypot(dx, dy) || 1;
-        items.push({ p, nx: dx / len, ny: dy / len, h, d: len });
+        items.push({ p, nx: dx / len, ny: dy / len, h, d: len, fade });
       }
       items.sort((a, b) => b.d - a.d);
       for (const it of items) {
+        ctx.globalAlpha = it.fade;
         const bx = it.p[0] + it.nx * it.h, by = it.p[1] + it.ny * it.h;
         const grad = ctx.createLinearGradient(it.p[0], it.p[1], bx, by);
         grad.addColorStop(0, "rgba(240,140,190,0.16)");
@@ -592,6 +688,7 @@
         ctx.fillRect(bx - 2.8, by - 2.8, 5.6, 5.6);
         ctx.shadowBlur = 0;
       }
+      ctx.globalAlpha = 1;
     }
 
     _hexA(hex, a) {

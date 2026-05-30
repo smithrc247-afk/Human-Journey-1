@@ -13,6 +13,19 @@ const posToYa = (p) => Math.exp(L0 + (L1 - L0) * p);
 const yaToPos = (ya) => (Math.log(ya) - L0) / (L1 - L0);
 const logLerp = (a, b, t) => Math.exp(Math.log(a) + (Math.log(b) - Math.log(a)) * t);
 
+// Play pace envelope: hold a steady half speed across the migration & first-
+// farming era (~70,000–9,500 ya) so it reads at a consistent, unhurried pace,
+// easing smoothly in (older) and out (recent) so the rate never jumps.
+function migrationPace(ya) {
+  const slow = 0.5;
+  const smooth = (t) => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); };
+  let k; // 0 → slow, 1 → normal speed
+  if (ya >= 9500 && ya <= 70000) k = 0;
+  else if (ya > 70000) k = smooth((ya - 70000) / 25000);  // ease to normal by ~95,000 ya
+  else k = smooth((9500 - ya) / 5000);                    // ease to normal by ~4,500 ya
+  return slow + (1 - slow) * k;
+}
+
 const fmt = (n) => Math.round(n).toLocaleString("en-US");
 function fmtPop(n) {
   if (n >= 1e9) { const v = n / 1e9; return (v >= 10 ? Math.round(v) : v.toFixed(1).replace(/\.0$/, "")) + " billion"; }
@@ -38,9 +51,9 @@ function calendarLabel(ya) {
   if (ya > 12000) return null;
   if (yr < 0) {
     const v = Math.round(-yr / (ya > 3000 ? 100 : 10)) * (ya > 3000 ? 100 : 10);
-    return `≈ ${fmt(v)} BCE`;
+    return `≈ ${v} BCE`;
   }
-  return `≈ ${fmt(Math.round(yr / 10) * 10)} CE`;
+  return `≈ ${Math.round(yr / 10) * 10} CE`;
 }
 
 // ---- story keyframes (≈5 minutes, wide framing) -----------
@@ -51,29 +64,70 @@ const STORY = [
   { dur: 11, ya: 120000, yaTo: 74000,  coord: [40, 20],  zoom: 1.4,  kicker: "First steps beyond", body: "Early bands wander north into the Levant. But the world beyond Africa is harsh, and these first ventures fade away." },
   { dur: 12, ya: 73000,  yaTo: 63000,  coord: [46, 16],  zoom: 1.4,  kicker: "≈ 70,000 years ago · Out of Africa", body: "At last a small population crosses the narrow mouth of the Red Sea. Almost everyone alive outside Africa today descends from this single journey." },
   { dur: 11, ya: 62000,  yaTo: 55000,  coord: [78, 18],  zoom: 1.35, kicker: "The coastal road", body: "Hugging the shores of Arabia and India, they move east with astonishing speed, living on the riches of the sea." },
-  { dur: 12, ya: 56000,  yaTo: 50000,  coord: [125, -12],zoom: 1.3,  kicker: "≈ 55,000 years ago · Sahul", body: "Crossing open ocean — the first humans ever to do so — they reach Australia, and bind themselves to the land through totems and the Dreaming." },
+  { dur: 14, ya: 55000,  yaTo: 48000,  coord: [125, -12],zoom: 1.3,  kicker: "≈ 55,000 years ago · Sahul", body: "Crossing open ocean — the first humans ever to do so — they reach Australia, and bind themselves to the land through totems and the Dreaming." },
   { dur: 12, ya: 48000,  yaTo: 42000,  coord: [22, 46],  zoom: 1.4,  kicker: "≈ 45,000 years ago · Europe", body: "Others turn north into Ice-Age Europe. In the dark of painted caves, shamans enter trance to walk between the living and the spirit world." },
   { dur: 11, ya: 42000,  yaTo: 36000,  coord: [100, 40], zoom: 1.35, kicker: "Across Asia", body: "From the western steppes to the Pacific, humans fill the vast heart of Asia, reaching China and the edge of the northern ice." },
   { dur: 11, ya: 34000,  yaTo: 24000,  coord: [108, 58], zoom: 1.3,  kicker: "The frozen north", body: "Through the depths of the last Ice Age, hardy hunters press into Siberia, clothed in tailored furs against the killing cold." },
   { dur: 12, ya: 22000,  yaTo: 17000,  coord: [-165, 64],zoom: 1.3,  kicker: "≈ 20,000 years ago · Beringia", body: "So much water is locked in ice that a land bridge joins Asia to America. Hunters walk across into an entirely empty New World." },
-  { dur: 11, ya: 16000,  yaTo: 13500,  coord: [-110, 46],zoom: 1.35, kicker: "Into the Americas", body: "They spread down the continent with breathtaking speed — the last great landmass to feel a human footprint." },
-  { dur: 12, ya: 13500,  yaTo: 12000,  coord: [-62, -20],zoom: 1.4,  kicker: "≈ 13,000 years ago", body: "Within a few thousand years they reach the southern tip of South America. Humanity has now touched nearly every habitable shore." },
+  { dur: 11, ya: 16000,  yaTo: 13500,  coord: [-90, 12], zoom: 0.92, focusRel: "totemism", kicker: "Into the Americas", body: "From Alaska to the Andes, two great continents open before them. They spread down the New World with breathtaking speed — the last great landmass to feel a human footprint." },
+  { dur: 12, ya: 13500,  yaTo: 12000,  coord: [-62, -20],zoom: 1.4,  focusRel: "totemism", kicker: "≈ 13,000 years ago", body: "Within a few thousand years they reach the southern tip of South America. Humanity has now touched every habitable continent." },
   { dur: 12, ya: 12000,  yaTo: 10800,  coord: [40, 34],  zoom: 1.5,  kicker: "The end of the Ice Age", body: "As the world warms, people in the Fertile Crescent linger by fields of wild grain — and begin, for the first time, to stay in one place." },
   { dur: 13, ya: 11000,  yaTo: 9600,   coord: [39, 37],  zoom: 1.6,  kicker: "≈ 11,000 years ago · Göbekli Tepe", body: "Before farming, before cities, they raise great carved pillars over their dead. The ancestors become guardians of the living." },
-  { dur: 12, ya: 9500,   yaTo: 6000,   coord: [44, 32],  zoom: 1.45, kicker: "The first farmers", body: "Wheat, sheep, and cattle are tamed. Villages swell into towns, and the harvest reshapes the very rhythm of human life." },
-  { dur: 13, ya: 5500,   yaTo: 4600,   coord: [44, 32],  zoom: 1.6,  kicker: "≈ 3300 BCE · Sumer", body: "In Mesopotamia the first cities rise. To master the chaos of flood and harvest, they crown themselves with vast pantheons of gods." },
-  { dur: 12, ya: 4600,   yaTo: 3600,   coord: [34, 28],  zoom: 1.5,  kicker: "Gods of the river kingdoms", body: "Along the Nile and the Indus, temples become the engines of the state, and a literate priesthood writes the will of the gods into the world." },
-  { dur: 12, ya: 3400,   yaTo: 3050,   coord: [32, 28],  zoom: 1.55, kicker: "≈ 1350 BCE · Egypt", body: "The pharaoh Akhenaten exalts a single sun-god above all the rest — a brief, radical step toward worshipping one god alone." },
+  { dur: 12, ya: 9500,   yaTo: 6000,   coord: [44, 32],  zoom: 1.4, push: 0.34, kicker: "The first farmers", body: "Wheat, barley, sheep, and cattle are tamed. A tended field feeds far more mouths than the hunt — so people stop wandering and settle beside their crops. The first permanent villages take root." },
+  { dur: 13, ya: 5500,   yaTo: 4600,   coord: [44, 32],  zoom: 1.6,  kicker: "≈ 3300 BCE · Sumer", body: "Stored grain now feeds those who never farm — scribes, priests, soldiers, kings. In Mesopotamia the swollen villages become the first true cities, crowned with vast pantheons of gods." },
+  { dur: 12, ya: 4600,   yaTo: 3600,   coord: [34, 28],  zoom: 1.4, push: 0.34, kicker: "Gods of the river kingdoms", body: "Along the Nile and the Indus, temples become the engines of the state, and a literate priesthood writes the will of the gods into the world." },
+  { dur: 12, ya: 3400,   yaTo: 3050,   coord: [32, 28],  zoom: 1.42, push: 0.32, kicker: "≈ 1350 BCE · Egypt", body: "The pharaoh Akhenaten exalts a single sun-god above all the rest — a brief, radical step toward worshipping one god alone." },
   { dur: 12, ya: 3000,   yaTo: 2650,   coord: [52, 33],  zoom: 1.5,  kicker: "≈ 1000 BCE · Persia", body: "In Iran, the prophet Zarathustra reframes the cosmos as a struggle between good and evil — a dualism that will echo for millennia." },
   { dur: 12, ya: 2650,   yaTo: 2350,   coord: [35, 32],  zoom: 1.6,  kicker: "≈ 600 BCE · Judah", body: "In exile in Babylon, the people of Judah declare their god the one creator of all things — the first enduring monotheism." },
-  { dur: 12, ya: 2500,   yaTo: 2000,   coord: [20, 40],  zoom: 1.4,  kicker: "≈ 500 BCE · The Mediterranean", body: "Meanwhile Greece and Rome make their gods into citizens — patrons of cities, festivals, and games, worshipped as public duty." },
-  { dur: 12, ya: 2000,   yaTo: 1500,   coord: [33, 34],  zoom: 1.45, kicker: "≈ 1st–4th century CE", body: "From the eastern Mediterranean, Christianity carries the one-God idea across the Roman world and far beyond it." },
-  { dur: 12, ya: 1450,   yaTo: 1100,   coord: [42, 26],  zoom: 1.45, kicker: "≈ 7th century CE · Arabia", body: "In Arabia, Islam arises and spreads with extraordinary speed to Spain and the Indus — the youngest of the great monotheisms." },
-  { dur: 12, ya: 1000,   yaTo: 620,    coord: [-150, -12],zoom: 1.3, kicker: "The last frontier", body: "Far out in the Pacific, master navigators settle the final islands — the last empty lands on Earth to be reached by people." },
-  { dur: 14, ya: 600,    yaTo: 480,    coord: [-58, 8],   zoom: 1.3, kicker: "≈ 1500 CE · A New World", body: "Across the Atlantic, Christianity follows the explorers — first to the Caribbean and South America in the 1490s, then onto the North American mainland, Mexico, and Peru." },
-  { dur: 16, ya: 470,    yaTo: 1,      coord: [12, 16],  zoom: 1.12, kicker: "Today", body: "From a single African beginning, humanity now fills the planet — carrying the whole long inheritance of belief, from the first spirits to the one God." },
+  { dur: 12, ya: 2500,   yaTo: 2000,   coord: [22, 38],  zoom: 1.4,  kicker: "≈ 500 BCE · The Mediterranean", body: "Around the Mediterranean, Greece and Rome make their gods into citizens — patrons of cities, festivals, and games, worshipped as public duty." },
+  { dur: 12, ya: 2000,   yaTo: 1500,   coord: [34, 33],  zoom: 1.4,  kicker: "≈ 1st–4th century CE · Christianity", body: "From the eastern Mediterranean, Christianity carries the one-God idea across the Roman world — and, in time, far beyond it." },
+  { dur: 13, ya: 1450,   yaTo: 1000,   coord: [54, 27],  zoom: 1.25, kicker: "≈ 7th century CE · Islam", body: "In Arabia, Islam arises and spreads with extraordinary speed — west to Spain and across the Sahara, and east to the Indus and the Swahili coast." },
+  { dur: 11, ya: 1000,   yaTo: 880,    coord: [126, -2],  zoom: 1.15, flyMs: 2300, kicker: "The last great voyage", body: "Far to the east, in the warm seas of island Southeast Asia, the finest navigators who ever lived set out into the open Pacific — the last great human migration begins." },
+  { dur: 11, ya: 880,    yaTo: 760,    coord: [-158, -16],zoom: 0.98, flyMs: 2300, kicker: "Across the remotest ocean", body: "Reading swell, star, and bird, they leap from island to island across thousands of miles of empty sea — settling the last scattered specks of land on Earth." },
+  { dur: 12, ya: 760,    yaTo: 660,    coord: [177, -39], zoom: 0.95, flyMs: 1800, kicker: "Aotearoa · the last land", body: "Their final voyage carries them south to New Zealand — the last great landmass on Earth that human beings would ever reach." },
+  { dur: 13, ya: 640,    yaTo: 220,    coord: [-42, 16],  zoom: 0.92, flyMs: 3000, kicker: "≈ 1500 CE · A world entwined", body: "Ships bind the continents at last. Europeans cross the open oceans, and people, crops, and gods move between worlds as never before — Christianity following empire and trade into the Americas and across Africa." },
+  { dur: 12, ya: 220,    yaTo: 1,      coord: [54, 22],  zoom: 0.9, coordFrom: [-42, 16], zoomFrom: 0.92, kicker: "Today", body: "In barely two centuries humanity surges from one billion to eight. From a single African beginning, our species now fills the planet — every habitable continent inhabited, carrying the whole long inheritance of belief from the first spirits to one exclusive deity." },
 ];
 const STORY_TOTAL = STORY.reduce((s, k) => s + k.dur, 0);
+
+// Map a year-ago value to a position within the Story (segment index + local
+// progress 0..1). Lets Play reuse the film's keyframes, captions and pacing
+// while staying driven by the timeline's `ya`.
+function storyPosForYa(ya) {
+  for (let i = 0; i < STORY.length; i++) {
+    const s = STORY[i];
+    if (ya >= s.yaTo) {
+      if (ya >= s.ya) return { i, local: 0 };
+      return { i, local: Math.max(0, Math.min(1, (s.ya - ya) / (s.ya - s.yaTo))) };
+    }
+  }
+  return { i: STORY.length - 1, local: 1 };
+}
+
+// Step a year-ago value forward/back by a whole number of film frames, using the
+// exact pacing the autoplay uses (per-segment duration + sin-ease over a log
+// interpolation). Inverts ya -> eased local, advances by frames, converts back —
+// so the arrow keys move one frame at a time, identical to playback.
+const STORY_FRAME_DT = 1 / 30; // seconds of film advanced per frame
+function advanceFrames(ya, frames) {
+  let i = storyPosForYa(ya).i;
+  const toLocal = (seg, y) => {
+    const T = (Math.log(seg.ya) - Math.log(y)) / (Math.log(seg.ya) - Math.log(seg.yaTo));
+    return Math.acos(1 - 2 * Math.max(0, Math.min(1, T))) / Math.PI; // inverse sin-ease
+  };
+  let local = toLocal(STORY[i], ya);
+  const dir = frames < 0 ? -1 : 1;
+  const n = Math.abs(frames);
+  for (let s = 0; s < n; s++) {
+    local += dir * STORY_FRAME_DT / STORY[i].dur;
+    while (local >= 1 && i < STORY.length - 1) { local -= 1; i++; }
+    while (local < 0 && i > 0) { i--; local += 1; }
+    if (i === 0 && local < 0) { local = 0; break; }
+    if (i === STORY.length - 1 && local > 1) { local = 1; break; }
+  }
+  const seg = STORY[i];
+  return logLerp(seg.ya, seg.yaTo, d3.easeSinInOut(Math.max(0, Math.min(1, local))));
+}
 
 // speed control — selects a playback rate for Play & the film
 function SpeedControl({ speed, setSpeed, dark }) {
@@ -93,8 +147,46 @@ function SpeedControl({ speed, setSpeed, dark }) {
   );
 }
 
-// camera keyframes for Play (reuse the story's geography), ya descending
-const CAM = STORY.map((s) => ({ ya: s.ya, coord: s.coord, zoom: s.zoom }));
+// camera keyframes for Play, ya descending. Play is a single slow EASTWARD
+// rotation, so its deep-time keyframes only ever increase in longitude —
+// following the migration out of Africa, across Asia, into Australia and the
+// Pacific, over the Beringian bridge to the Americas and round to the Old
+// World again. (The story/video still cuts west to Ice-Age Europe; Play does
+// not, so the globe never swivels back west mid-rotation.) Through the religion
+// era (≈7000→1000 ya) Play uses its own progressively-widening frame to take in
+// all of Afro-Eurasia as the faiths fan out.
+const CAM = [
+  // — deep time: one continuous eastward sweep (longitude only increases); from
+  //   the Sahul through the Americas the latitude is held near ~25°N so the
+  //   camera only rotates east — no north-south panning — and Australia (low in
+  //   frame) and then all of the Americas stay in view —
+  { ya: 300000, coord: [28, 8],   zoom: 1.5 },
+  { ya: 200000, coord: [30, 4],   zoom: 1.42 },
+  { ya: 120000, coord: [44, 16],  zoom: 1.4 },
+  { ya: 73000,  coord: [55, 18],  zoom: 1.4 },   // Out of Africa
+  { ya: 62000,  coord: [80, 18],  zoom: 1.32 },  // South Asia
+  { ya: 54000,  coord: [106, 18], zoom: 1.22 },  // Southeast Asia
+  { ya: 48000,  coord: [128, 22], zoom: 1.18 },  // Sahul / Australia low in frame; latitude settles to ~25°N
+  { ya: 42000,  coord: [150, 25], zoom: 1.12 },  // east across the Pacific rim, holding ~25°N
+  { ya: 34000,  coord: [173, 25], zoom: 1.08 },  // the far north-east
+  { ya: 22000,  coord: [-165, 25],zoom: 1.05 },  // Beringia high in frame — no northward pan
+  { ya: 16000,  coord: [-112, 25],zoom: 1.0 },   // into the Americas
+  { ya: 13500,  coord: [-74, 23], zoom: 1.05 },  // down through the Americas
+  { ya: 12000,  coord: [40, 30],  zoom: 1.35 },  // round to the Old World (eastward across the Atlantic)
+  // — religion era: zoom out steadily as belief spreads across the Old World —
+  { ya: 9500, coord: [42, 33],  zoom: 1.30 }, // first farmers / first villages
+  { ya: 7000, coord: [40, 31],  zoom: 1.16 }, // towns thicken across the Fertile Crescent
+  { ya: 5000, coord: [50, 30],  zoom: 0.95 }, // first cities: Egypt & Mesopotamia, reaching to the Indus
+  { ya: 3300, coord: [60, 30],  zoom: 0.86 }, // gods of the first cities span Africa to Asia — Egypt, Sumer, the Indus & China
+  { ya: 2600, coord: [33, 33],  zoom: 0.96 }, // dualism, civic gods, monotheism crystallises
+  { ya: 2100, coord: [27, 34],  zoom: 0.93 }, // Greece→Rome; Christianity begins to move
+  { ya: 1500, coord: [25, 30],  zoom: 0.90 }, // Christianity into Europe; Islam emerges
+  { ya: 1000, coord: [34, 22],  zoom: 0.88 }, // widest: Islam across Sahel/Swahili/S Asia
+  // — late: follow the action to its last frontiers —
+  { ya: 850,  coord: [-150, -12], zoom: 1.20 }, // remote Pacific settled
+  { ya: 545,  coord: [-72, 8],    zoom: 1.05 }, // Christianity into the Americas
+  { ya: 470,  coord: [12, 16],    zoom: 1.12 }, // today
+];
 function camForYa(ya) {
   if (ya >= CAM[0].ya) return CAM[0];
   if (ya <= CAM[CAM.length - 1].ya) return CAM[CAM.length - 1];
@@ -147,12 +239,18 @@ function PopGraph({ ya, variant, logScale, onToggle, dragProps }) {
   const xgrids = logScale
     ? [{ ya: 300000, l: "300ka" }, { ya: 10000, l: "10ka" }, { ya: 100, l: "100" }, { ya: 1, l: "now" }]
     : [{ ya: 300000, l: "300ka" }, { ya: 200000, l: "200ka" }, { ya: 100000, l: "100ka" }, { ya: 1, l: "now" }];
-  // place the marker exactly on the drawn polyline (interpolate between samples)
+  // place the marker exactly on the drawn polyline. Points are evenly spaced in
+  // ya but NOT in x under a log axis, so locate the segment by actual x position
+  // (monotonic) rather than assuming even spacing.
   const cx = xf(ya);
   const pts = path.pts;
-  const seg = Math.max(0, Math.min(pts.length - 2, Math.floor((cx - pts[0].x) / ((pts[pts.length - 1].x - pts[0].x) / (pts.length - 1)))));
-  const segFrac = (cx - pts[seg].x) / ((pts[seg + 1].x - pts[seg].x) || 1);
-  const cy = pts[seg].y + (pts[seg + 1].y - pts[seg].y) * Math.max(0, Math.min(1, segFrac));
+  let seg = pts.length - 2;
+  for (let i = 0; i < pts.length - 1; i++) {
+    if (cx <= pts[i + 1].x) { seg = i; break; }
+  }
+  seg = Math.max(0, Math.min(pts.length - 2, seg));
+  const segFrac = Math.max(0, Math.min(1, (cx - pts[seg].x) / ((pts[seg + 1].x - pts[seg].x) || 1)));
+  const cy = pts[seg].y + (pts[seg + 1].y - pts[seg].y) * segFrac;
   return (
     <div className={"pop-graph " + variant + (dragProps ? " draggable" : "")} {...(dragProps || {})}>
       <div className="pg-head">
@@ -236,7 +334,7 @@ function App() {
   const dragReader = useDraggable("reader", false);
   const dragLegend = useDraggable("legend", false);
   const dragLayers = useDraggable("layers", true);
-  const dragGlobe = useDraggable("globe", true);
+  const dragGlobe = useDraggable("globe", false);
   const dragGraph = useDraggable("graph", false);
   const dragTimeline = useDraggable("timeline", true);
   const dragMast = useDraggable("masthead", false);
@@ -268,51 +366,94 @@ function App() {
     else { g.setLayer("showRegion", layers.settlement); g.setLayer("showRoutes", layers.migration); g.setLayer("showReligion", layers.religion); g.setLayer("showPopBars", layers.population); g.setLayer("showIce", layers.ice); }
   }, [layers, story]);
 
-  // explore autoplay (scrub timeline forward) — globe follows the action,
-  // and the final 20 years play out one calendar year at a time.
+  // Play autoplay — step through the Watch-the-Story keyframes so Play shares
+  // the film's pacing. `ya` stays the source of truth; camera + caption derive
+  // from it (below), so scrubbing the timeline stays in sync.
   useEffect(() => {
     if (!exploring) return;
     const g = globeRef.current;
-    if (g) { g._anim = null; }
+    if (g) g._anim = null;
+    let pos = storyPosForYa(yaRef.current);
     let last = performance.now();
-    let yearAccum = 0;
     const id = setInterval(() => {
       const now = performance.now();
       const dt = (now - last) / 1000; last = now;
-      const curYa = yaRef.current;
-
-      if (curYa <= 20.5) {
-        // year-by-year through the last two decades
-        yearAccum += dt;
-        const STEP = 0.5 / speedRef.current; // seconds per year (speed-scaled)
-        if (yearAccum >= STEP) {
-          yearAccum = 0;
-          const next = Math.max(1, Math.round(curYa) - 1);
-          setYa(next);
-          if (next <= 1) setExploring(false);
-        }
-      } else {
-        // baseline sweep ~110s; brisk through the last two millennia
-        let rate = 1 / 110;
-        if (curYa < 2000) rate *= 3;
-        rate *= speedRef.current;
-        let p = yaToPos(curYa) + dt * rate;
-        let ny = posToYa(p);
-        if (ny <= 20) ny = 20; // hand off to the year-stepping phase
-        setYa(ny);
-      }
-
-      // camera glides to follow the narrative
-      if (g) {
-        const goal = camForYa(yaRef.current);
-        const tl = -goal.coord[0], tt = -goal.coord[1];
-        g.rotate = [approachAngle(g.rotate[0], tl, 0.06), approachAngle(g.rotate[1], tt, 0.06), 0];
-        g.zoom += (goal.zoom - g.zoom) * 0.05;
-        g._dirty = true;
-      }
+      let seg = STORY[pos.i];
+      pos.local += (dt * speedRef.current) / seg.dur;
+      while (pos.local >= 1 && pos.i < STORY.length - 1) { pos.local -= 1; pos.i += 1; }
+      if (pos.i >= STORY.length - 1 && pos.local >= 1) { pos.local = 1; setExploring(false); }
+      seg = STORY[pos.i];
+      setYa(logLerp(seg.ya, seg.yaTo, d3.easeSinInOut(Math.min(1, pos.local))));
     }, 33);
     return () => clearInterval(id);
   }, [exploring]);
+
+  // Auto-scroll the Forms of Belief list so the newest-arrived faith stays in
+  // view — as religions emerge over time the box follows the action down.
+  // (CSS smooth-scroll fails inside the zoomed wrapper, so tween by hand.)
+  useEffect(() => {
+    const el = document.querySelector(".legend");
+    if (!el) return;
+    const liveR = RELIGIONS.filter((r) => ya <= r.from && ya >= r.to);
+    if (!liveR.length) return;
+    const latest = liveR.reduce((a, b) => (b.from < a.from ? b : a));
+    const item = el.querySelector(`[data-rel="${latest.id}"]`);
+    if (!item) return;
+    const top = item.offsetTop, bottom = top + item.offsetHeight, margin = 16;
+    const viewTop = el.scrollTop, viewBottom = viewTop + el.clientHeight;
+    let target = null;
+    if (bottom > viewBottom - margin) target = bottom - el.clientHeight + margin;
+    else if (top < viewTop + margin) target = top - margin;
+    if (target == null) return;
+    target = Math.max(0, Math.min(el.scrollHeight - el.clientHeight, target));
+    const start = el.scrollTop, dist = target - start;
+    if (Math.abs(dist) < 1) return;
+    const t0 = performance.now(), dur = 380;
+    let raf;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      el.scrollTop = start + dist * e;
+      if (k < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [ya]);
+
+  // Play camera — glide to the Story keyframe for the current segment (whether
+  // auto-playing or scrubbing), mirroring the film's camera moves & framing.
+  const lastPlaySegRef = useRef(-1);
+  useEffect(() => {
+    if (story) { lastPlaySegRef.current = -1; return; }
+    const g = globeRef.current;
+    if (!g) return;
+    const pos = storyPosForYa(ya);
+    const i = pos.i;
+    const seg = STORY[i];
+    if (i !== lastPlaySegRef.current) {
+      lastPlaySegRef.current = i;
+      if (!seg.coordFrom) g.flyTo(seg.coord, seg.zoom, seg.flyMs || 1500, seg.spin || 0);
+    }
+    if (seg.coordFrom) {
+      // Continuous pan from coordFrom -> coord across the whole segment, tied to
+      // the timeline — turns a long camera leap (e.g. the Americas back to the
+      // Old World at the close) into one smooth glide at any playback speed.
+      const e = d3.easeSinInOut(Math.max(0, Math.min(1, pos.local)));
+      const c = d3.geoInterpolate(seg.coordFrom, seg.coord)(e);
+      const z0 = seg.zoomFrom != null ? seg.zoomFrom : seg.zoom;
+      g._anim = null;
+      g.rotate = [-c[0], -c[1], 0];
+      g.zoom = z0 + (seg.zoom - z0) * e;
+      g._dirty = true;
+    } else if (seg.push && !g._anim) {
+      // Continuous push-in across the segment, tied to timeline progress. Gives
+      // otherwise-static beats (e.g. the first farmers) visible motion that draws
+      // the eye to what is actually changing — the swelling population bars.
+      const e = d3.easeSinInOut(Math.max(0, Math.min(1, pos.local)));
+      g.zoom = seg.zoom + seg.push * e;
+      g._dirty = true;
+    }
+  }, [ya, story]);
 
   // ---- story engine -----------------------------------------
   const startStory = useCallback(() => {
@@ -376,7 +517,7 @@ function App() {
     setYa(logLerp(seg.ya, seg.yaTo, d3.easeSinInOut(local)));
     if (i !== lastSegRef.current) {
       lastSegRef.current = i;
-      globeRef.current && globeRef.current.flyTo(seg.coord, seg.zoom, 1500);
+      globeRef.current && globeRef.current.flyTo(seg.coord, seg.zoom, seg.flyMs || 1500, seg.spin || 0);
     }
   }, [story, storyElapsed]);
 
@@ -390,23 +531,26 @@ function App() {
   // ---- derived ----------------------------------------------
   const dispYa = roundYa(ya);
   const isPresent = ya <= 1.5;
-  const recentYear = ya > 1.5 && ya <= 30;   // show exact CE year for the last decades
-  const yrCE = 2025 - Math.round(ya);
-  const bigText = isPresent ? "Today" : recentYear ? String(yrCE) : fmt(dispYa);
-  const unitText = isPresent ? "" : recentYear ? "CE" : "years ago";
-  const eraText = isPresent ? "Present day · 2025"
-    : recentYear ? (Math.round(ya) + (Math.round(ya) === 1 ? " year ago" : " years ago"))
-    : epochLabel(ya) + (cal ? " · " + cal : "");
+  const cal = calendarLabel(ya);             // "≈ 3000 BCE" / "≈ 1990 CE" for the historical era
+  // keep the "<n> years ago" reading AND the calendar year side by side all the
+  // way to the present (only the very end collapses to "Today").
+  const bigText = isPresent ? "Today" : ya <= 60 ? String(Math.round(ya)) : fmt(dispYa);
+  const unitText = isPresent ? "" : "years ago";
+  const calYear = isPresent ? null : cal;
+  const eraText = isPresent ? "Present day · 2025" : epochLabel(ya);
   const popText = fmtPop(window.popAt(ya));
   const chapter = CHAPTERS.find((c) => ya <= c.from && ya > c.to) || CHAPTERS[CHAPTERS.length - 1];
-  const cal = calendarLabel(ya);
 
   const liveReligions = RELIGIONS.filter((r) => ya <= r.from && ya >= r.to);
   let focus = null;
   if (pinned) focus = RELIGIONS.find((r) => r.id === pinned);
   if (!focus) {
     const liveActive = liveReligions.filter((r) => active.has(r.id));
-    focus = liveActive.length ? liveActive.reduce((a, b) => (b.from < a.from ? b : a)) : null;
+    // a STORY beat may name the faith that matches its on-screen action (e.g.
+    // Totemism as the Americas are peopled) — prefer it when it is live.
+    const segFocus = STORY[storyPosForYa(ya).i].focusRel;
+    const segRel = segFocus && liveActive.find((r) => r.id === segFocus);
+    focus = segRel || (liveActive.length ? liveActive.reduce((a, b) => (b.from < a.from ? b : a)) : null);
   }
 
   const toggleReligion = (id) => {
@@ -445,6 +589,34 @@ function App() {
       window.removeEventListener("touchmove", mv); window.removeEventListener("touchend", up); };
   }, []);
 
+  // Left / right arrow keys nudge the timeline slider one frame at a time
+  // (a small step in slider-position space). Right = forward toward today,
+  // left = back into deep time. Holding a key auto-repeats. Any nudge pauses
+  // playback so the user can scrub frame-by-frame.
+  useEffect(() => {
+    const onKey = (e) => {
+      const tag = (e.target && e.target.tagName) || "";
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      // Space toggles play / pause
+      if (e.key === " " || e.code === "Space") {
+        e.preventDefault();
+        setStory(false); setHintGone(true);
+        setExploring((v) => {
+          if (!v && yaRef.current <= 2) setYa(TIME.start); // restart from the top if at the end
+          return !v;
+        });
+        return;
+      }
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      const frames = (e.shiftKey ? 20 : 1) * (e.key === "ArrowRight" ? 1 : -1);
+      setExploring(false); setStory(false); setHintGone(true);
+      setYa((prev) => advanceFrames(prev, frames));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const pos = yaToPos(ya);
   const ticks = [
     { ya: 300000, label: "300ka" },
@@ -455,7 +627,8 @@ function App() {
     { ya: 1, label: "Today" },
   ];
 
-  const curSeg = story ? STORY[segAt(storyElapsed).i] : null;
+  const curSeg = story ? STORY[segAt(storyElapsed).i] : STORY[storyPosForYa(ya).i];
+  const curSegIdx = story ? segAt(storyElapsed).i : storyPosForYa(ya).i;
   const fmtClock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
   return (
@@ -463,6 +636,7 @@ function App() {
       <canvas id="globe" ref={canvasRef}></canvas>
       <div className="vignette"></div>
 
+      <div className="ui-scale">
       {/* masthead */}
       {!story && <div className="masthead">
         <div className="draggable mast-grab" {...dragMast}>
@@ -490,6 +664,26 @@ function App() {
         )}
       </div>}
 
+      {/* story-style caption box (also shown during Play) */}
+      {!story && curSeg && (
+        <div className="story-overlay play-overlay">
+          <div className="story-caption play-caption">
+            <p className="sc-kicker">{curSeg.kicker}</p>
+            <p className="sc-body">{curSeg.body}</p>
+          </div>
+        </div>
+      )}
+
+      {/* "On the map" legend (from the film) */}
+      {!story && <div className="story-legend play-onmap">
+        <p className="sl-title">On the map</p>
+        <div className="sl-row"><span className="sl-g sl-region"></span><span>Settled land — belief colour</span></div>
+        <div className="sl-row"><span className="sl-g sl-route"></span><span>Migration route</span></div>
+        <div className="sl-row"><span className="sl-g sl-dot"></span><span>Settlement reached</span></div>
+        <div className="sl-row"><span className="sl-g sl-flow"></span><span>Belief spreads</span></div>
+        <div className="sl-row"><span className="sl-g sl-bar"></span><span>Population (height)</span></div>
+      </div>}
+
       {/* legend */}
       {!story && <div className="legend draggable" {...dragLegend}>
         <p className="leg-title">
@@ -500,7 +694,7 @@ function App() {
           const live = ya <= r.from && ya >= r.to;
           const on = active.has(r.id);
           return (
-            <button key={r.id}
+            <button key={r.id} data-rel={r.id}
               className={"leg-item" + (on ? "" : " off") + (live ? " live" : " dormant")}
               onClick={(e) => { if (e.shiftKey) { toggleReligion(r.id); } else { focusReligion(r); } }}
               onDoubleClick={() => toggleReligion(r.id)}
@@ -551,6 +745,7 @@ function App() {
           <div className="tl-date">
             <span className="big">{bigText}</span>
             {unitText && <span className="unit">{unitText}</span>}
+            {calYear && <span className="cal">{calYear}</span>}
             <span className="era">{eraText}</span>
           </div>
           <div className="tl-pop">
@@ -559,10 +754,12 @@ function App() {
           </div>
           <div className="tl-controls">
             <SpeedControl speed={speed} setSpeed={setSpeed} />
-            <button className="btn" onClick={() => setExploring((v) => !v)}>
+            <button className="btn" onClick={() => {
+              if (!exploring && ya <= 2) setYa(TIME.start);
+              setExploring((v) => !v);
+            }}>
               {exploring ? Ico.pause : Ico.play}{exploring ? "Pause" : "Play"}
             </button>
-            <button className="btn primary" onClick={startStory}>{Ico.film}Watch the story</button>
           </div>
         </div>
         <div className="tl-track-wrap">
@@ -651,6 +848,7 @@ function App() {
           </div>
         </>
       )}
+      </div>
 
       {/* Tweaks */}
       <TweaksPanel>
