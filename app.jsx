@@ -34,8 +34,10 @@ function fmtPop(n) {
   return Math.round(n).toLocaleString("en-US");
 }
 function roundYa(ya) {
-  if (ya >= 100000) return Math.round(ya / 10000) * 10000;
-  if (ya >= 10000) return Math.round(ya / 1000) * 1000;
+  // Round finely enough that the readout visibly ticks during playback —
+  // a 10,000-year step in deep time sits frozen for seconds and reads as stuck.
+  if (ya >= 100000) return Math.round(ya / 1000) * 1000;
+  if (ya >= 10000) return Math.round(ya / 500) * 500;
   if (ya >= 1000) return Math.round(ya / 100) * 100;
   return Math.round(ya / 10) * 10;
 }
@@ -341,6 +343,16 @@ function App() {
   const [layers, setLayers] = useState({ settlement: true, migration: true, religion: true, population: true, ice: true });
   const [graphLog, setGraphLog] = useState(false);
   const [speed, setSpeed] = useState(1);
+  // on phones the title is fixed in place (only the counter below it drags)
+  const [isMobile, setIsMobile] = useState(() => {
+    try { return window.matchMedia("(max-width: 640px)").matches; } catch (e) { return false; }
+  });
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    const on = () => setIsMobile(mq.matches);
+    mq.addEventListener ? mq.addEventListener("change", on) : mq.addListener(on);
+    return () => { mq.removeEventListener ? mq.removeEventListener("change", on) : mq.removeListener(on); };
+  }, []);
   const speedRef = useRef(1); speedRef.current = speed;
   // draggable panels (Play mode)
   const dragReader = useDraggable("reader", false);
@@ -655,7 +667,7 @@ function App() {
       <div className="ui-scale">
       {/* masthead */}
       {!story && <div className="masthead">
-        <div className="draggable mast-grab" {...dragMast}>
+        <div className={"mast-grab" + (isMobile ? "" : " draggable")} {...(isMobile ? {} : dragMast)}>
           <p className="eyebrow">{ui("eyebrow")}</p>
           <h1>{ui("titleA")} <em>{ui("titleB")}</em></h1>
           <p className="credit">{ui("credit1")} · {ui("credit2")}</p>
