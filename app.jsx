@@ -666,11 +666,16 @@ function App() {
       {!story && (
         <div className="mobile-readout">
           <div className="mr-pop">
+            <div className="mr-time">
+              <span className="mr-big">{bigText}</span>
+              {unitText && <span className="mr-unit">{unitText}</span>}
+              {calYear && <span className="mr-cal">{calYear}</span>}
+            </div>
+            <span className="mr-div"></span>
             <div className="mr-pop-text">
               <span className="mr-lab">{ui("humansAlive")}</span>
               <span className="mr-val">≈ {popText}</span>
             </div>
-            <PopGraph ya={ya} variant="explore" logScale={graphLog} compact />
           </div>
           <div className="mr-faiths">
             <p className="mr-lab mr-faiths-lab">{ui("formsOfBelief")}</p>
