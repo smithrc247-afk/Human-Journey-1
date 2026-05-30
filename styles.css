@@ -99,6 +99,32 @@ body {
   .layers-box .lb-title { display: none; }
 }
 
+/* ---- mobile-only readout (population + live beliefs, under the title) ---- */
+.mobile-readout { display: none; }
+.mobile-readout .mr-pop { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--panel); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--hair); border-radius: 4px; padding: 9px 13px; pointer-events: none;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+.mobile-readout .mr-pop-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.mobile-readout .mr-lab { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--ivory-faint); }
+.mobile-readout .mr-val { font-family: var(--serif); font-weight: 600; font-size: 23px; line-height: 1;
+  color: var(--brass-bright); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mobile-readout .mr-pop .pop-graph.compact { background: none; border: none; box-shadow: none;
+  padding: 0; flex: none; }
+.mobile-readout .mr-pop .pop-graph.compact svg { display: block; }
+.mobile-readout .mr-faiths { margin-top: 8px; }
+.mobile-readout .mr-faiths-lab { margin: 0 0 7px; }
+.mobile-readout .mr-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.mobile-readout .mr-chip { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--body); font-size: 12px; line-height: 1; color: var(--ivory-dim);
+  background: var(--panel); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--hair); border-radius: 20px; padding: 5px 10px 5px 8px; cursor: pointer; }
+.mobile-readout .mr-chip.on { color: var(--ink); background: var(--brass); border-color: var(--brass); }
+.mobile-readout .mr-dot { width: 8px; height: 8px; border-radius: 50%; flex: none;
+  box-shadow: 0 0 5px currentColor; }
+.mobile-readout .mr-none { font-family: var(--body); font-size: 13px; color: var(--ivory-faint); }
+
 /* ---- global UI chrome scale (keeps panels small so the globe breathes) ---- */
 .ui-scale { position: fixed; inset: 0; pointer-events: none; zoom: 0.78; z-index: 4; }
 .ui-scale > *:not(.story-overlay) { pointer-events: auto; }
@@ -501,6 +527,12 @@ body.in-story .twk-panel { display: none !important; }
   .tb-about { font-size: 9.5px; padding: 6px 11px; }
 
   .layers-box, .pop-graph, .reader, .legend, .hint, .story-legend.play-onmap { display: none; }
+
+  /* show the mobile readout in the empty band under the title */
+  .mobile-readout { display: block; position: fixed; top: 58px; left: 12px; right: 12px; z-index: 5;
+    pointer-events: none; }
+  .mobile-readout .mr-chip { pointer-events: auto; }
+  .mobile-readout .pop-graph.compact { display: block; position: static; pointer-events: none; }
 
   .play-overlay .story-caption { bottom: 144px; width: calc(100vw - 28px); }
   .story-caption .sc-kicker { font-size: 12px; letter-spacing: 0.16em; margin-bottom: 8px; }

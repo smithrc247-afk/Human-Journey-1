@@ -211,8 +211,9 @@ function approachAngle(cur, target, k) {
 }
 
 // ---- population graph (log–log curve with a live marker) ----
-function PopGraph({ ya, variant, logScale, onToggle, dragProps, title }) {
-  const W = 236, H = 110, PADL = 32, PADR = 10, PADT = 12, PADB = 26;
+function PopGraph({ ya, variant, logScale, onToggle, dragProps, title, compact }) {
+  const W = compact ? 112 : 236, H = compact ? 38 : 110;
+  const PADL = compact ? 3 : 32, PADR = compact ? 3 : 10, PADT = compact ? 5 : 12, PADB = compact ? 5 : 26;
   const MAXP = 8.2e9, START = window.TIME.start;
   const plotW = W - PADL - PADR, plotH = H - PADT - PADB;
   const lpmin = Math.log(1e4), lpmax = Math.log(1e10);
@@ -254,8 +255,8 @@ function PopGraph({ ya, variant, logScale, onToggle, dragProps, title }) {
   const segFrac = Math.max(0, Math.min(1, (cx - pts[seg].x) / ((pts[seg + 1].x - pts[seg].x) || 1)));
   const cy = pts[seg].y + (pts[seg + 1].y - pts[seg].y) * segFrac;
   return (
-    <div className={"pop-graph " + variant + (dragProps ? " draggable" : "")} {...(dragProps || {})}>
-      <div className="pg-head">
+    <div className={"pop-graph " + variant + (compact ? " compact" : "") + (dragProps ? " draggable" : "")} {...(dragProps || {})}>
+      {!compact && <div className="pg-head">
         <p className="pg-title">{title || "Human population"}</p>
         {onToggle && (
           <button className="pg-scale" onClick={onToggle} title="Toggle axis scale">
@@ -264,15 +265,15 @@ function PopGraph({ ya, variant, logScale, onToggle, dragProps, title }) {
           </button>
         )}
         {!onToggle && <span className="pg-scale-label">{logScale ? "log" : "linear"}</span>}
-      </div>
+      </div>}
       <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H}>
-        {ygrids.map((g) => (
+        {!compact && ygrids.map((g) => (
           <g key={g.l}>
             <line x1={PADL} x2={W - PADR} y1={y(g.p)} y2={y(g.p)} className="pg-grid" />
             <text x={PADL - 5} y={y(g.p) + 3} className="pg-axislabel" textAnchor="end">{g.l}</text>
           </g>
         ))}
-        {xgrids.map((g) => (
+        {!compact && xgrids.map((g) => (
           <text key={g.l} x={xf(g.ya)} y={H - PADB + 11} className="pg-axislabel" textAnchor="middle">{g.l}</text>
         ))}
         <path d={path.area} className="pg-area" />
@@ -659,6 +660,37 @@ function App() {
           <p className="credit">{ui("credit1")} · {ui("credit2")}</p>
         </div>
       </div>}
+
+      {/* mobile-only readout — fills the space under the title with the live
+          population figure + sparkline and the forms of belief alive right now */}
+      {!story && (
+        <div className="mobile-readout">
+          <div className="mr-pop">
+            <div className="mr-pop-text">
+              <span className="mr-lab">{ui("humansAlive")}</span>
+              <span className="mr-val">≈ {popText}</span>
+            </div>
+            <PopGraph ya={ya} variant="explore" logScale={graphLog} compact />
+          </div>
+          <div className="mr-faiths">
+            <p className="mr-lab mr-faiths-lab">{ui("formsOfBelief")}</p>
+            <div className="mr-chips">
+              {liveReligions.length === 0 && <span className="mr-none">—</span>}
+              {liveReligions.map((r) => {
+                const lr = locRel(r);
+                const isFocus = focus && focus.id === r.id;
+                return (
+                  <button key={r.id} className={"mr-chip" + (isFocus ? " on" : "")}
+                    onClick={() => focusReligion(r)}>
+                    <span className="mr-dot" style={{ background: r.color }}></span>
+                    {lr.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* consolidated utility toolbar (top-right) */}
       {!story && <div className="toolbar">
