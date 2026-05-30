@@ -350,6 +350,7 @@ function App() {
   const dragGraph = useDraggable("graph", false);
   const dragTimeline = useDraggable("timeline", true);
   const dragMast = useDraggable("masthead", false);
+  const dragMrPop = useDraggable("mrpop", false);   // mobile year+population counter
 
   const globeRef = useRef(null);
   const canvasRef = useRef(null);
@@ -664,7 +665,7 @@ function App() {
             overlaps it; carries the live year + population and the forms of
             belief alive right now (the year is dropped from the bottom slider) */}
         <div className="mobile-readout">
-          <div className="mr-pop">
+          <div className="mr-pop draggable" {...dragMrPop}>
             <div className="mr-time">
               <span className="mr-big">{bigText}</span>
               {unitText && <span className="mr-unit">{unitText}</span>}

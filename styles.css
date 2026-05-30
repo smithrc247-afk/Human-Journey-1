@@ -538,6 +538,10 @@ body.in-story .twk-panel { display: none !important; }
      tucked under the title, to stay clear of the globe's ice caps below */
   .mobile-readout { display: block; margin-top: 4px; pointer-events: none; }
   .mobile-readout .mr-chip { pointer-events: auto; }
+  /* the year+population counter can be dragged anywhere on the map */
+  .mobile-readout .mr-pop { pointer-events: auto; cursor: grab; touch-action: none;
+    position: relative; z-index: 6; }
+  .mobile-readout .mr-pop:active { cursor: grabbing; }
 
   /* year/date is shown in the top readout now — drop it from the bottom slider */
   .tl-date { display: none; }
