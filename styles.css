@@ -534,8 +534,9 @@ body.in-story .twk-panel { display: none !important; }
   .layers-box, .pop-graph, .reader, .legend, .hint, .story-legend.play-onmap { display: none; }
 
   /* the readout flows directly below the title inside the masthead — no fixed
-     offset, so it can never overlap the title however it wraps */
-  .mobile-readout { display: block; margin-top: 11px; pointer-events: none; }
+     offset, so it can never overlap the title however it wraps. Sits high,
+     tucked under the title, to stay clear of the globe's ice caps below */
+  .mobile-readout { display: block; margin-top: 4px; pointer-events: none; }
   .mobile-readout .mr-chip { pointer-events: auto; }
 
   /* year/date is shown in the top readout now — drop it from the bottom slider */
