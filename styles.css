@@ -520,7 +520,7 @@ body.in-story .twk-panel { display: none !important; }
 /* ---- phones ---- */
 @media (max-width: 640px) {
   .ui-scale { zoom: 1; }                 /* full-size touch targets on phones */
-  .masthead { padding: 10px 12px; }
+  .masthead { padding: 10px 12px; flex-direction: column; align-items: stretch; }
   .masthead .eyebrow { font-size: 8.5px; letter-spacing: 0.18em; margin-bottom: 2px; }
   .masthead h1 { font-size: 25px; }
   .credit { display: none; }
@@ -533,10 +533,14 @@ body.in-story .twk-panel { display: none !important; }
 
   .layers-box, .pop-graph, .reader, .legend, .hint, .story-legend.play-onmap { display: none; }
 
-  /* show the mobile readout in the empty band under the title */
-  .mobile-readout { display: block; position: fixed; top: 92px; left: 12px; right: 12px; z-index: 5;
-    pointer-events: none; }
+  /* the readout flows directly below the title inside the masthead — no fixed
+     offset, so it can never overlap the title however it wraps */
+  .mobile-readout { display: block; margin-top: 11px; pointer-events: none; }
   .mobile-readout .mr-chip { pointer-events: auto; }
+
+  /* year/date is shown in the top readout now — drop it from the bottom slider */
+  .tl-date { display: none; }
+  .tl-top { justify-content: flex-end; margin-bottom: 11px; }
 
   .play-overlay .story-caption { bottom: 144px; width: calc(100vw - 28px); }
   .story-caption .sc-kicker { font-size: 12px; letter-spacing: 0.16em; margin-bottom: 8px; }

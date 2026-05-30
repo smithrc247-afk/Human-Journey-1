@@ -659,11 +659,10 @@ function App() {
           <h1>{ui("titleA")} <em>{ui("titleB")}</em></h1>
           <p className="credit">{ui("credit1")} · {ui("credit2")}</p>
         </div>
-      </div>}
 
-      {/* mobile-only readout — fills the space under the title with the live
-          population figure + sparkline and the forms of belief alive right now */}
-      {!story && (
+        {/* mobile-only readout — flows directly below the title so it never
+            overlaps it; carries the live year + population and the forms of
+            belief alive right now (the year is dropped from the bottom slider) */}
         <div className="mobile-readout">
           <div className="mr-pop">
             <div className="mr-time">
@@ -695,7 +694,7 @@ function App() {
             </div>
           </div>
         </div>
-      )}
+      </div>}
 
       {/* consolidated utility toolbar (top-right) */}
       {!story && <div className="toolbar">
