@@ -629,6 +629,8 @@ function App() {
     const onKey = (e) => {
       const tag = (e.target && e.target.tagName) || "";
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      // ignore timeline keys while the fullscreen Gallery view is open
+      if (document.querySelector(".gv-overlay")) return;
       // Space toggles play / pause
       if (e.key === " " || e.code === "Space") {
         e.preventDefault();

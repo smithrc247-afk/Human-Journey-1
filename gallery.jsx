@@ -144,16 +144,30 @@
 
   // ---- full-screen Gallery view ----
   function GalleryView({ open, onClose, getLabel, title, closeLabel }) {
-    const [zoom, setZoom] = useState(null); // {src,caption,credit}
+    const [zoomIdx, setZoomIdx] = useState(null); // index into the flat photo list
+    const idxs = allIndices();
+    // flat list of every photo across all beats, in order
+    const flat = [];
+    idxs.forEach((i) => window.GALLERY[i].forEach((ph) => flat.push(ph)));
+    const navZoom = useCallback((d) => {
+      setZoomIdx((i) => (i == null ? i : (i + d + flat.length) % flat.length));
+    }, [flat.length]);
     useEffect(() => {
       if (!open) return;
-      const onKey = (e) => { if (e.key === "Escape") { if (zoom) setZoom(null); else onClose(); } };
+      const onKey = (e) => {
+        if (zoomIdx != null) {
+          if (e.key === "Escape") { setZoomIdx(null); }
+          else if (e.key === "ArrowLeft") { e.preventDefault(); navZoom(-1); }
+          else if (e.key === "ArrowRight") { e.preventDefault(); navZoom(1); }
+        } else if (e.key === "Escape") { onClose(); }
+      };
       window.addEventListener("keydown", onKey);
       return () => window.removeEventListener("keydown", onKey);
-    }, [open, zoom, onClose]);
-    useEffect(() => { if (!open) setZoom(null); }, [open]);
+    }, [open, zoomIdx, onClose, navZoom]);
+    useEffect(() => { if (!open) setZoomIdx(null); }, [open]);
     if (!open) return null;
-    const idxs = allIndices();
+    const openZoom = (ph) => setZoomIdx(flat.findIndex((x) => x.src === ph.src));
+    const z = zoomIdx != null ? flat[zoomIdx] : null;
     return (
       <div className="gv-overlay">
         <div className="gv-head">
@@ -168,8 +182,8 @@
               <section className="gv-beat" key={i}>
                 <h3 className="gv-beat-title"><span className="gv-num">{String(i + 1).padStart(2, "0")}</span>{lbl}</h3>
                 <div className="gv-grid">
-                  {photos.map((ph, j) => (
-                    <figure className="gv-card" key={ph.src} onClick={() => setZoom(ph)}>
+                  {photos.map((ph) => (
+                    <figure className="gv-card" key={ph.src} onClick={() => openZoom(ph)}>
                       <div className="gv-img-wrap"><img src={ph.src} alt={ph.caption || ""} loading="lazy" /></div>
                       <figcaption>
                         {ph.caption && <span className="gv-cap">{ph.caption}</span>}
@@ -182,14 +196,16 @@
             );
           })}
         </div>
-        {zoom && (
-          <div className="gv-zoom" onClick={() => setZoom(null)}>
-            <img src={zoom.src} alt={zoom.caption || ""} onClick={(e) => e.stopPropagation()} />
+        {z && (
+          <div className="gv-zoom" onClick={() => setZoomIdx(null)}>
+            <button className="gv-zoom-nav prev" onClick={(e) => { e.stopPropagation(); navZoom(-1); }} aria-label="Previous">‹</button>
+            <img src={z.src} alt={z.caption || ""} onClick={(e) => e.stopPropagation()} />
+            <button className="gv-zoom-nav next" onClick={(e) => { e.stopPropagation(); navZoom(1); }} aria-label="Next">›</button>
             <div className="gv-zoom-meta" onClick={(e) => e.stopPropagation()}>
-              {zoom.caption && <span className="gv-cap">{zoom.caption}</span>}
-              {zoom.credit && <span className="gv-credit">{zoom.credit}</span>}
+              {z.caption && <span className="gv-cap">{z.caption}</span>}
+              {z.credit && <span className="gv-credit">{z.credit}</span>}
             </div>
-            <button className="about-close gv-zoom-close" onClick={() => setZoom(null)} aria-label={closeLabel || "Close"}>✕</button>
+            <button className="about-close gv-zoom-close" onClick={() => setZoomIdx(null)} aria-label={closeLabel || "Close"}>✕</button>
           </div>
         )}
       </div>
