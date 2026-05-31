@@ -552,14 +552,14 @@
         ctx.beginPath(); ctx.arc(p[0], p[1], 2.4, 0, 2 * Math.PI);
         ctx.fillStyle = T.milestone; ctx.fill();
         // a dispersal that died out — strike its dot with an X a little while
-        // after it first appears, then clear it once the successful Out-of-Africa
-        // group (the Arabia crossing) finally makes it across the Red Sea, so the
-        // failed-attempt mark doesn't linger over the Levant for all of history
+        // after it first appears, then clear it once the NEXT group supersedes
+        // it (levant1 clears when levant2 arrives; levant2 clears at the Arabia
+        // crossing), leaving just the white dot so two Xs never linger together
         if (ms.diedAt != null && this.timeYa <= ms.diedAt) {
-          const arabiaYa = (window.MILESTONES.find((x) => x.id === "arabia") || {}).ya || 68000;
+          const clearYa = ms.clearAt != null ? ms.clearAt : 0;
           const fadeIn = Math.max(0, Math.min(1, (ms.diedAt - this.timeYa) / 1200));
-          // fade the X away over the ~4,000 years leading into the crossing
-          const fadeOut = Math.max(0, Math.min(1, (this.timeYa - arabiaYa) / 4000));
+          // fade the X away over the ~4,000 years leading into the next arrival
+          const fadeOut = Math.max(0, Math.min(1, (this.timeYa - clearYa) / 4000));
           const fade = fadeIn * fadeOut;
           if (fade > 0.001) {
           const r = 4.8;
