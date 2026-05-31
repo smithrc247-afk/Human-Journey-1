@@ -19,7 +19,8 @@ window.MILESTONES = [
   { id: "origin_n",  name: "North Africa",          coord: [-7, 32],    ya: 300000, grow: 55000, maxDeg: 13, label: "North Africa · Jebel Irhoud (~315 ka)" },
   { id: "south_afr", name: "Southern Africa",       coord: [24, -28],   ya: 300000, grow: 55000, maxDeg: 24, label: "Southern Africa · Florisbad" },
   { id: "west_afr",  name: "West Africa",           coord: [-2, 9],     ya: 150000, grow: 40000, maxDeg: 22 },
-  { id: "levant1",   name: "The Levant (early)",    coord: [35, 32],    ya: 90000,  grow: 25000, maxDeg: 5, label: "First steps beyond Africa", diedAt: 86000 },
+  { id: "levant1",   name: "The Levant (early)",    coord: [35, 32.4],  ya: 190000, grow: 30000, maxDeg: 5, label: "Misliya · first steps beyond Africa (~190 ka)", diedAt: 152000 },
+  { id: "levant2",   name: "The Levant (early)",    coord: [35.2, 32.7], ya: 120000, grow: 22000, maxDeg: 5, label: "Skhul & Qafzeh (~120–90 ka)", diedAt: 92000 },
   { id: "arabia",    name: "Arabia",                coord: [47, 22],    ya: 68000,  grow: 18000, maxDeg: 16 },
   { id: "south_asia",name: "South Asia",            coord: [76, 22],    ya: 60000,  grow: 18000, maxDeg: 22 },
   { id: "sahul",     name: "Sahul (Australia)",     coord: [134, -24],  ya: 50000,  grow: 18000, maxDeg: 26, label: "Crossing to a new continent" },
@@ -47,8 +48,12 @@ window.ROUTES = [
   { path: [[38, 8], [24, 18], [8, 27], [-7, 32]], startYa: 300000, endYa: 262000 }, // East <-> North Africa (network)
   // origin -> West Africa (across the Sahel)
   { path: [[38, 8], [28, 10], [15, 12], [4, 11], [-2, 9]], startYa: 220000, endYa: 150000 },
-  // Africa -> Levant, up the Nile corridor (early dispersal)
-  { path: [[38, 8], [37, 15], [33, 22], [32, 28], [34, 31], [35, 32]], startYa: 120000, endYa: 90000 },
+  // Africa -> Levant, up the Nile/Sinai corridor. Two failed early dispersals:
+  // the Misliya excursion (~190 ka, the earliest H. sapiens known outside Africa)
+  // and the later Skhul & Qafzeh pulse (~120 ka). Both die out long before the
+  // successful Bab-el-Mandeb crossing at ~70 ka.
+  { path: [[38, 8], [37, 15], [33, 22], [32, 28], [34, 31], [35, 32.4]], startYa: 205000, endYa: 185000 },
+  { path: [[38, 8], [37, 15], [33, 22], [32, 28], [34, 31], [35.2, 32.7]], startYa: 132000, endYa: 112000 },
   // Africa -> Arabia across Bab-el-Mandeb, then the SE Arabian coast
   { path: [[40, 9], [43, 11.5], [43.3, 12.6], [47, 14], [52, 18], [50, 21], [47, 22]], startYa: 75000, endYa: 68000 },
   // Arabia -> South Asia, hugging the Persian Gulf & Makran coast

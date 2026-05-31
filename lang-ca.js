@@ -1,5 +1,27 @@
 /* Català — The Human Journey */
 window.I18N.ca = {
+  places: {
+      "origin": "Àfrica Oriental",
+      "origin_n": "Àfrica del Nord",
+      "south_afr": "Àfrica Austral",
+      "west_afr": "Àfrica Occidental",
+      "levant1": "El Llevant (inicis)",
+      "levant2": "El Llevant (inicis)",
+      "arabia": "Aràbia",
+      "south_asia": "Sud d'Àsia",
+      "sahul": "Sahul (Austràlia)",
+      "se_asia": "Sud-est asiàtic",
+      "europe": "Europa",
+      "c_asia": "Àsia Central",
+      "e_asia": "Àsia Oriental",
+      "siberia": "Sibèria",
+      "beringia": "Beríngia",
+      "n_america": "Amèrica del Nord",
+      "s_america": "Amèrica del Sud",
+      "patagonia": "Patagònia i l'extrem sud",
+      "remote_oc": "Pacífic remot",
+      "nz": "Aotearoa (Nova Zelanda)"
+  },
   ui: {
     eyebrow: "Un atles interactiu",
     titleA: "El Viatge", titleB: "Humà",
@@ -20,6 +42,8 @@ window.I18N.ca = {
     map_settlement: "Poblament assolit", map_flow: "La creença s'escampa", map_pop: "Població (alçada)",
     hint: "Arrossega per girar · Roda per acostar · Arrossega la línia de temps",
     language: "Idioma",
+    photos: "Fotos",
+    gallery: "Galeria",
     tick_300ka: "300 ka", tick_ooa: "Fora d'Àfrica", tick_villages: "Primers llogarets",
     tick_cities: "Primeres ciutats", tick_2ka: "2 ka", tick_today: "Avui",
   },
@@ -87,9 +111,20 @@ window.I18N.ca = {
     intro: "El Viatge Humà segueix la nostra espècie al llarg de 300.000 anys —des d'Àfrica fins a cada continent habitable— i traça, al costat d'aquesta gran migració, el desplegament de la creença humana, des de la primera intuïció d'esperits fins a les religions del món.",
     s: [
       { h: "Què estàs veient", b: "Un sol globus porta totes les capes alhora. La terra que brilla és terra poblada, tenyida amb el color de la creença que s'hi sosté. Les línies cian discontínues són rutes migratòries; els punts brillants marquen poblaments assolits. Els fluxos de color mostren creences que s'escampen d'un lloc a un altre, i les agulles rosades són la població: baixes en la prehistòria profunda, altíssimes a l'era de les ciutats. Els casquets blancs són el gel polar, que creix i recula amb les glaciacions." },
-      { h: "Com navegar", b: "Prem Reproduir (o la barra espaiadora) per posar la història en marxa; la càmera, els rètols i la línia de temps es mouen junts. Fes servir les tecles ← i → per avançar fotograma a fotograma, o arrossega la línia de temps per viatjar lliurement. Arrossega el globus per girar-lo i fes servir la roda per acostar. Fes clic en qualsevol creença del tauler Formes de creença per llegir-ne i centrar la vista; els taulers Capes del mapa i Tipus de globus permeten mostrar, amagar i reestilitzar cada element." },
+      { h: "Com navegar", b: "Prem Reproduir (o la barra espaiadora) per posar la història en marxa; la càmera, els rètols i la línia de temps es mouen junts. Fes servir les tecles ← i → per avançar fotograma a fotograma (o Maj + ← i → per a salts més ràpids), o arrossega la línia de temps per viatjar lliurement. Arrossega el globus per girar-lo i fes servir la roda per acostar. Fes clic en qualsevol creença del tauler Formes de creença per llegir-ne i centrar la vista; els taulers Capes del mapa i Tipus de globus permeten mostrar, amagar i reestilitzar cada element." },
       { h: "Com a eina docent", b: "Atura't en qualsevol moment per comentar-lo. Segueix com l'entorn modela la migració, i com el poblament, l'agricultura, les ciutats i la creença s'enlairen junts. Alterna les capes per aïllar un sol fil —només migració, o només religió— i canvia el gràfic de població entre lineal i logarítmic per mostrar com de recent és l'explosió del nostre nombre. Els rètols es llegeixen com un guió narrat per a una classe." },
       { h: "Per què el vam fer", b: "No per discutir, sinó per meravellar-nos. Aquest atles es va crear perquè qualsevol pugui aturar-se i contemplar el llarg i improbable arc dels orígens humans: un inquiet començament africà que, al llarg de deu mil generacions, va arribar a omplir la Terra sencera i a meravellar-se'n." },
     ],
+    learnMore: {
+      h: "Més informació",
+      b: "Aquest atles és una síntesi, no una font. Per aprofundir en la migració, la genètica i la història de la creença, aquests són bons punts de partida:",
+      links: [
+        { label: "Smithsonian — What Does It Mean to Be Human?", url: "https://humanorigins.si.edu/", note: "evolució i orígens humans" },
+        { label: "Bradshaw Foundation — The Journey of Mankind", url: "https://www.bradshawfoundation.com/journey/", note: "mapa genètic de la migració" },
+        { label: "Our World in Data — Population Growth", url: "https://ourworldindata.org/population-growth", note: "la llarga corba demogràfica" },
+        { label: "Britannica — The Study of Religion", url: "https://www.britannica.com/topic/study-of-religion", note: "la història de la creença" },
+        { label: "Y. N. Harari — Sapiens", url: "https://www.ynharari.com/book/sapiens-2/", note: "una breu història de la humanitat" },
+      ],
+    },
   },
 };

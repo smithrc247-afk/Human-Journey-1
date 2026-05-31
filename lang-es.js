@@ -1,5 +1,27 @@
 /* Español — The Human Journey */
 window.I18N.es = {
+  places: {
+      "origin": "África Oriental",
+      "origin_n": "África del Norte",
+      "south_afr": "África Austral",
+      "west_afr": "África Occidental",
+      "levant1": "El Levante (inicios)",
+      "levant2": "El Levante (inicios)",
+      "arabia": "Arabia",
+      "south_asia": "Asia Meridional",
+      "sahul": "Sahul (Australia)",
+      "se_asia": "Sudeste Asiático",
+      "europe": "Europa",
+      "c_asia": "Asia Central",
+      "e_asia": "Asia Oriental",
+      "siberia": "Siberia",
+      "beringia": "Beringia",
+      "n_america": "América del Norte",
+      "s_america": "América del Sur",
+      "patagonia": "Patagonia y el extremo sur",
+      "remote_oc": "Pacífico remoto",
+      "nz": "Aotearoa (Nueva Zelanda)"
+  },
   ui: {
     eyebrow: "Un atlas interactivo",
     titleA: "El Viaje", titleB: "Humano",
@@ -20,6 +42,8 @@ window.I18N.es = {
     map_settlement: "Asentamiento alcanzado", map_flow: "La creencia se difunde", map_pop: "Población (altura)",
     hint: "Arrastra para girar · Rueda para acercar · Arrastra la línea de tiempo",
     language: "Idioma",
+    photos: "Fotos",
+    gallery: "Galería",
     tick_300ka: "300 ka", tick_ooa: "Fuera de África", tick_villages: "Primeras aldeas",
     tick_cities: "Primeras ciudades", tick_2ka: "2 ka", tick_today: "Hoy",
   },
@@ -87,9 +111,20 @@ window.I18N.es = {
     intro: "El Viaje Humano sigue a nuestra especie a lo largo de 300 000 años —desde África hasta cada continente habitable— y traza, junto a esa gran migración, el despliegue de la creencia humana, desde la primera intuición de espíritus hasta las religiones del mundo.",
     s: [
       { h: "Lo que estás viendo", b: "Un solo globo porta todas las capas a la vez. La tierra que brilla es tierra poblada, teñida con el color de la creencia que allí se sostiene. Las líneas cian discontinuas son rutas migratorias; los puntos brillantes marcan asentamientos alcanzados. Los flujos de color muestran creencias que se difunden de un lugar a otro, y las agujas rosadas son la población: bajas en la prehistoria profunda, altísimas en la era de las ciudades. Los casquetes blancos son el hielo polar, que crece y retrocede con las glaciaciones." },
-      { h: "Cómo navegar", b: "Pulsa Reproducir (o la barra espaciadora) para poner la historia en marcha; la cámara, los rótulos y la línea de tiempo se mueven juntos. Usa las teclas ← y → para avanzar fotograma a fotograma, o arrastra la línea de tiempo para viajar libremente. Arrastra el globo para girarlo y usa la rueda para acercar. Haz clic en cualquier creencia del panel Formas de creencia para leer sobre ella y centrar la vista; los paneles Capas del mapa y Tipo de globo permiten mostrar, ocultar y reestilizar cada elemento." },
+      { h: "Cómo navegar", b: "Pulsa Reproducir (o la barra espaciadora) para poner la historia en marcha; la cámara, los rótulos y la línea de tiempo se mueven juntos. Usa las teclas ← y → para avanzar fotograma a fotograma (o Mayús + ← y → para saltos más rápidos), o arrastra la línea de tiempo para viajar libremente. Arrastra el globo para girarlo y usa la rueda para acercar. Haz clic en cualquier creencia del panel Formas de creencia para leer sobre ella y centrar la vista; los paneles Capas del mapa y Tipo de globo permiten mostrar, ocultar y reestilizar cada elemento." },
       { h: "Como herramienta docente", b: "Detente en cualquier momento para comentarlo. Sigue cómo el entorno moldea la migración, y cómo el asentamiento, la agricultura, las ciudades y la creencia ascienden juntos. Alterna las capas para aislar un solo hilo —solo migración, o solo religión— y cambia el gráfico de población entre lineal y logarítmico para mostrar lo reciente que es la explosión de nuestro número. Los rótulos sirven como guion narrado para una clase." },
       { h: "Por qué lo hicimos", b: "No para discutir, sino para maravillarnos. Este atlas se creó para que cualquiera pueda detenerse y contemplar el largo e improbable arco de los orígenes humanos: un inquieto comienzo africano que, a lo largo de diez mil generaciones, llegó a llenar la Tierra entera y a asombrarse de ella." },
     ],
+    learnMore: {
+      h: "Más información",
+      b: "Este atlas es una síntesis, no una fuente. Para profundizar en la migración, la genética y la historia de la creencia, estos son buenos puntos de partida:",
+      links: [
+        { label: "Smithsonian — What Does It Mean to Be Human?", url: "https://humanorigins.si.edu/", note: "evolución y orígenes humanos" },
+        { label: "Bradshaw Foundation — The Journey of Mankind", url: "https://www.bradshawfoundation.com/journey/", note: "mapa genético de la migración" },
+        { label: "Our World in Data — Population Growth", url: "https://ourworldindata.org/population-growth", note: "la larga curva demográfica" },
+        { label: "Britannica — The Study of Religion", url: "https://www.britannica.com/topic/study-of-religion", note: "la historia de la creencia" },
+        { label: "Y. N. Harari — Sapiens", url: "https://www.ynharari.com/book/sapiens-2/", note: "una breve historia de la humanidad" },
+      ],
+    },
   },
 };

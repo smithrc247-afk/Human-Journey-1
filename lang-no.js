@@ -1,5 +1,27 @@
 /* Norsk (bokmål) — The Human Journey */
 window.I18N.no = {
+  places: {
+      "origin": "Øst-Afrika",
+      "origin_n": "Nord-Afrika",
+      "south_afr": "Sørlige Afrika",
+      "west_afr": "Vest-Afrika",
+      "levant1": "Levanten (tidlig)",
+      "levant2": "Levanten (tidlig)",
+      "arabia": "Arabia",
+      "south_asia": "Sør-Asia",
+      "sahul": "Sahul (Australia)",
+      "se_asia": "Sørøst-Asia",
+      "europe": "Europa",
+      "c_asia": "Sentral-Asia",
+      "e_asia": "Øst-Asia",
+      "siberia": "Sibir",
+      "beringia": "Beringia",
+      "n_america": "Nord-Amerika",
+      "s_america": "Sør-Amerika",
+      "patagonia": "Patagonia og det fjerne sør",
+      "remote_oc": "Det fjerne Stillehavet",
+      "nz": "Aotearoa (New Zealand)"
+  },
   ui: {
     eyebrow: "Et interaktivt atlas",
     titleA: "Den Menneskelige", titleB: "Reisen",
@@ -20,6 +42,8 @@ window.I18N.no = {
     map_settlement: "Bosetning nådd", map_flow: "Troen sprer seg", map_pop: "Befolkning (høyde)",
     hint: "Dra for å rotere · Rull for å zoome · Dra tidslinjen",
     language: "Språk",
+    photos: "Bilder",
+    gallery: "Galleri",
     tick_300ka: "300 ka", tick_ooa: "Ut av Afrika", tick_villages: "Første landsbyer",
     tick_cities: "Første byer", tick_2ka: "2 ka", tick_today: "I dag",
   },
@@ -87,9 +111,20 @@ window.I18N.no = {
     intro: "Den Menneskelige Reisen følger arten vår gjennom 300 000 år — ut av Afrika til hvert beboelig kontinent — og sporer, ved siden av den store migrasjonen, utffoldelsen av menneskelig tro, fra den første anelsen om ånder til verdensreligionene.",
     s: [
       { h: "Hva du ser", b: "Én enkelt globus bærer alle lag på en gang. Lysende land er bosatt land, tonet med fargen til troen som holdes der. Stiplede cyan-linjer er migrasjonsruter; lyse prikker markerer bosetninger som er nådd. Fargede strømmer viser tro som sprer seg fra sted til sted, og de rosa spirene er befolkning — lave i den dype forhistorien, ruvende i byenes tid. Hvite kapper er polarisen, som svulmer og trekker seg tilbake med istidene." },
-      { h: "Slik navigerer du", b: "Trykk Spill av (eller mellomromstasten) for å sette historien i bevegelse; kamera, tekster og tidslinje beveger seg sammen. Bruk ← og → for å gå bilde for bilde, eller dra tidslinjen for å reise fritt. Dra globusen for å rotere den og rull for å zoome. Klikk på en tro i panelet Trosformer for å lese om den og sentrere blikket; panelene Kartlag og Globustype lar deg vise, skjule og stilsette hvert element." },
+      { h: "Slik navigerer du", b: "Trykk Spill av (eller mellomromstasten) for å sette historien i bevegelse; kamera, tekster og tidslinje beveger seg sammen. Bruk ← og → for å gå bilde for bilde (eller Shift + ← og → for raskere hopp), eller dra tidslinjen for å reise fritt. Dra globusen for å rotere den og rull for å zoome. Klikk på en tro i panelet Trosformer for å lese om den og sentrere blikket; panelene Kartlag og Globustype lar deg vise, skjule og stilsette hvert element." },
       { h: "Som læringsverktøy", b: "Sett på pause når som helst for å drøfte det. Følg hvordan miljøet former migrasjon, og hvordan bosetning, jordbruk, byer og tro stiger sammen. Veksle lagene for å isolere én enkelt tråd — bare migrasjon, eller bare religion — og bytt befolkningsgrafen mellom lineær og logaritmisk for å vise hvor nylig tallene våre eksploderte. Tekstene leses som et fortalt manus for en klasse." },
       { h: "Hvorfor vi laget det", b: "Ikke for å argumentere, men for å undres. Dette atlaset ble bygd for at hvem som helst skal kunne tre tilbake og ta inn den lange, usannsynlige buen av menneskets opphav — én rastløs afrikansk begynnelse som, gjennom ti tusen generasjoner, kom til å fylle hele jorden og undre seg over den." },
     ],
+    learnMore: {
+      h: "Lær mer",
+      b: "Dette atlaset er en syntese, ikke en kilde. For å gå dypere inn i migrasjonen, genetikken og troens historie er dette gode steder å begynne:",
+      links: [
+        { label: "Smithsonian — What Does It Mean to Be Human?", url: "https://humanorigins.si.edu/", note: "menneskelig evolusjon og opphav" },
+        { label: "Bradshaw Foundation — The Journey of Mankind", url: "https://www.bradshawfoundation.com/journey/", note: "genetisk kart over migrasjonen" },
+        { label: "Our World in Data — Population Growth", url: "https://ourworldindata.org/population-growth", note: "den lange befolkningskurven" },
+        { label: "Britannica — The Study of Religion", url: "https://www.britannica.com/topic/study-of-religion", note: "troens historie" },
+        { label: "Y. N. Harari — Sapiens", url: "https://www.ynharari.com/book/sapiens-2/", note: "en kort historie om menneskeheten" },
+      ],
+    },
   },
 };

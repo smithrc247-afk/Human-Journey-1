@@ -1,5 +1,27 @@
 /* Français — The Human Journey */
 window.I18N.fr = {
+  places: {
+      "origin": "Afrique de l'Est",
+      "origin_n": "Afrique du Nord",
+      "south_afr": "Afrique australe",
+      "west_afr": "Afrique de l'Ouest",
+      "levant1": "Le Levant (débuts)",
+      "levant2": "Le Levant (débuts)",
+      "arabia": "Arabie",
+      "south_asia": "Asie du Sud",
+      "sahul": "Sahul (Australie)",
+      "se_asia": "Asie du Sud-Est",
+      "europe": "Europe",
+      "c_asia": "Asie centrale",
+      "e_asia": "Asie de l'Est",
+      "siberia": "Sibérie",
+      "beringia": "Béringie",
+      "n_america": "Amérique du Nord",
+      "s_america": "Amérique du Sud",
+      "patagonia": "Patagonie et l'extrême sud",
+      "remote_oc": "Pacifique lointain",
+      "nz": "Aotearoa (Nouvelle-Zélande)"
+  },
   ui: {
     eyebrow: "Un atlas interactif",
     titleA: "Le Voyage", titleB: "Humain",
@@ -20,6 +42,8 @@ window.I18N.fr = {
     map_settlement: "Peuplement atteint", map_flow: "La croyance se répand", map_pop: "Population (hauteur)",
     hint: "Glisser pour tourner · Molette pour zoomer · Glisser la frise",
     language: "Langue",
+    photos: "Photos",
+    gallery: "Galerie",
     tick_300ka: "300 ka", tick_ooa: "Hors d'Afrique", tick_villages: "Premiers villages",
     tick_cities: "Premières villes", tick_2ka: "2 ka", tick_today: "Auj.",
   },
@@ -87,9 +111,20 @@ window.I18N.fr = {
     intro: "Le Voyage Humain suit notre espèce sur 300 000 ans — hors d'Afrique vers chaque continent habitable — et retrace, aux côtés de cette grande migration, le déploiement de la croyance humaine, du premier sentiment des esprits aux religions du monde.",
     s: [
       { h: "Ce que vous voyez", b: "Un seul globe porte toutes les couches à la fois. La terre lumineuse est une terre peuplée, teintée de la couleur de la croyance qu'on y tient. Les lignes cyan en pointillés sont des routes migratoires ; les points brillants marquent les peuplements atteints. Les flux colorés montrent les croyances se répandant d'un lieu à l'autre, et les flèches roses sont la population — basses dans la préhistoire profonde, vertigineuses à l'âge des villes. Les calottes blanches sont la glace polaire, qui croît et reflue au gré des glaciations." },
-      { h: "Comment naviguer", b: "Appuyez sur Lecture (ou la barre d'espace) pour mettre l'histoire en mouvement ; la caméra, les légendes et la frise avancent ensemble. Utilisez les touches ← et → pour avancer image par image, ou glissez la frise pour voyager librement. Glissez le globe pour le faire tourner et utilisez la molette pour zoomer. Cliquez sur une croyance dans le panneau Formes de croyance pour la lire et recentrer la vue ; les panneaux Calques de la carte et Type de globe permettent d'afficher, masquer et restyler chaque élément." },
+      { h: "Comment naviguer", b: "Appuyez sur Lecture (ou la barre d'espace) pour mettre l'histoire en mouvement ; la caméra, les légendes et la frise avancent ensemble. Utilisez les touches ← et → pour avancer image par image (ou Maj + ← et → pour des sauts plus rapides), ou glissez la frise pour voyager librement. Glissez le globe pour le faire tourner et utilisez la molette pour zoomer. Cliquez sur une croyance dans le panneau Formes de croyance pour la lire et recentrer la vue ; les panneaux Calques de la carte et Type de globe permettent d'afficher, masquer et restyler chaque élément." },
       { h: "Comme outil pédagogique", b: "Mettez en pause à tout moment pour en discuter. Suivez comment l'environnement façonne la migration, et comment peuplement, agriculture, villes et croyance s'élèvent ensemble. Basculez les couches pour isoler un seul fil — la migration seule, ou la religion seule — et faites passer le graphique de population du linéaire au logarithmique pour montrer combien notre explosion démographique est récente. Les légendes se lisent comme un script narré pour une classe." },
       { h: "Pourquoi nous l'avons fait", b: "Non pour argumenter, mais pour s'émerveiller. Cet atlas a été conçu pour que chacun puisse prendre du recul et embrasser le long et improbable arc des origines humaines : un seul commencement africain, agité, qui, en dix mille générations, en vint à emplir la Terre entière et à s'en émerveiller." },
     ],
+    learnMore: {
+      h: "En savoir plus",
+      b: "Cet atlas est une synthèse, non une source. Pour approfondir la migration, la génétique et l'histoire de la croyance, voici de bons points de départ :",
+      links: [
+        { label: "Smithsonian — What Does It Mean to Be Human?", url: "https://humanorigins.si.edu/", note: "évolution et origines humaines" },
+        { label: "Bradshaw Foundation — The Journey of Mankind", url: "https://www.bradshawfoundation.com/journey/", note: "carte génétique de la migration" },
+        { label: "Our World in Data — Population Growth", url: "https://ourworldindata.org/population-growth", note: "la longue courbe démographique" },
+        { label: "Britannica — The Study of Religion", url: "https://www.britannica.com/topic/study-of-religion", note: "l'histoire de la croyance" },
+        { label: "Y. N. Harari — Sapiens", url: "https://www.ynharari.com/book/sapiens-2/", note: "une brève histoire de l'humanité" },
+      ],
+    },
   },
 };

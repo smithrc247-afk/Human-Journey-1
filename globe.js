@@ -89,6 +89,7 @@
       this.zoom = 1;
       this.timeYa = window.TIME.start;
       this.theme = "relief";
+      this.lang = "en";
       this.activeReligions = new Set(window.RELIGIONS.map((r) => r.id));
       this.showRoutes = true;
       this.showRegion = true;
@@ -161,6 +162,12 @@
     setTime(ya) { this.timeYa = ya; this._dirty = true; }    setTheme(name) { if (THEMES[name]) { this.theme = name; this._dirty = true; } }
     setReligions(set) { this.activeReligions = set; this._dirty = true; }
     setLayer(key, on) { this[key] = on; this._dirty = true; }
+    setLang(code) { this.lang = code; this._dirty = true; }
+    // localized milestone name (falls back to the English source name)
+    _msName(ms) {
+      const places = (window.I18N && window.I18N[this.lang] && window.I18N[this.lang].places) || null;
+      return (places && places[ms.id]) || ms.name;
+    }
     setIdleSpin(on) { this._idleSpin = on; }
 
     // spin: 0 = shortest great-circle path (default); -1 = force the camera to
@@ -563,7 +570,7 @@
         if (ms.label && this.timeYa <= ms.ya && this.timeYa > ms.ya - ms.grow * 1.4) {
           ctx.fillStyle = T.text;
           ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 4;
-          ctx.fillText(ms.name, p[0] + 7, p[1] + 3);
+          ctx.fillText(this._msName(ms), p[0] + 7, p[1] + 3);
           ctx.shadowBlur = 0;
         }
       }

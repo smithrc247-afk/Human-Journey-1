@@ -1,5 +1,27 @@
 /* Nederlands — The Human Journey */
 window.I18N.nl = {
+  places: {
+      "origin": "Oost-Afrika",
+      "origin_n": "Noord-Afrika",
+      "south_afr": "Zuidelijk Afrika",
+      "west_afr": "West-Afrika",
+      "levant1": "De Levant (begin)",
+      "levant2": "De Levant (begin)",
+      "arabia": "Arabië",
+      "south_asia": "Zuid-Azië",
+      "sahul": "Sahul (Australië)",
+      "se_asia": "Zuidoost-Azië",
+      "europe": "Europa",
+      "c_asia": "Centraal-Azië",
+      "e_asia": "Oost-Azië",
+      "siberia": "Siberië",
+      "beringia": "Beringia",
+      "n_america": "Noord-Amerika",
+      "s_america": "Zuid-Amerika",
+      "patagonia": "Patagonië en het verre zuiden",
+      "remote_oc": "Verre Stille Oceaan",
+      "nz": "Aotearoa (Nieuw-Zeeland)"
+  },
   ui: {
     eyebrow: "Een interactieve atlas",
     titleA: "De Menselijke", titleB: "Reis",
@@ -20,6 +42,8 @@ window.I18N.nl = {
     map_settlement: "Bewoning bereikt", map_flow: "Geloof verspreidt zich", map_pop: "Bevolking (hoogte)",
     hint: "Sleep om te draaien · Scroll om te zoomen · Sleep de tijdlijn",
     language: "Taal",
+    photos: "Foto's",
+    gallery: "Galerij",
     tick_300ka: "300 ka", tick_ooa: "Uit Afrika", tick_villages: "Eerste dorpen",
     tick_cities: "Eerste steden", tick_2ka: "2 ka", tick_today: "Vandaag",
   },
@@ -87,9 +111,20 @@ window.I18N.nl = {
     intro: "De Menselijke Reis volgt onze soort door 300.000 jaar — uit Afrika naar elk bewoonbaar continent — en traceert, naast die grote migratie, de ontvouwing van het menselijke geloof, van het eerste besef van geesten tot de wereldreligies.",
     s: [
       { h: "Wat je ziet", b: "Eén enkele globe draagt alle lagen tegelijk. Gloeiend land is bewoond land, getint met de kleur van het geloof dat daar leeft. Gestreepte cyaan lijnen zijn migratieroutes; heldere stippen markeren bereikte bewoning. Gekleurde stromen tonen geloof dat zich van plaats tot plaats verspreidt, en de roze pieken zijn de bevolking — laag in de diepe prehistorie, torenhoog in het tijdperk van de steden. Witte kappen zijn het poolijs, dat zwelt en terugtrekt met de ijstijden." },
-      { h: "Hoe te navigeren", b: "Druk op Afspelen (of de spatiebalk) om het verhaal in beweging te zetten; camera, bijschriften en tijdlijn bewegen samen. Gebruik de ← en → toetsen om beeld voor beeld te stappen, of sleep de tijdlijn om vrij te reizen. Sleep de globe om hem te draaien en scroll om te zoomen. Klik op een geloof in het paneel Vormen van geloof om erover te lezen en de blik te centreren; met de panelen Kaartlagen en Globetype kun je elk element tonen, verbergen en herstijlen." },
+      { h: "Hoe te navigeren", b: "Druk op Afspelen (of de spatiebalk) om het verhaal in beweging te zetten; camera, bijschriften en tijdlijn bewegen samen. Gebruik de ← en → toetsen om beeld voor beeld te stappen (of Shift + ← en → voor snellere sprongen), of sleep de tijdlijn om vrij te reizen. Sleep de globe om hem te draaien en scroll om te zoomen. Klik op een geloof in het paneel Vormen van geloof om erover te lezen en de blik te centreren; met de panelen Kaartlagen en Globetype kun je elk element tonen, verbergen en herstijlen." },
       { h: "Als lesmiddel", b: "Pauzeer op elk moment om het te bespreken. Volg hoe de omgeving migratie vormt, en hoe bewoning, landbouw, steden en geloof samen opkomen. Schakel lagen om één enkele draad te isoleren — alleen migratie, of alleen religie — en wissel de bevolkingsgrafiek tussen lineair en logaritmisch om te tonen hoe recent onze aantallen explodeerden. De bijschriften lezen als een verteld script voor een les." },
       { h: "Waarom we het maakten", b: "Niet om te betogen, maar om te verwonderen. Deze atlas is gebouwd om iedereen de lange, onwaarschijnlijke boog van de menselijke oorsprong te laten overzien — één rusteloos Afrikaans begin dat, over tienduizend generaties, de hele aarde kwam te vullen en erover te staan verwonderen." },
     ],
+    learnMore: {
+      h: "Meer informatie",
+      b: "Deze atlas is een synthese, geen bron. Om dieper in de migratie, de genetica en de geschiedenis van geloof te duiken, zijn dit goede startpunten:",
+      links: [
+        { label: "Smithsonian — What Does It Mean to Be Human?", url: "https://humanorigins.si.edu/", note: "menselijke evolutie en oorsprong" },
+        { label: "Bradshaw Foundation — The Journey of Mankind", url: "https://www.bradshawfoundation.com/journey/", note: "genetische kaart van de migratie" },
+        { label: "Our World in Data — Population Growth", url: "https://ourworldindata.org/population-growth", note: "de lange demografische curve" },
+        { label: "Britannica — The Study of Religion", url: "https://www.britannica.com/topic/study-of-religion", note: "de geschiedenis van geloof" },
+        { label: "Y. N. Harari — Sapiens", url: "https://www.ynharari.com/book/sapiens-2/", note: "een kleine geschiedenis van de mensheid" },
+      ],
+    },
   },
 };

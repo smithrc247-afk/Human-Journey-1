@@ -326,11 +326,14 @@ function App() {
   const [active, setActive] = useState(() => new Set(RELIGIONS.map((r) => r.id)));
   const [pinned, setPinned] = useState(null);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [lang, setLang] = useState(() => { try { return localStorage.getItem("hj-lang") || "en"; } catch (e) { return "en"; } });
   useEffect(() => { try { localStorage.setItem("hj-lang", lang); } catch (e) {} }, [lang]);
   const TL = window.I18N[lang] || window.I18N.en;
   const EN = window.I18N.en;
+  const CaptionGallery = window.CaptionGallery;
+  const GalleryView = window.GalleryView;
   const ui = (k) => (TL.ui && TL.ui[k] != null) ? TL.ui[k] : EN.ui[k];
   const locStory = (s, i) => { const x = TL.story && TL.story[i]; return x ? { ...s, kicker: x.k, body: x.b } : s; };
   const locRel = (r) => { const x = TL.religions && TL.religions[r.id]; return x ? { ...r, name: x.name, blurb: x.blurb, examples: x.examples, when: x.when } : r; };
@@ -383,6 +386,7 @@ function App() {
   useEffect(() => { globeRef.current && globeRef.current.setTime(ya); }, [ya]);
   useEffect(() => { globeRef.current && globeRef.current.setReligions(active); }, [active]);
   useEffect(() => { globeRef.current && globeRef.current.setTheme(t.globeTheme); }, [t.globeTheme]);
+  useEffect(() => { globeRef.current && globeRef.current.setLang(lang); }, [lang]);
   useEffect(() => { globeRef.current && globeRef.current.setIdleSpin(t.idleSpin && !story && !exploring); }, [t.idleSpin, story, exploring]);
   // layer visibility — during the film all layers show; in explore they follow the on-page Layers box
   useEffect(() => {
@@ -755,19 +759,25 @@ function App() {
           <div className="story-caption play-caption">
             <p className="sc-kicker">{curSeg.kicker}</p>
             <p className="sc-body">{curSeg.body}</p>
+            {isMobile && CaptionGallery && <CaptionGallery segIdx={curSegIdx} isMobile={true} label={ui("photos")} galleryLabel={ui("gallery")} onOpenGallery={() => setGalleryOpen(true)} />}
           </div>
         </div>
       )}
 
-      {/* "On the map" legend (from the film) */}
-      {!story && <div className="story-legend play-onmap">
-        <p className="sl-title">{ui("onTheMap")}</p>
-        <div className="sl-row"><span className="sl-g sl-region"></span><span>{ui("map_region")}</span></div>
-        <div className="sl-row"><span className="sl-g sl-route"></span><span>{ui("map_route")}</span></div>
-        <div className="sl-row"><span className="sl-g sl-dot"></span><span>{ui("map_settlement")}</span></div>
-        <div className="sl-row"><span className="sl-g sl-flow"></span><span>{ui("map_flow")}</span></div>
-        <div className="sl-row"><span className="sl-g sl-bar"></span><span>{ui("map_pop")}</span></div>
-      </div>}
+      {/* "On the map" legend (from the film) + lower-right photo gallery */}
+      {!story && (
+        <div className="br-stack">
+          {!isMobile && CaptionGallery && <CaptionGallery segIdx={curSegIdx} isMobile={false} label={ui("photos")} galleryLabel={ui("gallery")} onOpenGallery={() => setGalleryOpen(true)} />}
+          <div className="story-legend play-onmap">
+            <p className="sl-title">{ui("onTheMap")}</p>
+            <div className="sl-row"><span className="sl-g sl-region"></span><span>{ui("map_region")}</span></div>
+            <div className="sl-row"><span className="sl-g sl-route"></span><span>{ui("map_route")}</span></div>
+            <div className="sl-row"><span className="sl-g sl-dot"></span><span>{ui("map_settlement")}</span></div>
+            <div className="sl-row"><span className="sl-g sl-flow"></span><span>{ui("map_flow")}</span></div>
+            <div className="sl-row"><span className="sl-g sl-bar"></span><span>{ui("map_pop")}</span></div>
+          </div>
+        </div>
+      )}
 
       {/* legend */}
       {!story && <div className="legend draggable" {...dragLegend}>
@@ -928,6 +938,13 @@ function App() {
       )}
       </div>
 
+      {/* Gallery view — fullscreen grid of every beat's photos */}
+      {!story && GalleryView && (
+        <GalleryView open={galleryOpen} onClose={() => setGalleryOpen(false)}
+          getLabel={(i) => locStory(STORY[i], i).kicker}
+          title={ui("gallery")} closeLabel={(TL.about || EN.about).close} />
+      )}
+
       {/* About modal — outside .ui-scale so it shows full-scale above everything */}
       {!story && aboutOpen && (() => { const A = TL.about || EN.about; return (
         <div className="about-overlay" onClick={() => setAboutOpen(false)}>
@@ -941,6 +958,20 @@ function App() {
                 <p>{sec.b}</p>
               </div>
             ))}
+            {(() => { const LM = A.learnMore || EN.about.learnMore; return (
+              <div className="about-sec about-learn">
+                <h3>{LM.h}</h3>
+                <p>{LM.b}</p>
+                <ul className="about-links">
+                  {LM.links.map((l, i) => (
+                    <li key={i}>
+                      <a href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a>
+                      {l.note && <span className="al-note">{l.note}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ); })()}
           </div>
         </div>
       ); })()}
