@@ -17,8 +17,8 @@
    ============================================================ */
 window.GALLERY = {
   0: [
-    { src: "images/gallery/seg00.jpg",   caption: "Jebel Irhoud, Morocco — among the earliest known Homo sapiens, ~300,000 years old", credit: "Jonathan Chen · CC BY-SA 4.0 · Wikimedia Commons" },
     { src: "images/gallery/seg00-2.jpg", caption: "How they may have looked — a museum reconstruction of an early Homo sapiens", credit: "MUSE, Trento · CC BY-SA 3.0 · Wikimedia Commons" },
+    { src: "images/gallery/seg00.jpg",   caption: "Jebel Irhoud, Morocco — among the earliest known Homo sapiens, ~300,000 years old", credit: "Jonathan Chen · CC BY-SA 4.0 · Wikimedia Commons" },
     { src: "images/gallery/seg00-3.jpg", caption: "The African savanna — the world of our first ancestors", credit: "Giles Laurent · CC BY-SA 4.0 · Wikimedia Commons" },
   ],
   1: [

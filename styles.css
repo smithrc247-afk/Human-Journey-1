@@ -667,9 +667,9 @@ body.in-story .twk-panel { display: none !important; }
 .cg-lb-meta .cg-cap { font-size: 15px; } .cg-lb-meta .cg-credit { font-size: 10px; }
 
 /* mobile: row holding the Photos pill + Gallery link */
-.cg-mobile-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+.cg-mobile-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 12px; pointer-events: auto; }
 .cg-mobile-row .cg-mobile-btn { margin-top: 0; }
-.cg-gallery-link.mobile { margin: 0; font-size: 11px; }
+.cg-gallery-link.mobile { margin: 0; font-size: 11px; pointer-events: auto; }
 
 /* ---- full-screen Gallery view ---- */
 .gv-overlay { position: fixed; inset: 0; z-index: 1200; display: flex; flex-direction: column;
