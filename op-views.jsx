@@ -146,6 +146,50 @@ function OPSocietyBlend({ era }) {
   );
 }
 
+/* ---- The Eras to Scale: all eight eras, sized by groups = pop ÷ group size ---- */
+function opFmtGroups(v) {
+  if (v >= 1000) return Math.round(v / 1000) * 1000 >= 1e6 ? (v / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : (Math.round(v / 1000) * 1000).toLocaleString("en-US");
+  if (v >= 100) return String(Math.round(v / 10) * 10);
+  if (v >= 10) return String(Math.round(v));
+  return v.toFixed(1).replace(/\.0$/, "");
+}
+function OPToScale() {
+  const data = window.OP_TOSCALE.map((e) => ({ ...e, groups: e.pop / e.gsize }));
+  const maxG = Math.max.apply(null, data.map((d) => d.groups));
+  const lg = (v) => Math.log10(v + 1);
+  const dia = (g) => 22 + (lg(g) / lg(maxG)) * 150;   // log-scaled circle diameter
+  return (
+    <article className="op-scale-page">
+      <header className="op-scale-head">
+        <div className="op-kicker"><span className="k-num" style={{ color: "var(--brass)" }}>After the eras · a synthesis</span><span className="k-line"></span></div>
+        <h2 className="op-scale-title">The Eras <em>to Scale</em></h2>
+        <p className="op-scale-lead">Take each era's world population and divide it by the size of its largest political unit — the band, the city, the empire, the nation. What's left is the number of independent groups the species was divided into. It collapses from tens of thousands of forager bands toward a single connected world — fragmenting once, sharply, when Rome's empires gave way to feudal realms.</p>
+      </header>
+
+      <div className="op-scale-plot">
+        {data.map((d) => {
+          const sz = dia(d.groups);
+          return (
+            <div className="op-scale-col" key={d.id} style={{ "--ec": d.accent }}>
+              <span className="op-scale-count">{opFmtGroups(d.groups)}</span>
+              <span className="op-scale-count-lab">groups</span>
+              <div className="op-scale-disc-wrap">
+                <div className="op-scale-disc" style={{ width: sz, height: sz }}></div>
+              </div>
+              <div className="op-scale-meta">
+                <span className="op-scale-num">{d.num}</span>
+                <span className="op-scale-name">{d.name}</span>
+                <span className="op-scale-sub">{d.popLabel} ÷ {d.gsizeLabel}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <p className="op-scale-foot">Circle area is log-scaled — the real range runs from tens of thousands of groups to one. Population and unit sizes are representative estimates, chosen to show the shape of the change, not a precise census.</p>
+    </article>
+  );
+}
+
 /* ---- HERO B : the causal "machine of power" ---------------- */
 const OPM_W = 620, OPM_H = 300;
 function opCenter(n) { return { x: n.x / 100 * OPM_W, y: n.y / 100 * OPM_H }; }
@@ -563,4 +607,4 @@ function OPPrimer({ onEnter }) {
   );
 }
 
-Object.assign(window, { OPConcept, opRich, OPDeepTime, OPSociety, OPSocietyBlend, OPCausalMap, OPThreadTiles, OPEngine, OPThreadChart, OPThreadView, OPLegitGauge, OPLegitGrid, OPEvidence, OPReadPanel, OPEraVisual, OPPrimer });
+Object.assign(window, { OPConcept, opRich, OPDeepTime, OPSociety, OPSocietyBlend, OPToScale, OPCausalMap, OPThreadTiles, OPEngine, OPThreadChart, OPThreadView, OPLegitGauge, OPLegitGrid, OPEvidence, OPReadPanel, OPEraVisual, OPPrimer });

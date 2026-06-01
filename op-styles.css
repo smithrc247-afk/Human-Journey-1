@@ -289,6 +289,30 @@
 .op-ss-lab { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ivory-faint); }
 .op-ss-val { font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--brass-bright); line-height: 1; }
 .op-ss-det { font-family: var(--body); font-size: 12px; font-style: italic; color: var(--ivory-dim); margin-left: auto; text-align: right; text-wrap: pretty; }
+/* ---- The Eras to Scale page ---- */
+.op-scale-page { animation: opScaleIn 0.5s ease both; max-width: 1000px; }
+@keyframes opScaleIn { from { transform: translateY(10px); } to { transform: translateY(0); } }
+.op-scale-head { margin-bottom: 14px; }
+.op-scale-title { font-family: var(--serif); font-weight: 600; font-size: 44px; line-height: 1.02; color: var(--ivory); margin: 6px 0 0; }
+.op-scale-title em { font-style: italic; color: var(--brass-bright); }
+.op-scale-lead { font-family: var(--body); font-size: 16px; line-height: 1.6; color: var(--ivory-dim); margin: 14px 0 0; max-width: 78ch; text-wrap: pretty; border-left: 2px solid var(--brass); padding-left: 16px; }
+.op-scale-plot { display: flex; align-items: flex-end; gap: 10px; margin: 26px 0 0; padding-bottom: 2px; border-bottom: 1px solid var(--hair); }
+.op-scale-col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; padding-bottom: 14px; }
+.op-scale-count { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ec, var(--brass-bright)); line-height: 1; }
+.op-scale-count-lab { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ivory-faint); margin-top: 3px; }
+.op-scale-disc-wrap { height: 196px; display: flex; align-items: flex-end; justify-content: center; margin: 10px 0; }
+.op-scale-disc { border-radius: 50%; background: radial-gradient(circle at 38% 32%, color-mix(in oklab, var(--ec) 80%, #fff), var(--ec)); box-shadow: 0 6px 22px color-mix(in oklab, var(--ec) 45%, transparent); opacity: 0.92; transition: width 0.5s cubic-bezier(.3,.7,.3,1), height 0.5s cubic-bezier(.3,.7,.3,1); }
+.op-scale-meta { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.op-scale-num { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ec, var(--brass)); }
+.op-scale-name { font-family: var(--serif); font-size: 13px; font-weight: 600; color: var(--ivory); line-height: 1.1; max-width: 14ch; }
+.op-scale-sub { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.03em; color: var(--ivory-faint); line-height: 1.3; max-width: 17ch; margin-top: 3px; }
+.op-scale-foot { font-family: var(--body); font-size: 12px; font-style: italic; line-height: 1.5; color: var(--ivory-faint); margin: 16px 0 0; max-width: 82ch; text-wrap: pretty; }
+@media (max-width: 760px) {
+  .op-scale-title { font-size: 30px; }
+  .op-scale-plot { overflow-x: auto; }
+  .op-scale-col { min-width: 96px; }
+}
+
 .op-soc { position: relative; height: 358px; }
 .op-soc-blend { position: relative; }
 .op-soc-layer.entering { animation: opXfIn 2s ease forwards; }

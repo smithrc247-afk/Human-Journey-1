@@ -130,6 +130,7 @@ function OPApp() {
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       e.preventDefault();
       const i = eras.findIndex((x) => x.id === activeId);
+      if (i === -1) return;   // on the primer or the to-scale page: no era stepping
       const dir = (k === "ArrowRight" || k === "ArrowDown") ? 1 : -1;
       const ni = Math.max(0, Math.min(eras.length - 1, i + dir));
       if (ni !== i) { setActiveId(eras[ni].id); setYa(eras[ni].anchorYa); }   // no scroll: graphic stays in view
@@ -140,7 +141,7 @@ function OPApp() {
 
   // ---- slider ↔ era sync, play loop, and track drag ----
   opAEffect(() => {
-    if (activeId === "primer" || mode !== "eras") return;
+    if (activeId === "primer" || activeId === "toscale" || mode !== "eras") return;
     const e = window.opEraAtYa(ya);
     if (e.id !== activeId) setActiveId(e.id);
   }, [ya, activeId, mode]);
@@ -217,6 +218,11 @@ function OPApp() {
                   </button>
                 ))}
               </div>
+              <button className={"op-endcard" + (activeId === "toscale" ? " on" : "")}
+                onClick={() => { setActiveId("toscale"); setFocusThread(null); if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: "smooth" }); }}>
+                <span className="op-sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="17" r="4"/><circle cx="15" cy="12" r="2.6"/><circle cx="20" cy="7" r="1.6"/></svg></span>
+                <span className="op-sc-body"><span className="op-sc-title">The Eras to Scale</span><span className="op-sc-sub">All eight, sized together</span></span>
+              </button>
             </>
           ) : (
             <>
@@ -244,6 +250,8 @@ function OPApp() {
             ? <OPThreadView key={focusThread} threadId={focusThread} activeId={activeId} eras={eras} />
             : activeId === "primer"
               ? <OPPrimer onEnter={() => selectEra(eras[0])} />
+            : activeId === "toscale"
+              ? <OPToScale />
               : <>
                 <OPDeepTime eras={eras} activeId={activeId} onSelect={selectEra} />
                 <OPEraVisual era={era} eras={eras} focusThread={focusThread} factors={factors} />
@@ -251,7 +259,7 @@ function OPApp() {
         </div>
       </main>
 
-      {mode === "eras" && activeId !== "primer" && (
+      {mode === "eras" && activeId !== "primer" && activeId !== "toscale" && (
         <div className="timeline op-timeline">
           <div className="tl-top">
             <div className="tl-date">
