@@ -118,6 +118,34 @@ function OPSociety({ era }) {
   );
 }
 
+/* ---- crossfade wrapper: dissolve one era's diagram into the next ---- */
+function OPSocietyBlend({ era }) {
+  const [stack, setStack] = opUseState([{ era: era, k: 0 }]);
+  const seq = opUseRef(0);
+  const last = opUseRef(era.id);
+  opUseEffect(() => {
+    if (era.id === last.current) return;
+    last.current = era.id;
+    seq.current += 1;
+    const k = seq.current;
+    setStack((s) => {
+      const outgoing = s[s.length - 1];
+      return [{ era: outgoing.era, k: outgoing.k, leaving: true }, { era: era, k: k }];
+    });
+    const t = setTimeout(() => setStack((s) => s.filter((l) => !l.leaving)), 2100);
+    return () => clearTimeout(t);
+  }, [era.id]);
+  return (
+    <div className="op-soc-blend">
+      {stack.map((l) => (
+        <div className={"op-soc-layer" + (l.leaving ? " leaving" : (l.k > 0 ? " entering" : ""))} key={l.k}>
+          <OPSociety era={l.era} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ---- HERO B : the causal "machine of power" ---------------- */
 const OPM_W = 620, OPM_H = 300;
 function opCenter(n) { return { x: n.x / 100 * OPM_W, y: n.y / 100 * OPM_H }; }
@@ -377,7 +405,14 @@ function OPEraVisual({ era, eras, focusThread, factors }) {
 
       <div className="op-herowrap">
         <div className="op-hero-main">
-          <OPSociety era={era} />
+          {soc && soc.scale && (
+            <div className="op-soc-scale" key={era.id}>
+              <span className="op-ss-lab">Group size</span>
+              <span className="op-ss-val">{soc.scale.head}</span>
+              <span className="op-ss-det">{soc.scale.detail}</span>
+            </div>
+          )}
+          <OPSocietyBlend era={era} />
           <p className="op-hero-cap">
             {soc && soc.caption}
             <button className="op-cap-more" onClick={() => setPanel({ kind: "society" })}>read deeper →</button>
@@ -528,4 +563,4 @@ function OPPrimer({ onEnter }) {
   );
 }
 
-Object.assign(window, { OPConcept, opRich, OPDeepTime, OPSociety, OPCausalMap, OPThreadTiles, OPEngine, OPThreadChart, OPThreadView, OPLegitGauge, OPLegitGrid, OPEvidence, OPReadPanel, OPEraVisual, OPPrimer });
+Object.assign(window, { OPConcept, opRich, OPDeepTime, OPSociety, OPSocietyBlend, OPCausalMap, OPThreadTiles, OPEngine, OPThreadChart, OPThreadView, OPLegitGauge, OPLegitGrid, OPEvidence, OPReadPanel, OPEraVisual, OPPrimer });

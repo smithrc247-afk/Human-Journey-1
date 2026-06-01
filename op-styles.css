@@ -284,18 +284,27 @@
 .op-cap-more:hover { color: var(--ivory); }
 
 /* society diagram */
-.op-soc { position: relative; height: 358px; animation: opSocIn 0.5s ease both; }
-@keyframes opSocIn { from { opacity: 0; } to { opacity: 1; } }
+.op-soc-scale { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; margin-bottom: 10px;
+  padding-bottom: 9px; border-bottom: 1px solid var(--hair); animation: opXfIn 0.6s ease both; }
+.op-ss-lab { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ivory-faint); }
+.op-ss-val { font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--brass-bright); line-height: 1; }
+.op-ss-det { font-family: var(--body); font-size: 12px; font-style: italic; color: var(--ivory-dim); margin-left: auto; text-align: right; text-wrap: pretty; }
+.op-soc { position: relative; height: 358px; }
+.op-soc-blend { position: relative; }
+.op-soc-layer.entering { animation: opXfIn 2s ease forwards; }
+.op-soc-layer.leaving { position: absolute; inset: 0; pointer-events: none; animation: opXfOut 2s ease forwards; }
+@keyframes opXfIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes opXfOut { from { opacity: 1; } to { opacity: 0; } }
 .op-soc-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.op-soc-bg polygon, .op-soc-bg rect { transition: fill-opacity 0.5s ease, stroke-opacity 0.5s ease; }
+.op-soc-bg polygon, .op-soc-bg rect { transition: fill-opacity 1.8s ease, stroke-opacity 1.8s ease; }
 .op-soc-axis { position: absolute; left: 4px; top: 8px; bottom: 8px; display: flex; flex-direction: column; align-items: flex-start; }
 .op-soc-axis span { font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ivory-faint); white-space: nowrap; }
 .op-soc-axis-line { flex: 1; width: 1px; background: linear-gradient(var(--ivory-faint), transparent 85%); margin: 5px 0 5px 2px; opacity: 0.4; }
 .op-soc-tier { position: absolute; left: 0; right: 0; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px;
-  transition: top 0.6s cubic-bezier(.4,0,.2,1), opacity 0.45s ease; }
+  transition: top 2s cubic-bezier(.45,0,.2,1), opacity 1.6s ease; }
 @keyframes opTierIn { from { opacity: 0; transform: translateY(-50%) translateY(16px); } to { opacity: 1; transform: translateY(-50%); } }
 .op-soc-figs { display: flex; align-items: flex-end; justify-content: center; gap: 6px 7px; flex-wrap: wrap; max-width: 84%; }
-.op-soc-fig { flex: none; transition: width 0.6s cubic-bezier(.4,0,.2,1), height 0.6s cubic-bezier(.4,0,.2,1), opacity 0.45s ease, color 0.5s ease; }
+.op-soc-fig { flex: none; transition: width 2s cubic-bezier(.45,0,.2,1), height 2s cubic-bezier(.45,0,.2,1), opacity 1.6s ease, color 1.7s ease; }
 @keyframes opFigPop { from { transform: translateY(10px) scale(0.55); } to { transform: none; } }
 .op-soc-lab { text-align: center; }
 .op-soc-lab .sl-n { font-family: var(--serif); font-size: 14px; font-weight: 600; color: var(--ivory); }

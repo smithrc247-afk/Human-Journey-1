@@ -193,16 +193,16 @@ window.OP_CAUSAL_EDGES = [
 /* tiers run apex → base; power 0..1 sets vertical height & figure scale;
    n is a representative head-count, not a literal census. */
 window.OP_SOCIETY = {
-  forager: { shape: "flat",
+  forager: { shape: "flat", scale: { head: "25–50 per band", detail: "networked into groups of ~150" },
     caption: "A flat band. Skill earns respect, never command — and the leveling mechanisms cut down anyone who tries to rise.",
     tiers: [{ label: "The band", n: 9, power: 0.36, note: "roughly equal" }],
     leveling: ["Mockery", "Demand sharing", "Mobility / exit", "Ridicule & ostracism"] },
-  neolithic: { shape: "emerging",
+  neolithic: { shape: "emerging", scale: { head: "150–1,000 per village", detail: "Çatalhöyük reached ~8,000" },
     caption: "Surplus appears, and with it the first tentative risers — whom many communities still refuse. The outcome is genuinely contested.",
     tiers: [
       { label: "Big-man / ritual figure?", n: 1, power: 0.6, note: "tentative · often refused" },
       { label: "Households", n: 8, power: 0.34, note: "communal granary" }] },
-  states: { shape: "pyramid",
+  states: { shape: "pyramid", scale: { head: "10,000–80,000 per city", detail: "Uruk among the first at this scale" },
     caption: "The machine closes into a pyramid — a god-king at the apex, sanctified from above; a mass of producers and bonded labour at the base.",
     tiers: [
       { label: "God-king", n: 1, power: 0.98 },
@@ -210,35 +210,35 @@ window.OP_SOCIETY = {
       { label: "Scribes & officials", n: 4, power: 0.55 },
       { label: "Farmers & labourers", n: 10, power: 0.28 },
       { label: "Bonded & enslaved", n: 6, power: 0.10 }] },
-  classical: { shape: "pyramid",
+  classical: { shape: "pyramid", scale: { head: "≈ 60 million", detail: "Rome & Han each governed tens of millions" },
     caption: "Codified law and citizenship as a hierarchy of belonging — resting on large-scale slavery.",
     tiers: [
       { label: "Emperor & elite", n: 1, power: 0.95 },
       { label: "Citizens", n: 4, power: 0.60 },
       { label: "Freedmen & plebs", n: 8, power: 0.33 },
       { label: "Enslaved", n: 8, power: 0.09 }] },
-  feudal: { shape: "pyramid",
+  feudal: { shape: "pyramid", scale: { head: "hundreds → millions", detail: "manor: hundreds · realm: millions" },
     caption: "Land-bound labour under divine right — the monarch, the church, the lord, the serf.",
     tiers: [
       { label: "Monarch & church", n: 1, power: 0.95 },
       { label: "Lords", n: 3, power: 0.72 },
       { label: "Knights & clergy", n: 5, power: 0.50 },
       { label: "Peasants & serfs", n: 13, power: 0.20 }] },
-  mercantile: { shape: "pyramid",
+  mercantile: { shape: "pyramid", scale: { head: "continental", detail: "trade & empire spanning four continents" },
     caption: "Power goes global — joint-stock companies and racialised chattel slavery across continents.",
     tiers: [
       { label: "Crown & companies", n: 1, power: 0.95 },
       { label: "Merchant elite", n: 3, power: 0.70 },
       { label: "Free labour", n: 7, power: 0.40 },
       { label: "Colonised & enslaved", n: 11, power: 0.08 }] },
-  industrial: { shape: "pyramid",
+  industrial: { shape: "pyramid", scale: { head: "tens–hundreds of millions", detail: "nation-states · factories of thousands" },
     caption: "Wage labour and the factory — and, for the first time, organised resistance pushing back up the slope.",
     tiers: [
       { label: "Capital owners", n: 1, power: 0.90 },
       { label: "Managers", n: 3, power: 0.64 },
       { label: "Wage workers", n: 13, power: 0.32 },
       { label: "Unemployed & colonised", n: 5, power: 0.12 }] },
-  present: { shape: "pyramid",
+  present: { shape: "pyramid", scale: { head: "≈ 8 billion", detail: "one connected species · platforms with billions of users" },
     caption: "Financialisation, platforms and data-as-surplus. Novel — or an old pyramid in new dress?",
     tiers: [
       { label: "Asset owners & platforms", n: 1, power: 0.93 },
