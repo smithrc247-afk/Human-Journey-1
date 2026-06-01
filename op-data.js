@@ -196,14 +196,14 @@ window.OP_CAUSAL_EDGES = [
    = how many independent groups humanity was divided into. Figures are
    representative estimates, chosen to show the shape of the change. ---- */
 window.OP_TOSCALE = [
-  { id: "forager",    num: "I",    name: "Forager Egalitarianism",  accent: "#8a9a5b", pop: 4e6,   popLabel: "≈ 4 million",   gsize: 50,    gsizeLabel: "~50 per band" },
-  { id: "neolithic",  num: "II",   name: "Neolithic Threshold",     accent: "#c79a4e", pop: 1e7,   popLabel: "≈ 10 million",  gsize: 1000,  gsizeLabel: "~1,000 per village" },
-  { id: "states",     num: "III",  name: "First States & God-Kings", accent: "#a8553e", pop: 3e7,   popLabel: "≈ 30 million",  gsize: 5e4,   gsizeLabel: "~50,000 per city" },
-  { id: "classical",  num: "IV",   name: "Classical Empires",       accent: "#6f93a8", pop: 2e8,   popLabel: "≈ 200 million", gsize: 6e7,   gsizeLabel: "empire ≈ 60 million" },
-  { id: "feudal",     num: "V",    name: "Feudal & Tributary",      accent: "#9a7b4e", pop: 3.2e8, popLabel: "≈ 320 million", gsize: 2e6,   gsizeLabel: "realm ≈ 2 million" },
-  { id: "mercantile", num: "VI",   name: "Mercantilism & Atlantic", accent: "#7d8a6f", pop: 5.5e8, popLabel: "≈ 550 million", gsize: 3e7,   gsizeLabel: "empire & network ≈ 30 million" },
-  { id: "industrial", num: "VII",  name: "Industrial Capitalism",   accent: "#9a6f6a", pop: 1.4e9, popLabel: "≈ 1.4 billion", gsize: 1e8,   gsizeLabel: "nation-state ≈ 100 million" },
-  { id: "present",    num: "VIII", name: "The Present",             accent: "#8a7da0", pop: 8.1e9, popLabel: "≈ 8.1 billion", gsize: 8.1e9, gsizeLabel: "one connected species" },
+  { id: "forager",    num: "I",    name: "Forager Egalitarianism",  accent: "#8a9a5b", pop: 4e6,   popLabel: "≈ 4 million",   gsize: 50,    gsizeLabel: "~50 per band",                gdp: 2e9,    gdpLabel: "≈ $2 billion" },
+  { id: "neolithic",  num: "II",   name: "Neolithic Threshold",     accent: "#c79a4e", pop: 1e7,   popLabel: "≈ 10 million",  gsize: 1000,  gsizeLabel: "~1,000 per village",          gdp: 5e9,    gdpLabel: "≈ $5 billion" },
+  { id: "states",     num: "III",  name: "First States & God-Kings", accent: "#a8553e", pop: 3e7,   popLabel: "≈ 30 million",  gsize: 5e4,   gsizeLabel: "~50,000 per city",            gdp: 1.5e10, gdpLabel: "≈ $15 billion" },
+  { id: "classical",  num: "IV",   name: "Classical Empires",       accent: "#6f93a8", pop: 2e8,   popLabel: "≈ 200 million", gsize: 6e7,   gsizeLabel: "empire ≈ 60 million",         gdp: 1e11,   gdpLabel: "≈ $100 billion" },
+  { id: "feudal",     num: "V",    name: "Feudal & Tributary",      accent: "#9a7b4e", pop: 3.2e8, popLabel: "≈ 320 million", gsize: 2e6,   gsizeLabel: "realm ≈ 2 million",           gdp: 1.8e11, gdpLabel: "≈ $180 billion" },
+  { id: "mercantile", num: "VI",   name: "Mercantilism & Atlantic", accent: "#7d8a6f", pop: 5.5e8, popLabel: "≈ 550 million", gsize: 3e7,   gsizeLabel: "empire & network ≈ 30 million", gdp: 3.5e11, gdpLabel: "≈ $350 billion" },
+  { id: "industrial", num: "VII",  name: "Industrial Capitalism",   accent: "#9a6f6a", pop: 1.4e9, popLabel: "≈ 1.4 billion", gsize: 1e8,   gsizeLabel: "nation-state ≈ 100 million",  gdp: 1.5e12, gdpLabel: "≈ $1.5 trillion" },
+  { id: "present",    num: "VIII", name: "The Present",             accent: "#8a7da0", pop: 8.1e9, popLabel: "≈ 8.1 billion", gsize: 8.1e9, gsizeLabel: "one connected species",       gdp: 1.3e14, gdpLabel: "≈ $130 trillion" },
 ];
 
 window.OP_SOCIETY = {
