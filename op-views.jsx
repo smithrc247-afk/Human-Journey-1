@@ -78,7 +78,7 @@ function OPSociety({ era }) {
   const top = soc.tiers[0], bot = soc.tiers[soc.tiers.length - 1];
   const apexY = yOf(top.power), baseY = yOf(bot.power) + 6;
   return (
-    <div className="op-soc" key={era.id}>
+    <div className="op-soc">
       <svg className="op-soc-bg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         {soc.shape === "pyramid" && <polygon points={`50,${apexY - 4} 90,${baseY + 6} 10,${baseY + 6}`} fill={ac} fillOpacity="0.07" stroke={ac} strokeOpacity="0.18" strokeWidth="0.4" />}
         {soc.shape === "flat" && <rect x="10" y={yOf(top.power) - 5} width="80" height="16" rx="3" fill={ac} fillOpacity="0.08" stroke={ac} strokeOpacity="0.2" strokeWidth="0.4" />}

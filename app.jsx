@@ -464,11 +464,13 @@ function App() {
   const dragTimeline = useDraggable("timeline", true);
   const dragMast = useDraggable("masthead", false);
   const dragMrPop = useDraggable("mrpop", false);   // mobile year+population counter
-  const dragPhoto = useDraggable("photo", false);
+  const dragPhoto = useDraggable("photoLR", false);
+  const dragOnmap = useDraggable("onmap", false);
   const rszReader = useResizable("reader", dragReader);
   const rszLegend = useResizable("legend", dragLegend);
   const rszGraph = useResizable("graph", dragGraph);
-  const rszPhoto = useResizable("photo", dragPhoto);
+  const rszPhoto = useResizable("photoLR", dragPhoto);
+  const rszOnmap = useResizable("onmap", dragOnmap);
 
   const globeRef = useRef(null);
   const canvasRef = useRef(null);
@@ -824,7 +826,6 @@ function App() {
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
         <span className="tb-group">
-          <span className="tb-label">{ui("globeType")}</span>
           <select className="tb-select" value={t.globeTheme} onChange={(e) => setTweak("globeTheme", e.target.value)} aria-label={ui("globeType")}>
             <option value="slate">{ui("theme_slate")}</option>
             <option value="relief">{ui("theme_relief")}</option>
@@ -870,18 +871,16 @@ function App() {
         </div>
       )}
 
-      {/* "On the map" legend (from the film) + lower-right photo gallery */}
-      {!story && (
-        <div className="br-stack">
-          {!isMobile && false && CaptionGallery && <CaptionGallery segIdx={curSegIdx} isMobile={false} label={ui("photos")} galleryLabel={ui("gallery")} onOpenGallery={() => setGalleryOpen(true)} />}
-          <div className="story-legend play-onmap">
-            <p className="sl-title">{ui("onTheMap")}</p>
-            <div className="sl-row"><span className="sl-g sl-region"></span><span>{ui("map_region")}</span></div>
-            <div className="sl-row"><span className="sl-g sl-route"></span><span>{ui("map_route")}</span></div>
-            <div className="sl-row"><span className="sl-g sl-dot"></span><span>{ui("map_settlement")}</span></div>
-            <div className="sl-row"><span className="sl-g sl-flow"></span><span>{ui("map_flow")}</span></div>
-            <div className="sl-row"><span className="sl-g sl-bar"></span><span>{ui("map_pop")}</span></div>
-          </div>
+      {/* "On the map" legend — lower-left, under the population graph; draggable + 4-corner resizable */}
+      {!story && !isMobile && (
+        <div className="story-legend play-onmap draggable rsz" onPointerDown={dragOnmap.onPointerDown} style={{ ...dragOnmap.style, ...rszOnmap.style }}>
+          {rszOnmap.handles}
+          <p className="sl-title">{ui("onTheMap")}</p>
+          <div className="sl-row"><span className="sl-g sl-region"></span><span>{ui("map_region")}</span></div>
+          <div className="sl-row"><span className="sl-g sl-route"></span><span>{ui("map_route")}</span></div>
+          <div className="sl-row"><span className="sl-g sl-dot"></span><span>{ui("map_settlement")}</span></div>
+          <div className="sl-row"><span className="sl-g sl-flow"></span><span>{ui("map_flow")}</span></div>
+          <div className="sl-row"><span className="sl-g sl-bar"></span><span>{ui("map_pop")}</span></div>
         </div>
       )}
 

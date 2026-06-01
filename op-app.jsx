@@ -85,7 +85,7 @@ const OP_TICKS = [
 
 function OPApp() {
   const eras = window.OP_ERAS;
-  const load = () => { try { const v = localStorage.getItem("op-era"); return (v === "primer" || eras.some((e) => e.id === v)) ? v : "primer"; } catch (e) { return "primer"; } };
+  const load = () => "primer";   // always open on the "What is power?" definition page
   const [activeId, setActiveId] = opAState(load);
   const [mode, setMode] = opAState("eras");
   const [focusThread, setFocusThread] = opAState(null);

@@ -138,7 +138,7 @@ body {
 .rsz-ne { top: 0; right: 0; cursor: nesw-resize; }
 .rsz-sw { bottom: 0; left: 0; cursor: nesw-resize; }
 .rsz-se { bottom: 0; right: 0; cursor: nwse-resize; }
-.cap-under { position: fixed; left: 34px; top: 372px; width: 360px; z-index: 9; }
+.cap-under { position: fixed; right: 34px; left: auto; bottom: 26px; width: 360px; z-index: 8; }
 .cap-under .cap-gallery { width: 100%; animation: none; }
 .ui-scale > *:not(.story-overlay) { pointer-events: auto; }
 
@@ -146,7 +146,7 @@ body {
 .pop-graph { z-index: 9; background: rgba(8,10,9,0.55);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--hair); border-radius: 4px; padding: 9px 11px 6px; }
-.pop-graph.explore { position: fixed; left: 34px; bottom: 132px; box-shadow: 0 14px 36px rgba(0,0,0,0.45);
+.pop-graph.explore { position: fixed; left: 34px; bottom: 248px; box-shadow: 0 14px 36px rgba(0,0,0,0.45);
   overflow: hidden; min-width: 220px; min-height: 96px; display: flex; flex-direction: column; }
 .pop-graph.explore svg { width: 100%; height: 100%; flex: 1; min-height: 0; display: block; }
 .pop-graph.film { position: fixed; left: 30px; top: calc(9vh + 92px); pointer-events: none; }
@@ -247,7 +247,7 @@ body {
 .tb-related-go { flex: none; width: 15px; height: 15px; color: var(--ivory-dim); opacity: 0; transform: translateX(-3px); transition: all 0.14s; }
 .tb-related-item:hover .tb-related-go { opacity: 1; transform: translateX(0); color: var(--brass-bright); }
 .mobile-only { display: none; }
-.tb-panel { display: grid; place-items: center; width: 30px; height: 28px; border-radius: 16px;
+.tb-panel { place-items: center; width: 30px; height: 28px; border-radius: 16px;
   background: rgba(232,224,205,0.05); border: 1px solid var(--hair); color: var(--ivory-dim); cursor: pointer; }
 .tb-panel:hover { color: var(--ivory); }
 /* mobile controls bottom-sheet */
@@ -526,10 +526,10 @@ body {
 /* Play: film caption + "On the map" legend reused alongside the explore chrome */
 .play-overlay .story-caption { bottom: 178px; }
 .play-caption { opacity: 1; transition: opacity 0.35s ease; }
-.story-legend.play-onmap { left: auto; right: 34px; bottom: 26px; top: auto; padding: 10px 13px; }
+.story-legend.play-onmap { left: 34px; right: auto; bottom: 80px; top: auto; padding: 10px 13px; z-index: 11;
+  pointer-events: auto; overflow: hidden; min-width: 150px; min-height: 88px;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.45); }
 .story-legend.play-onmap .sl-row { margin: 4px 0; font-size: 11.5px; }
-@media (max-width: 1180px) { .story-legend.play-onmap { display: none; } }
-@media (max-height: 760px) { .story-legend.play-onmap { display: none; } }
 .story-legend .sl-title { font-family: var(--mono); font-size: 9px; letter-spacing: 0.24em;
   text-transform: uppercase; color: var(--ivory-faint); margin: 0 0 9px; }
 .story-legend .sl-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; min-height: 14px;
