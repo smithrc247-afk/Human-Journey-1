@@ -13,6 +13,61 @@ const posToYa = (p) => Math.exp(L0 + (L1 - L0) * p);
 const yaToPos = (ya) => (Math.log(ya) - L0) / (L1 - L0);
 const logLerp = (a, b, t) => Math.exp(Math.log(a) + (Math.log(b) - Math.log(a)) * t);
 
+// ---- "Explore" app switcher (top-right toolbar) — kept identical across modules ------
+const RELATED_APPS = [
+  { id: "globe",   label: "The Human Journey",                   note: "Out of Africa — the atlas",     href: "index.html", current: true,
+    glyph: "M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20M12 2c3 3 3 17 0 20M12 2c-3 3-3 17 0 20" },
+  { id: "origins", label: "The Origins of Power",        note: "Part I · the mechanisms",       href: "The Origins of Power.html",
+    glyph: "M13 2L4 14h6l-1 8 9-12h-6z" },
+  { id: "iq",      label: "Power, Wealth & Inequality",  note: "Part II · the quantities",      href: "Power, Wealth & Inequality.html",
+    glyph: "M4 20L20 4M4 20h16M4 20V8" },
+  { id: "cast",    label: "The Cast & the Machine",      note: "Part III · roles & the state",  href: "The Cast and the Machine.html",
+    glyph: "M9 7a3 3 0 100-6 3 3 0 000 6zM3 21v-1.5A4.5 4.5 0 017.5 15M15 11a3 3 0 100-6 3 3 0 000 6zM21 21v-1.5A4.5 4.5 0 0016.5 15" },
+  { id: "excluded", label: "The Excluded & the Cracks",   note: "Part IV · cross-currents",        href: "The Excluded and the Cracks.html",
+    glyph: "M9 12h2m2 0h2M8 8.5A4 4 0 008 15.5h1.5M16 15.5a4 4 0 000-7.5H14.5" },
+  { id: "against",  label: "The Case Against",            note: "Part V · the objections",          href: "The Case Against.html",
+    glyph: "M12 3v18M8 21h8M3 7h18M6 7l-3 7h6zM18 7l-3 7h6z" },
+];
+
+function RelatedIdeas() {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e) => { if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    window.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDoc); window.removeEventListener("keydown", onKey); };
+  }, [open]);
+  return (
+    <span className="tb-related" ref={wrapRef}>
+      <button className={"tb-related-btn" + (open ? " on" : "")} onClick={() => setOpen((v) => !v)} aria-haspopup="true" aria-expanded={open}>
+        <svg className="tb-related-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
+        Explore
+        <svg className="tb-related-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      {open && (
+        <div className="tb-related-menu" role="menu">
+          <p className="tb-related-head">The Human Journey</p>
+          {RELATED_APPS.map((a) => (
+            a.current
+              ? <span key={a.id} className="tb-related-item current" role="menuitem" aria-disabled="true">
+                  <span className="tb-related-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={a.glyph}/></svg></span>
+                  <span className="tb-related-txt"><span className="tb-related-lab">{a.label}</span><span className="tb-related-note">You are here</span></span>
+                </span>
+              : <a key={a.id} className="tb-related-item" href={a.href} role="menuitem">
+                  <span className="tb-related-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={a.glyph}/></svg></span>
+                  <span className="tb-related-txt"><span className="tb-related-lab">{a.label}</span><span className="tb-related-note">{a.note}</span></span>
+                  <svg className="tb-related-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+          ))}
+        </div>
+      )}
+    </span>
+  );
+}
+
 // Play pace envelope: hold a steady half speed across the migration & first-
 // farming era (~70,000–9,500 ya) so it reads at a consistent, unhurried pace,
 // easing smoothly in (older) and out (recent) so the rate never jumps.
@@ -303,6 +358,8 @@ function useDraggable(key, centerX) {
   const offRef = React.useRef(off); offRef.current = off;
   const onPointerDown = (e) => {
     if (e.target.closest("button, input, select, a, .tl-track, .pg-scale, .speed-ctrl, .leg-item, .lb-row, .gt-row")) return;
+    const cr = e.currentTarget.getBoundingClientRect();
+    if (e.clientX > cr.right - 22 && e.clientY > cr.bottom - 22) return; // bottom-right corner = native resize, not drag
     e.preventDefault();
     const sx = e.clientX, sy = e.clientY, base = { ...offRef.current };
     const move = (ev) => setOff({ x: base.x + (ev.clientX - sx), y: base.y + (ev.clientY - sy) });
@@ -673,7 +730,7 @@ function App() {
       <div className="ui-scale">
       {/* masthead */}
       {!story && <div className="masthead">
-        <div className={"mast-grab" + (isMobile ? "" : " draggable")} {...(isMobile ? {} : dragMast)}>
+        <div className="mast-grab">
           <p className="eyebrow">{ui("eyebrow")}</p>
           <h1>{ui("titleA")} <em>{ui("titleB")}</em></h1>
           <p className="credit">{ui("credit1")} · {ui("credit2")}</p>
@@ -732,6 +789,7 @@ function App() {
         <select className="tb-select" value={lang} onChange={(e) => setLang(e.target.value)} aria-label={ui("language")}>
           {window.LANGS.map((L) => <option key={L.code} value={L.code}>{L.label}</option>)}
         </select>
+        <RelatedIdeas />
         <button className="tb-about" onClick={() => setAboutOpen(true)}>{(TL.about || EN.about).open}</button>
       </div>}
 
@@ -784,7 +842,7 @@ function App() {
       {/* legend */}
       {!story && <div className="legend draggable" {...dragLegend}>
         <p className="leg-title">
-          <span>{ui("formsOfBelief")}</span>
+          <span className="leg-handle"><span className="leg-grip" aria-hidden="true"></span>{ui("formsOfBelief")}</span>
           <button onClick={() => { setPinned(null); setActive(new Set(RELIGIONS.map((r) => r.id))); }}>{ui("reset")}</button>
         </p>
         {RELIGIONS.map((r) => {
