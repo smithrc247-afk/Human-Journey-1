@@ -268,7 +268,7 @@ function approachAngle(cur, target, k) {
 }
 
 // ---- population graph (log–log curve with a live marker) ----
-function PopGraph({ ya, variant, logScale, onToggle, dragProps, title, compact }) {
+function PopGraph({ ya, variant, logScale, onToggle, dragProps, title, compact, rsz }) {
   const W = compact ? 112 : 236, H = compact ? 38 : 110;
   const PADL = compact ? 3 : 32, PADR = compact ? 3 : 10, PADT = compact ? 5 : 12, PADB = compact ? 5 : 26;
   const MAXP = 8.2e9, START = window.TIME.start;
@@ -312,7 +312,10 @@ function PopGraph({ ya, variant, logScale, onToggle, dragProps, title, compact }
   const segFrac = Math.max(0, Math.min(1, (cx - pts[seg].x) / ((pts[seg + 1].x - pts[seg].x) || 1)));
   const cy = pts[seg].y + (pts[seg + 1].y - pts[seg].y) * segFrac;
   return (
-    <div className={"pop-graph " + variant + (compact ? " compact" : "") + (dragProps ? " draggable" : "")} {...(dragProps || {})}>
+    <div className={"pop-graph " + variant + (compact ? " compact" : "") + (dragProps ? " draggable rsz" : "")}
+      onPointerDown={dragProps && dragProps.onPointerDown}
+      style={{ ...(dragProps && dragProps.style), ...(rsz && rsz.style) }}>
+      {rsz && rsz.handles}
       {!compact && <div className="pg-head">
         <p className="pg-title">{title || "Human population"}</p>
         {onToggle && (
@@ -374,7 +377,45 @@ function useDraggable(key, centerX) {
   const transform = centerX
     ? `translate(calc(-50% + ${off.x}px), ${off.y}px)`
     : `translate(${off.x}px, ${off.y}px)`;
-  return { onPointerDown, style: { transform } };
+  const ctl = { onPointerDown, style: { transform } };
+  Object.defineProperty(ctl, "offRef", { value: offRef });
+  Object.defineProperty(ctl, "setOff", { value: setOff });
+  return ctl;
+}
+
+// resize a fixed panel from ANY corner; keeps the OPPOSITE corner anchored by
+// nudging the panel's drag offset, and remembers size in localStorage
+function useResizable(key, drag) {
+  const load = () => { try { return JSON.parse(localStorage.getItem("hj-size-" + key)) || null; } catch (e) { return null; } };
+  const [size, setSize] = React.useState(load);
+  const sizeRef = React.useRef(size); sizeRef.current = size;
+  const start = (corner) => (e) => {
+    e.preventDefault(); e.stopPropagation();
+    const panel = e.currentTarget.parentNode;
+    const us = document.querySelector(".ui-scale");
+    const z = us ? (parseFloat(getComputedStyle(us).zoom) || 1) : 1;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const base = sizeRef.current || { w: r.width / z, h: r.height / z };
+    const baseOff = drag ? { ...drag.offRef.current } : { x: 0, y: 0 };
+    const east = corner.indexOf("e") > -1, south = corner.indexOf("s") > -1;
+    const move = (ev) => {
+      let w = base.w + (east ? 1 : -1) * (ev.clientX - sx) / z;
+      let h = base.h + (south ? 1 : -1) * (ev.clientY - sy) / z;
+      w = Math.max(170, w); h = Math.max(96, h);
+      setSize({ w, h });
+      if (drag) drag.setOff({ x: east ? baseOff.x : baseOff.x - (w - base.w), y: south ? baseOff.y : baseOff.y - (h - base.h) });
+    };
+    const up = () => {
+      window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up);
+      try { localStorage.setItem("hj-size-" + key, JSON.stringify(sizeRef.current)); } catch (e) {}
+      if (drag) { try { localStorage.setItem("hj-pos-" + key, JSON.stringify(drag.offRef.current)); } catch (e) {} }
+    };
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up);
+  };
+  const handles = ["nw", "ne", "sw", "se"].map((c) => <span key={c} className={"rsz-h rsz-" + c} onPointerDown={start(c)}></span>);
+  const style = size ? { width: size.w + "px", height: size.h + "px" } : undefined;
+  return { handles, style };
 }
 
 function App() {
@@ -423,6 +464,11 @@ function App() {
   const dragTimeline = useDraggable("timeline", true);
   const dragMast = useDraggable("masthead", false);
   const dragMrPop = useDraggable("mrpop", false);   // mobile year+population counter
+  const dragPhoto = useDraggable("photo", false);
+  const rszReader = useResizable("reader", dragReader);
+  const rszLegend = useResizable("legend", dragLegend);
+  const rszGraph = useResizable("graph", dragGraph);
+  const rszPhoto = useResizable("photo", dragPhoto);
 
   const globeRef = useRef(null);
   const canvasRef = useRef(null);
@@ -796,7 +842,7 @@ function App() {
       {/* About modal */}
 
       {/* narrative reader */}
-      {!story && <div className="reader draggable" {...dragReader}>
+      {!story && <div className="reader draggable rsz" onPointerDown={dragReader.onPointerDown} style={{ ...dragReader.style, ...rszReader.style }}>{rszReader.handles}
         <p className="chapter-kicker">{chapter.title}</p>
         <h2 className="read-fade">{chapter.title}</h2>
         <p className="read-fade">{chapter.body}</p>
@@ -827,7 +873,7 @@ function App() {
       {/* "On the map" legend (from the film) + lower-right photo gallery */}
       {!story && (
         <div className="br-stack">
-          {!isMobile && CaptionGallery && <CaptionGallery segIdx={curSegIdx} isMobile={false} label={ui("photos")} galleryLabel={ui("gallery")} onOpenGallery={() => setGalleryOpen(true)} />}
+          {!isMobile && false && CaptionGallery && <CaptionGallery segIdx={curSegIdx} isMobile={false} label={ui("photos")} galleryLabel={ui("gallery")} onOpenGallery={() => setGalleryOpen(true)} />}
           <div className="story-legend play-onmap">
             <p className="sl-title">{ui("onTheMap")}</p>
             <div className="sl-row"><span className="sl-g sl-region"></span><span>{ui("map_region")}</span></div>
@@ -839,8 +885,16 @@ function App() {
         </div>
       )}
 
+      {/* photo box — under the title, draggable + resizable */}
+      {!story && !isMobile && CaptionGallery && (
+        <div className="cap-under draggable rsz" onPointerDown={dragPhoto.onPointerDown} style={{ ...dragPhoto.style, ...rszPhoto.style }}>
+          {rszPhoto.handles}
+          <CaptionGallery segIdx={curSegIdx} isMobile={false} label={ui("photos")} galleryLabel={ui("gallery")} onOpenGallery={() => setGalleryOpen(true)} />
+        </div>
+      )}
+
       {/* legend */}
-      {!story && <div className="legend draggable" {...dragLegend}>
+      {!story && <div className="legend draggable rsz" onPointerDown={dragLegend.onPointerDown} style={{ ...dragLegend.style, ...rszLegend.style }}>{rszLegend.handles}
         <p className="leg-title">
           <span className="leg-handle"><span className="leg-grip" aria-hidden="true"></span>{ui("formsOfBelief")}</span>
           <button onClick={() => { setPinned(null); setActive(new Set(RELIGIONS.map((r) => r.id))); }}>{ui("reset")}</button>
@@ -885,7 +939,7 @@ function App() {
 
 
       {/* on-page population graph */}
-      {!story && <PopGraph ya={ya} variant="explore" logScale={graphLog} onToggle={() => setGraphLog((v) => !v)} dragProps={dragGraph} title={ui("humanPopulation")} />}
+      {!story && <PopGraph ya={ya} variant="explore" logScale={graphLog} onToggle={() => setGraphLog((v) => !v)} dragProps={dragGraph} rsz={rszGraph} title={ui("humanPopulation")} />}
 
       {/* timeline */}
       {!story && <div className="timeline draggable" {...dragTimeline}>

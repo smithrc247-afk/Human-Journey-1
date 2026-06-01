@@ -132,6 +132,14 @@ body {
 
 /* ---- global UI chrome scale (keeps panels small so the globe breathes) ---- */
 .ui-scale { position: fixed; inset: 0; pointer-events: none; zoom: 0.85; z-index: 4; }
+/* any-corner resize handles + photo box under the title */
+.rsz-h { position: absolute; width: 20px; height: 20px; z-index: 1000; pointer-events: auto; }
+.rsz-nw { top: 0; left: 0; cursor: nwse-resize; }
+.rsz-ne { top: 0; right: 0; cursor: nesw-resize; }
+.rsz-sw { bottom: 0; left: 0; cursor: nesw-resize; }
+.rsz-se { bottom: 0; right: 0; cursor: nwse-resize; }
+.cap-under { position: fixed; left: 34px; top: 372px; width: 360px; z-index: 9; }
+.cap-under .cap-gallery { width: 100%; animation: none; }
 .ui-scale > *:not(.story-overlay) { pointer-events: auto; }
 
 /* ---- population graph (both modes) ---- */
@@ -139,7 +147,7 @@ body {
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--hair); border-radius: 4px; padding: 9px 11px 6px; }
 .pop-graph.explore { position: fixed; left: 34px; bottom: 132px; box-shadow: 0 14px 36px rgba(0,0,0,0.45);
-  resize: both; overflow: hidden; min-width: 220px; min-height: 96px; display: flex; flex-direction: column; }
+  overflow: hidden; min-width: 220px; min-height: 96px; display: flex; flex-direction: column; }
 .pop-graph.explore svg { width: 100%; height: 100%; flex: 1; min-height: 0; display: block; }
 .pop-graph.film { position: fixed; left: 30px; top: calc(9vh + 92px); pointer-events: none; }
 .pop-graph .pg-title { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
@@ -339,7 +347,7 @@ body {
 /* ---- legend (right) ---- */
 .legend {
   position: fixed; top: 96px; right: 34px; width: 232px; z-index: 4;
-  max-height: calc(100vh - 200px); overflow: auto; resize: both; min-width: 200px; min-height: 140px;
+  max-height: calc(100vh - 200px); overflow: auto; min-width: 200px; min-height: 140px;
   background: var(--panel);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--hair); border-radius: 3px; padding: 16px 16px 14px;
