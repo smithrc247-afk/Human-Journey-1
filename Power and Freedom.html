@@ -784,7 +784,8 @@ $('reset').onclick=()=>{MOVES.forEach(m=>state[m.id].x=0);syncSliders();clearPre
 b.addEventListener('click',e=>{e.stopPropagation();m.classList.toggle('open');});
 document.addEventListener('click',()=>m.classList.remove('open'));})();
 
-buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument');
+buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument'); introInit();
 </script>
+<script src="pf-i18n.js?v=15"></script>
 </body>
 </html>
