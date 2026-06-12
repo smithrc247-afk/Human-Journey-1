@@ -447,7 +447,7 @@ function sceneSVG(ev,F,pk,year){
         const eA=a*a*(3-2*a);                              // eased slide
         const x=RC.x+(bx-RC.x)*lerp(1.16,1,eA), y=RC.y+(by-RC.y)*lerp(1.16,1,eA); // newcomers converge in from just outside
         let col,op,tk;
-        if(row.role==='elite'){const yel=ELITEROLL[(ri*5+k)%ELITEROLL.length]<tShare;col=yel?ROLECOL.priest:ROLECOL.leader;op=(yel?0.85:0.9)*cl(a*1.8);tk=yel?'eliteP':'eliteL';}
+        if(row.role==='elite'){const yel=ELITEROLL[(ri*5+k)%ELITEROLL.length]<tShare;col=yel?ROLECOL.priest:ROLECOL.leader;const gate=yel?cl((tPriest-0.06)*1.7):cl((tRuler-0.06)*1.7);op=(yel?0.85:0.9)*cl(a*1.8)*gate;tk=yel?'eliteP':'eliteL';}
         else{col=ROLECOL[row.role];op=ROLEOP[row.role]*cl(a*1.8);tk=row.role;}
         cr+=`<g data-tip="${tk}" style="cursor:help">`+crowdFig(x,y,US,col,op)+`</g>`;}
     });
@@ -569,13 +569,13 @@ function yearFor(T){const S=[[-300000,-3000],[-3000,-800],[-800,500],[500,1450],
 function fmtYear(y){y=Math.round(y);if(y<0){const a=-y,r=a>3000?100:50,v=Math.round(a/r)*r;return v.toLocaleString()+' BCE';}const v=Math.max(5,Math.round(y/5)*5);return v+' CE';}
 const FLAB={C:'Saying no grows costly',M:'The door is closing',B:'The means of living enclosed',E:'Knowledge narrows',N:'Influence settles on one person'};
 const BEATS=[
-  {t:0.05,f:[['M','The door is open'],['C','Saying no is safe']],title:'Egalitarian foragers',body:['For most of human history, power lived in relationships and stayed flat — kept flat on purpose.','The boastful were teased, the bossy ignored, and anyone could walk away.','The take-back power is alive and used daily: no one keeps what they hoard or commands what they cannot persuade.']},
-  {t:0.17,f:[['E','Knowledge sealed'],['B','Means of living enclosed']],title:'Early city-states & god-kings',body:['Stored grain feeds priests, scribes and soldiers who never farm.','The temple keeps the accounts and the god-king fuses throne and altar — refusal becomes heresy.','The take-back power, once lent, is now seized: this is the power of the state.']},
-  {t:0.31,f:[['C','Force becomes law'],['B','Slavery at the base']],title:'Classical empires',body:['Codified law, coinage and a standing army turn the order into a <b>structure</b>, not just a person.','Mass slavery is built into the economy — the enslaved produce much and own nothing.','Power now outlives any single ruler; the machinery persists.']},
-  {t:0.46,f:[['M','The door stays shut'],['N','Office made hereditary']],title:'Feudalism',body:['Born a serf, die a serf. Land is bound to bloodline.','The lord is owner, judge and warrior at once, and the way out stays closed.','The order is held to be ordained — not chosen.']},
-  {t:0.61,f:[['B','Capital fuses with force'],['M','The Atlantic trade']],title:'Mercantilism & Colonialism',body:['Power goes global. Chartered companies fuse capital with state force and rule millions.','A racialised, heritable enslaved class is built at the base — bondage made uncrossable.','The bundle of ownership and command migrates from a person to a company.']},
-  {t:0.74,f:[['M','The worker is free'],['N','…and can organise']],title:'Industrial Capitalism',body:['Mills concentrate wealth as never before.','But the worker, legally free and massed in factories, can <b>organise</b>.','Unions, the vote and the welfare state bend the curve back — the one great compression.']},
-  {t:0.91,f:[['N','Ownership re-fuses with management'],['E','Influence runs worldwide']],title:'The Modern Globalized Economy',body:['Formal power is one-person-one-vote, yet wealth re-concentrates at the top.','Ownership re-fuses with management, and the determinants now run worldwide.','The order is costly to hold up, and — as ever — never quite beyond undoing; any undoing begins at the door.']}
+  {t:0.05,f:[['M','The door is open'],['C','Saying no is safe']],title:'Power is shared',body:['For most of human history, power lived in relationships and stayed flat — kept flat on purpose.','The boastful were teased, the bossy ignored, and anyone could walk away.','The take-back power is alive and used daily: no one keeps what they hoard or commands what they cannot persuade.']},
+  {t:0.17,f:[['E','Knowledge sealed'],['B','Means of living enclosed']],title:'The state is born',body:['Stored grain feeds priests, scribes and soldiers who never farm.','The temple keeps the accounts and the god-king fuses throne and altar — refusal becomes heresy.','The take-back power, once lent, is now seized: this is the power of the state.']},
+  {t:0.31,f:[['C','Force becomes law'],['B','Slavery at the base']],title:'Power outlives the ruler',body:['Codified law, coinage and a standing army turn the order into a <b>structure</b>, not just a person.','Mass slavery is built into the economy — the enslaved produce much and own nothing.','Power now outlives any single ruler; the machinery persists.']},
+  {t:0.46,f:[['M','The door stays shut'],['N','Office made hereditary']],title:'The door is bolted',body:['Every escape route is shut at once: no exit, no refusal, no independent living.','The take-back power is no longer just blocked — it is now believed to be illegitimate.']},
+  {t:0.61,f:[['B','Capital fuses with force'],['M','The Atlantic trade']],title:'Command without a face',body:['The bundle of ownership and force migrates from a person to an immortal company — so no one is responsible.','Across the ocean, bondage is made racial and heritable: a door that can never be reopened.']},
+  {t:0.74,f:[['M','The worker is free'],['N','…and can organise']],title:'The door cracks open',body:['For the first time the trend reverses: the worker is legally free to leave, refuse and organise.','Unions, the vote and the welfare state claw the take-back power partway back.']},
+  {t:0.91,f:[['N','Ownership re-fuses with management'],['E','Influence runs worldwide']],title:'Re-fused at the top',body:['One-person-one-vote, yet ownership re-merges with management and influence runs worldwide.','Costly to hold up, never quite beyond undoing — and any undoing still begins at the door.']}
 ];
 let tlMode=false, tlPlaying=false, T=0, tlLast=0, nextBeat=0, splashUntil=0; const TL_DUR=78000, LINE_DT=1500;
 function applyTimeline(){MOVES.forEach(m=>state[m.id].x=sched(m.id,T));}
@@ -814,6 +814,6 @@ document.addEventListener('click',()=>m.classList.remove('open'));})();
 
 buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument'); introInit();
 </script>
-<script src="pf-i18n.js?v=17"></script>
+<script src="pf-i18n.js?v=18"></script>
 </body>
 </html>
