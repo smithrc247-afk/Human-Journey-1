@@ -517,37 +517,39 @@ function syncSliders(){MOVES.forEach(m=>{const inp=$('mv-'+m.id).querySelector('
 
 /* ---- timeline: one common, illustrative road ---- */
 const TL=[
-  {id:'sacred',  a:0.08,b:0.20,v:0.80},
-  {id:'aggr',    a:0.22,b:0.34,v:0.70},
-  {id:'tribute', a:0.26,b:0.40,v:0.80},
-  {id:'war',     a:0.30,b:0.44,v:0.85},
-  {id:'sed',     a:0.36,b:0.50,v:0.72},
-  {id:'property',a:0.42,b:0.54,v:0.82},
-  {id:'records', a:0.46,b:0.58,v:0.70},
-  {id:'lifelong',a:0.52,b:0.62,v:0.82},
-  {id:'monument',a:0.60,b:0.72,v:0.76},
-  {id:'hered',   a:0.66,b:0.78,v:0.76},
-  {id:'sacralize',a:0.66,b:0.82,v:0.85}
+  {id:'sacred',  a:0.211,b:0.314,v:0.80},
+  {id:'aggr',    a:0.331,b:0.434,v:0.70},
+  {id:'tribute', a:0.366,b:0.486,v:0.80},
+  {id:'war',     a:0.400,b:0.520,v:0.85},
+  {id:'sed',     a:0.451,b:0.571,v:0.72},
+  {id:'property',a:0.503,b:0.606,v:0.82},
+  {id:'records', a:0.537,b:0.640,v:0.70},
+  {id:'lifelong',a:0.589,b:0.674,v:0.82},
+  {id:'monument',a:0.657,b:0.760,v:0.76},
+  {id:'hered',   a:0.709,b:0.811,v:0.76},
+  {id:'sacralize',a:0.709,b:0.846,v:0.85}
 ];
 const sched=(id,T)=>{const e=TL.find(x=>x.id===id);return e?e.v*ss((T-e.a)/(e.b-e.a)):0;};
 function eraFor(T){const y=yearFor(T);
-  if(y<-800)return['Early city-states &amp; god-kings','Stored grain feeds those who never farm. The temple keeps the accounts and the god-king fuses throne and altar — the take-back power, once lent, is seized.'];
+  if(y<-3000)return['Egalitarian foragers','Power is shared among equals and kept flat on purpose — the boastful teased, the bossy ignored, and anyone free to walk away. The take-back power is alive, used daily.'];
+  if(y<-800)return['Early city-states & god-kings','Stored grain feeds those who never farm. The temple keeps the accounts and the god-king fuses throne and altar — the take-back power, once lent, is seized.'];
   if(y<500)return['Classical empires','Codified law, coinage and mass slavery. The order runs as a structure, not just a person — and the enslaved produce much yet own nothing.'];
   if(y<1450)return['Feudalism','Born a serf, die a serf. Land is bound to bloodline; the lord is owner, judge and warrior at once, and the way out stays closed.'];
-  if(y<1800)return['Mercantilism &amp; Colonialism','Power goes global. Chartered companies fuse capital with state force, and a racialised, heritable enslaved class is built at the base.'];
+  if(y<1800)return['Mercantilism & Colonialism','Power goes global. Chartered companies fuse capital with state force, and a racialised, heritable enslaved class is built at the base.'];
   if(y<1970)return['Industrial Capitalism','Mills concentrate wealth — yet the worker, legally free and massed in factories, can organise. Unions, the vote and the welfare state bend the curve back.'];
   return['The Modern Globalized Economy','Formal power is one-person-one-vote, yet wealth re-concentrates at the top. Ownership re-fuses with management, and the determinants run worldwide.'];
 }
-function yearFor(T){const S=[[-3000,-800],[-800,500],[500,1450],[1450,1800],[1800,1970],[1970,2025]];const i=Math.min(5,Math.floor(T*6)),f=T*6-i;return S[i][0]+(S[i][1]-S[i][0])*f;}
+function yearFor(T){const S=[[-300000,-3000],[-3000,-800],[-800,500],[500,1450],[1450,1800],[1800,1970],[1970,2025]];const i=Math.min(6,Math.floor(T*7)),f=T*7-i;return S[i][0]+(S[i][1]-S[i][0])*f;}
 function fmtYear(y){y=Math.round(y);if(y<0){const a=-y,r=a>3000?100:50,v=Math.round(a/r)*r;return v.toLocaleString()+' BCE';}const v=Math.max(5,Math.round(y/5)*5);return v+' CE';}
 const FLAB={C:'Saying no grows costly',M:'The door is closing',B:'The means of living enclosed',E:'Knowledge narrows',N:'Influence settles on one person'};
 const BEATS=[
-  {t:0.03,f:[['E','Knowledge sealed'],['B','Means of living enclosed']],title:'Early city-states & god-kings',body:['Stored grain feeds priests, scribes and soldiers who never farm.','The temple keeps the accounts and the god-king fuses throne and altar — refusal becomes heresy.','The take-back power, once lent, is now seized: this is the power of the state.']},
-  {t:0.20,f:[['C','Force becomes law'],['B','Slavery at the base']],title:'Classical empires',body:['Codified law, coinage and a standing army turn the order into a <b>structure</b>, not just a person.','Mass slavery is built into the economy — the enslaved produce much and own nothing.','Power now outlives any single ruler; the machinery persists.']},
-  {t:0.37,f:[['M','The door stays shut'],['N','Office made hereditary']],title:'Feudalism',body:['Born a serf, die a serf. Land is bound to bloodline.','The lord is owner, judge and warrior at once, and the way out stays closed.','The order is held to be ordained — not chosen.']},
-  {t:0.54,f:[['B','Capital fuses with force'],['M','The Atlantic trade']],title:'Mercantilism & Colonialism',body:['Power goes global. Chartered companies fuse capital with state force and rule millions.','A racialised, heritable enslaved class is built at the base — bondage made uncrossable.','The bundle of ownership and command migrates from a person to a company.']},
-  {t:0.70,f:[['M','The worker is free'],['N','…and can organise']],title:'Industrial Capitalism',body:['Mills concentrate wealth as never before.','But the worker, legally free and massed in factories, can <b>organise</b>.','Unions, the vote and the welfare state bend the curve back — the one great compression.']},
-  {t:0.90,f:[['N','Ownership re-fuses with management'],['E','Influence runs worldwide']],title:'The Modern Globalized Economy',body:['Formal power is one-person-one-vote, yet wealth re-concentrates at the top.','Ownership re-fuses with management, and the determinants now run worldwide.','The order is costly to hold up, and — as ever — never quite beyond undoing; any undoing begins at the door.']}
+  {t:0.05,f:[['M','The door is open'],['C','Saying no is safe']],title:'Egalitarian foragers',body:['For most of human history, power lived in relationships and stayed flat — kept flat on purpose.','The boastful were teased, the bossy ignored, and anyone could walk away.','The take-back power is alive and used daily: no one keeps what they hoard or commands what they cannot persuade.']},
+  {t:0.17,f:[['E','Knowledge sealed'],['B','Means of living enclosed']],title:'Early city-states & god-kings',body:['Stored grain feeds priests, scribes and soldiers who never farm.','The temple keeps the accounts and the god-king fuses throne and altar — refusal becomes heresy.','The take-back power, once lent, is now seized: this is the power of the state.']},
+  {t:0.31,f:[['C','Force becomes law'],['B','Slavery at the base']],title:'Classical empires',body:['Codified law, coinage and a standing army turn the order into a <b>structure</b>, not just a person.','Mass slavery is built into the economy — the enslaved produce much and own nothing.','Power now outlives any single ruler; the machinery persists.']},
+  {t:0.46,f:[['M','The door stays shut'],['N','Office made hereditary']],title:'Feudalism',body:['Born a serf, die a serf. Land is bound to bloodline.','The lord is owner, judge and warrior at once, and the way out stays closed.','The order is held to be ordained — not chosen.']},
+  {t:0.61,f:[['B','Capital fuses with force'],['M','The Atlantic trade']],title:'Mercantilism & Colonialism',body:['Power goes global. Chartered companies fuse capital with state force and rule millions.','A racialised, heritable enslaved class is built at the base — bondage made uncrossable.','The bundle of ownership and command migrates from a person to a company.']},
+  {t:0.74,f:[['M','The worker is free'],['N','…and can organise']],title:'Industrial Capitalism',body:['Mills concentrate wealth as never before.','But the worker, legally free and massed in factories, can <b>organise</b>.','Unions, the vote and the welfare state bend the curve back — the one great compression.']},
+  {t:0.91,f:[['N','Ownership re-fuses with management'],['E','Influence runs worldwide']],title:'The Modern Globalized Economy',body:['Formal power is one-person-one-vote, yet wealth re-concentrates at the top.','Ownership re-fuses with management, and the determinants now run worldwide.','The order is costly to hold up, and — as ever — never quite beyond undoing; any undoing begins at the door.']}
 ];
 let tlMode=false, tlPlaying=false, T=0, tlLast=0, nextBeat=0, splashUntil=0; const TL_DUR=78000, LINE_DT=1500;
 function applyTimeline(){MOVES.forEach(m=>state[m.id].x=sched(m.id,T));}
@@ -786,6 +788,6 @@ document.addEventListener('click',()=>m.classList.remove('open'));})();
 
 buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument'); introInit();
 </script>
-<script src="pf-i18n.js?v=16"></script>
+<script src="pf-i18n.js?v=17"></script>
 </body>
 </html>
