@@ -17,6 +17,8 @@ const PV_APPS = [
     glyph: "M9 12h2m2 0h2M8 8.5A4 4 0 008 15.5h1.5M16 15.5a4 4 0 000-7.5H14.5" },
   { id: "against",  label: "The Case Against",            note: "Part V · the objections",           href: "The Case Against.html", current: true,
     glyph: "M12 3v18M8 21h8M3 7h18M6 7l-3 7h6zM18 7l-3 7h6z" },
+  { id: "freedom",  label: "Power and Freedom",           note: "Part VI · the theory of freedom",  href: "Power and Freedom.html",
+    glyph: "M4 21h16M6 21V4h9v17M12 12.5h1.5" },
 ];
 
 function PVNav() {
