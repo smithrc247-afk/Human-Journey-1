@@ -228,8 +228,10 @@
     /* intro deck + popups: fit small screens */
     #overlay{position:fixed}
     .pop{padding:18px 16px}
-    .ideck{height:auto;min-height:0}
-    .istep.on{max-height:64vh}
+    .ideck{height:auto;min-height:0;max-height:none}
+    .istep.on{max-height:54vh;overflow:auto;padding-right:6px}
+    .istep h4{font-size:15px}
+    .istep p{font-size:12.5px;line-height:1.45}
     .icards{grid-template-columns:repeat(2,1fr)}
     .irow{flex-wrap:wrap}
     .ilab{width:100%}
@@ -760,7 +762,12 @@ function introGo(n){INTRO.step=Math.max(0,Math.min(3,n));
   if(x)x.style.visibility=INTRO.step===3?'hidden':'visible';}
 function introInit(){if(!$('ist0')||!$('iaM'))return; INTRO.lent=false;INTRO.dis=0;
   document.querySelectorAll('.idots .dot').forEach((d,k)=>d.onclick=()=>introGo(k));
-  introGo(0);i3u();i5u();}
+  introGo(0);i3u();i5u();
+  const deck=document.querySelector('.ideck');
+  if(deck&&!deck.dataset.sw){deck.dataset.sw='1';let sx=0,sy=0;
+    deck.addEventListener('touchstart',ev=>{sx=ev.touches[0].clientX;sy=ev.touches[0].clientY;},{passive:true});
+    deck.addEventListener('touchend',ev=>{const dx=ev.changedTouches[0].clientX-sx,dy=ev.changedTouches[0].clientY-sy;
+      if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.4)introGo(INTRO.step+(dx<0?1:-1));},{passive:true});}}
 function i1t(){INTRO.lent=!INTRO.lent;
   $('i1L').style.transform=INTRO.lent?'translate(0,-34px)':'translate(0,0)';
   $('i1b').textContent=INTRO.lent?'Take it back':'Lend power upward';
