@@ -8,18 +8,14 @@ const { useState: opAState, useRef: opARef, useEffect: opAEffect } = React;
 const OP_APPS = [
   { id: "globe",   label: "The Human Journey",                   note: "Out of Africa — the atlas",     href: "index.html",
     glyph: "M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20M12 2c3 3 3 17 0 20M12 2c-3 3-3 17 0 20" },
+  { id: "freedom",  label: "Power and Freedom",           note: "Part VI · the theory of freedom",  href: "Power and Freedom.html",
+    glyph: "M4 21h16M6 21V4h9v17M12 12.5h1.5" },
   { id: "origins", label: "The Origins of Power",        note: "Part I · the mechanisms",       href: "The Origins of Power.html", current: true,
     glyph: "M13 2L4 14h6l-1 8 9-12h-6z" },
   { id: "iq",      label: "Power, Wealth & Inequality",  note: "Part II · the quantities",      href: "Power, Wealth & Inequality.html",
     glyph: "M4 20L20 4M4 20h16M4 20V8" },
   { id: "cast",    label: "The Cast & the Machine",      note: "Part III · roles & the state",  href: "The Cast and the Machine.html",
     glyph: "M9 7a3 3 0 100-6 3 3 0 000 6zM3 21v-1.5A4.5 4.5 0 017.5 15M15 11a3 3 0 100-6 3 3 0 000 6zM21 21v-1.5A4.5 4.5 0 0016.5 15" },
-  { id: "excluded", label: "The Excluded & the Cracks",   note: "Part IV · cross-currents",        href: "The Excluded and the Cracks.html",
-    glyph: "M9 12h2m2 0h2M8 8.5A4 4 0 008 15.5h1.5M16 15.5a4 4 0 000-7.5H14.5" },
-  { id: "against",  label: "The Case Against",            note: "Part V · the objections",          href: "The Case Against.html",
-    glyph: "M12 3v18M8 21h8M3 7h18M6 7l-3 7h6zM18 7l-3 7h6z" },
-  { id: "freedom",  label: "Power and Freedom",           note: "Part VI · the theory of freedom",  href: "Power and Freedom.html",
-    glyph: "M4 21h16M6 21V4h9v17M12 12.5h1.5" },
 ];
 
 function OPNav() {
