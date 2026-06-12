@@ -610,13 +610,13 @@ const TL=[
 ];
 const sched=(id,T)=>{const e=TL.find(x=>x.id===id);return e?e.v*ss((T-e.a)/(e.b-e.a)):0;};
 function eraFor(T){const y=yearFor(T);
-  if(y<-3000)return['Egalitarian foragers','Power is shared among equals and kept flat on purpose — the boastful teased, the bossy ignored, and anyone free to walk away. The take-back power is alive, used daily.'];
-  if(y<-800)return['Early city-states & god-kings','Stored grain feeds those who never farm. The temple keeps the accounts and the god-king fuses throne and altar — the take-back power, once lent, is seized.'];
-  if(y<500)return['Classical empires','Codified law, coinage and mass slavery. The order runs as a structure, not just a person — and the enslaved produce much yet own nothing.'];
-  if(y<1450)return['Feudalism','Born a serf, die a serf. Land is bound to bloodline; the lord is owner, judge and warrior at once, and the way out stays closed.'];
-  if(y<1800)return['Mercantilism & Colonialism','Power goes global. Chartered companies fuse capital with state force, and a racialised, heritable enslaved class is built at the base.'];
-  if(y<1970)return['Industrial Capitalism','Mills concentrate wealth — yet the worker, legally free and massed in factories, can organise. Unions, the vote and the welfare state bend the curve back.'];
-  return['The Modern Globalized Economy','Formal power is one-person-one-vote, yet wealth re-concentrates at the top. Ownership re-fuses with management, and the determinants run worldwide.'];
+  if(y<-3000)return['Egalitarian foragers','A few dozen people, and no one in charge for long. Leadership rotates by task — a hunt leader, a healer, a voice in council — then dissolves.'];
+  if(y<-800)return['Early city-states & god-kings','The first cities: tens of thousands under a single apex, fed by temple granaries and ruled by a priesthood that can read and write.'];
+  if(y<500)return['Classical empires','Empires of tens of millions, held together by written law, coined money and a professional army — resting on a vast enslaved workforce.'];
+  if(y<1450)return['Feudalism','Power fragments into the land itself: each lord owns, judges and defends his own manor, while peasants are bound to the soil they work.'];
+  if(y<1800)return['Mercantilism & Colonialism','Chartered companies with their own fleets and armies span four continents, financed by an Atlantic economy of plantation slavery.'];
+  if(y<1970)return['Industrial Capitalism','Factories, wage labour and the nation-state. Ownership and management split into separate hands for the first time.'];
+  return['The Modern Globalized Economy','One connected species and a roughly $110-trillion economy — formal equality at the ballot box above a steep concentration of wealth.'];
 }
 function yearFor(T){const S=[[-300000,-3000],[-3000,-800],[-800,500],[500,1450],[1450,1800],[1800,1970],[1970,2025]];const i=Math.min(6,Math.floor(T*7)),f=T*7-i;return S[i][0]+(S[i][1]-S[i][0])*f;}
 function fmtYear(y){y=Math.round(y);if(y<0){const a=-y,r=a>3000?100:50,v=Math.round(a/r)*r;return v.toLocaleString()+' BCE';}const v=Math.max(5,Math.round(y/5)*5);return v+' CE';}
@@ -867,6 +867,6 @@ document.addEventListener('click',()=>m.classList.remove('open'));})();
 
 buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument'); introInit();
 </script>
-<script src="pf-i18n.js?v=20"></script>
+<script src="pf-i18n.js?v=21"></script>
 </body>
 </html>
