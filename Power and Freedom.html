@@ -186,6 +186,58 @@
   .expMenu a span{display:block;font-family:var(--mono);font-size:10px;color:var(--tx3);margin-top:1px}
   .expMenu a:hover{background:var(--panel2)}
   .expMenu a.cur{opacity:.55;cursor:default}
+
+  /* ===== mobile / small-screen layout ===== */
+  @media (max-width:760px){
+    body{overflow:auto;font-size:13.5px;-webkit-text-size-adjust:100%}
+    .app{height:auto;min-height:100dvh;display:flex;flex-direction:column}
+    /* top bar: stack brand over controls, let controls wrap */
+    .top{padding:8px 12px;gap:8px}
+    .brand h1{font-size:16px}
+    .brand p{font-size:11px}
+    .brand .cav{display:none}
+    .top .right{margin-left:0;width:100%;flex-wrap:wrap;gap:6px}
+    .top .right .chip,.top .right .ibtn{flex:0 0 auto}
+    .expMenu{right:auto;left:0}
+    /* main: stack scene, gauges, palette */
+    .main{flex-direction:column;min-height:0}
+    .scene{flex:none;height:54vh;min-height:320px}
+    #pivotWrap.tl{height:150px}
+    .reading{top:10px;left:12px;right:12px}
+    .reading .cfg{font-size:16px}
+    .reading .rc{font-size:11.5px;max-width:none}
+    /* gauges: full width, reflow bars into a compact 2-up grid */
+    .gauges{width:auto;flex:none;border-left:none;border-top:1px solid var(--line);
+      flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:8px 14px;padding:12px;overflow:visible}
+    .gauges h2{width:100%;margin:2px 0 0}
+    .gauges .g{flex:1 1 140px;min-width:140px}
+    .gauges .verdict{width:100%}
+    .gauges .smalls{width:100%;margin-top:4px}
+    /* palette: full width below */
+    .palette{width:auto;flex:none;border-left:none;border-top:1px solid var(--line);max-height:none;overflow:visible;padding:12px}
+    /* bottom: comfortable wrapping */
+    .bottom{padding:10px 12px}
+    .compare{gap:8px}
+    .cmp{min-width:calc(50% - 5px)}
+    #sandboxBar{flex-direction:column;gap:10px}
+    .acts{flex-direction:row;flex-wrap:wrap}
+    .acts .btn{flex:1 1 auto}
+    .tlrow{flex-wrap:wrap}
+    .tlyear{min-width:92px;font-size:12px}
+    #tlScrub{flex:1 1 100%;order:3}
+    /* intro deck + popups: fit small screens */
+    .pop{padding:18px 16px}
+    .ideck{height:auto;min-height:0}
+    .istep.on{max-height:64vh}
+    .icards{grid-template-columns:repeat(2,1fr)}
+    .irow{flex-wrap:wrap}
+    .ilab{width:100%}
+    .irow input{flex:1 1 70%}
+    #tip{max-width:80vw}
+  }
+  @media (max-width:760px) and (orientation:landscape){
+    .scene{height:78vh}
+  }
 </style>
 </head>
 <body>
@@ -741,7 +793,7 @@ const POP={
   argument:['Power and Freedom','A visual introduction',`<div class="ideck">
 <div class="istep" id="ist0">
   <h4>Power is lent</h4>
-  <p>In a small band, power lives in relationships and stays flat — kept flat on purpose. Sometimes the band hands power upward: they choose a hunt leader, a healer, a voice in council.<br>These individuals can use charisma to be elevated to their position, convincing the group to hand over power to them.<br>Everything depends on the question that comes <i>after</i>: <b style="color:#5BE0A8">can the group take it back — really, survivably?</b></p>
+  <p>In a small band, power lives in relationships and stays flat — kept flat on purpose. Sometimes the band hands power upward: they choose a hunt leader, a healer, a voice in council.<br>These individuals can use charisma or prestige to convince the group to hand over power to them.<br>Everything depends on the question that comes <i>after</i>: <b style="color:#5BE0A8">can the group take it back — really, survivably?</b></p>
   ${i1svg()}
   <div style="text-align:center;margin-top:2px"><button class="ibtnP" id="i1b" onclick="i1t()">Lend power upward</button></div>
   <div class="icap" id="i1cap" style="text-align:center">Taken back. Using the power now and then is what keeps it in working order.</div>
@@ -814,6 +866,6 @@ document.addEventListener('click',()=>m.classList.remove('open'));})();
 
 buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument'); introInit();
 </script>
-<script src="pf-i18n.js?v=19"></script>
+<script src="pf-i18n.js?v=20"></script>
 </body>
 </html>
