@@ -530,25 +530,24 @@ const TL=[
   {id:'sacralize',a:0.66,b:0.82,v:0.85}
 ];
 const sched=(id,T)=>{const e=TL.find(x=>x.id===id);return e?e.v*ss((T-e.a)/(e.b-e.a)):0;};
-function eraFor(T){
-  if(T<0.10)return['The flat band','Equals held flat by active leveling — ridicule, ostracism, exile for upstarts. Many societies also assembled and dissolved hierarchy with the seasons.'];
-  if(T<0.28)return['The sacred sets apart','A charismatic specialist begins to mediate the spirits. Shamanism \u2014 old as the ice ages \u2014 hardens into an office.'];
-  if(T<0.46)return['Leaders &amp; warriors rise','Authority is lent to a big-man; a war-band gathers behind it — and as fields fix people in place, the door begins to close: walking away now means abandoning cleared land and stored harvests, and with the country filling in there is less and less empty land to walk to.'];
-  if(T<0.66)return['Tribute, property, permanence','With the way out closed, every other hold tightens: surplus flows up, hoarding becomes a right, office is made to last.'];
-  if(T<0.77)return['Monument &amp; inheritance','The order is built in stone and passed to heirs.'];
-  return yearFor(T)>1945?['Empire','The order is declared eternal and grows \u2014 the take-back power seized, yet never quite beyond undoing.']:['Divine kingship &amp; empire','The order is declared eternal and grows \u2014 the take-back power seized, yet never quite beyond undoing.'];
+function eraFor(T){const y=yearFor(T);
+  if(y<-800)return['Early city-states &amp; god-kings','Stored grain feeds those who never farm. The temple keeps the accounts and the god-king fuses throne and altar — the take-back power, once lent, is seized.'];
+  if(y<500)return['Classical empires','Codified law, coinage and mass slavery. The order runs as a structure, not just a person — and the enslaved produce much yet own nothing.'];
+  if(y<1450)return['Feudalism','Born a serf, die a serf. Land is bound to bloodline; the lord is owner, judge and warrior at once, and the way out stays closed.'];
+  if(y<1800)return['Mercantilism &amp; Colonialism','Power goes global. Chartered companies fuse capital with state force, and a racialised, heritable enslaved class is built at the base.'];
+  if(y<1970)return['Industrial Capitalism','Mills concentrate wealth — yet the worker, legally free and massed in factories, can organise. Unions, the vote and the welfare state bend the curve back.'];
+  return['The Modern Globalized Economy','Formal power is one-person-one-vote, yet wealth re-concentrates at the top. Ownership re-fuses with management, and the determinants run worldwide.'];
 }
-function yearFor(T){const k=-12000+(0.08/0.90)*11000; if(T<=0.08)return -40000+(T/0.08)*(k+40000); return T<=0.90 ? -12000+(T/0.90)*11000 : -1000+((T-0.90)/0.10)*3025;} // the deep Paleolithic sweeps past quickly, then history slows to walking pace
+function yearFor(T){const S=[[-3000,-800],[-800,500],[500,1450],[1450,1800],[1800,1970],[1970,2025]];const i=Math.min(5,Math.floor(T*6)),f=T*6-i;return S[i][0]+(S[i][1]-S[i][0])*f;}
 function fmtYear(y){y=Math.round(y);if(y<0){const a=-y,r=a>3000?100:50,v=Math.round(a/r)*r;return v.toLocaleString()+' BCE';}const v=Math.max(5,Math.round(y/5)*5);return v+' CE';}
 const FLAB={C:'Saying no grows costly',M:'The door is closing',B:'The means of living enclosed',E:'Knowledge narrows',N:'Influence settles on one person'};
 const BEATS=[
-  {t:0.16,f:'E',title:'The sacred narrows',body:['Animism was open to everyone; now a charismatic specialist claims to be the one who can reach the spirits.','The group <b>yields</b> that monopoly — and accepts the first sacred rules, enforced by fear of the gods rather than by force.','<span style="color:#5C6685">(One attested opening, not a universal first step.)</span>']},
-  {t:0.34,f:[['N','Influence settles in one person'],['C','Force appears']],title:'Power is lent upward',body:['A generous, capable figure — a feast-giver, a protector in a world of raids — is handed authority by the group.','It is <b>lent, not seized</b>; but a war-band raised from the young men now puts force behind it.','For now the door is still open — and while leaving is survivable, all of this remains cheap to recall.']},
-  {t:0.50,f:[['M','The door closes'],['B','The means of living enclosed']],title:'Hoarding becomes a right',body:['Keeping the group&rsquo;s surplus was once shameful and leveled away.','But fixed fields and bounded land have made walking away unsurvivable — and once exit shuts, every other hold tightens.','The leader, now backed by warriors, convinces the group to reclassify the act: &ldquo;ours&rdquo; becomes &ldquo;mine,&rdquo; and the hoarding that once was a crime is now permitted by the group as a right &mdash; an enforceable one.','Those resources leave the commons, and the new claim can no longer be revised.','<b>Private property is born.</b>','<span style="color:#5C6685">(A threshold crossed over centuries, not a day — personal possessions are far older; what is new is the enforceable claim over fields and stores.)</span>']},
-  {t:0.64,f:'N',title:'Office made to last',body:['What was granted for a moment is made to last a lifetime, and tribute and the keeping of accounts \u2014 tokens, tallies and seals \u2014 institutionalize it.','Influence stops passing from person to person — it settles permanently on someone, and the price of taking it back climbs.']},
-  {t:0.71,f:'N',title:'Built in stone, passed to heirs',body:['Monuments make the order look permanent and beyond question, and the office is inherited like property.','The deal is no longer up for revision — it is simply &ldquo;how things are.&rdquo;']},
-  {t:0.79,f:[['C','Refusal becomes heresy'],['E','Knowledge sealed']],title:'Throne fused with altar',body:['The political order itself is declared eternal and divine.','<b>Temple and palace merge</b> into one apparatus &mdash; the ruler absorbs the priest&rsquo;s legitimacy, and sacred authority no longer checks power but <b>sanctifies</b> it.','This is the power of the state: taking power back is no longer survivable.']},
-  {t:0.99,f:null,yearLabel:'antiquity \u2192 present',title:'It grows — and yet it was lent',body:['From here come empires, codified law and bureaucracy, down to the present.','Yet nothing was ever <i>seized</i>: the founding power was lent.','What got seized is the <b>ability to take it back</b> — which is why the pyramid is costly to hold up, and never quite beyond undoing; and any undoing begins at the door.']}
+  {t:0.03,f:[['E','Knowledge sealed'],['B','Means of living enclosed']],title:'Early city-states & god-kings',body:['Stored grain feeds priests, scribes and soldiers who never farm.','The temple keeps the accounts and the god-king fuses throne and altar — refusal becomes heresy.','The take-back power, once lent, is now seized: this is the power of the state.']},
+  {t:0.20,f:[['C','Force becomes law'],['B','Slavery at the base']],title:'Classical empires',body:['Codified law, coinage and a standing army turn the order into a <b>structure</b>, not just a person.','Mass slavery is built into the economy — the enslaved produce much and own nothing.','Power now outlives any single ruler; the machinery persists.']},
+  {t:0.37,f:[['M','The door stays shut'],['N','Office made hereditary']],title:'Feudalism',body:['Born a serf, die a serf. Land is bound to bloodline.','The lord is owner, judge and warrior at once, and the way out stays closed.','The order is held to be ordained — not chosen.']},
+  {t:0.54,f:[['B','Capital fuses with force'],['M','The Atlantic trade']],title:'Mercantilism & Colonialism',body:['Power goes global. Chartered companies fuse capital with state force and rule millions.','A racialised, heritable enslaved class is built at the base — bondage made uncrossable.','The bundle of ownership and command migrates from a person to a company.']},
+  {t:0.70,f:[['M','The worker is free'],['N','…and can organise']],title:'Industrial Capitalism',body:['Mills concentrate wealth as never before.','But the worker, legally free and massed in factories, can <b>organise</b>.','Unions, the vote and the welfare state bend the curve back — the one great compression.']},
+  {t:0.90,f:[['N','Ownership re-fuses with management'],['E','Influence runs worldwide']],title:'The Modern Globalized Economy',body:['Formal power is one-person-one-vote, yet wealth re-concentrates at the top.','Ownership re-fuses with management, and the determinants now run worldwide.','The order is costly to hold up, and — as ever — never quite beyond undoing; any undoing begins at the door.']}
 ];
 let tlMode=false, tlPlaying=false, T=0, tlLast=0, nextBeat=0, splashUntil=0; const TL_DUR=78000, LINE_DT=1500;
 function applyTimeline(){MOVES.forEach(m=>state[m.id].x=sched(m.id,T));}
@@ -787,6 +786,6 @@ document.addEventListener('click',()=>m.classList.remove('open'));})();
 
 buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument');
 </script>
-<script src="pf-i18n.js?v=11"></script>
+<script src="pf-i18n.js?v=14"></script>
 </body>
 </html>
