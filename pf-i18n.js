@@ -23,6 +23,8 @@
 
   // English source  ->  [ca, es, fr, nl, no]
   var TR = {
+    "The fine print": ["La lletra petita", "La letra pequeña", "Les petits caractères", "De kleine lettertjes", "Det med liten skrift"],
+    "Freedom and domination aren’t opposites on a scale — they’re zones of one capacity. Five things set where a society sits. They don’t add up — they switch each other on and off.": ["La llibertat i la dominació no són oposats en una escala — són zones d'una mateixa capacitat. Cinc coses fixen on se situa una societat. No se sumen — s'activen i es desactiven mútuament.", "La libertad y la dominación no son opuestos en una escala — son zonas de una misma capacidad. Cinco cosas fijan dónde se sitúa una sociedad. No se suman — se activan y desactivan mutuamente.", "La liberté et la domination ne sont pas des opposés sur une échelle — ce sont des zones d'une même capacité. Cinq choses fixent où se situe une société. Elles ne s'additionnent pas — elles s'activent et se désactivent mutuellement.", "Vrijheid en overheersing zijn geen tegenpolen op een schaal — het zijn zones van één vermogen. Vijf dingen bepalen waar een samenleving zit. Ze tellen niet op — ze zetten elkaar aan en uit.", "Frihet og dominans er ikke motsetninger på en skala — de er soner av én og samme evne. Fem ting avgjør hvor et samfunn ligger. De summeres ikke — de slår hverandre av og på."],
     // ---- top bar ----
     "A toolkit of moves — apply them in any order, partly, and undo them": [
       "Una caixa d'eines de moviments — aplica'ls en qualsevol ordre, en part, i desfés-los",
@@ -829,13 +831,24 @@
   var cur = "en";
   try { var saved = localStorage.getItem("pf-lang"); if (saved && (saved === "en" || NAMES[saved])) cur = saved; } catch (e) {}
 
-  var M = null, KEYS = [], MH = null;
+  // normalize rich HTML for matching: drop attributes (browsers reformat style="…"),
+  // collapse whitespace, unify &amp; — so styled spans match regardless of serialization
+  function nmHTML(s){
+    return String(s)
+      .replace(/<\s*([a-zA-Z][a-zA-Z0-9]*)\b[^>]*?(\/?)>/g, "<$1>")
+      .replace(/&amp;/g, "&")
+      .replace(/&nbsp;/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  var M = null, KEYS = [], MH = null, MHN = null;
   function buildMap() {
-    if (cur === "en") { M = null; KEYS = []; MH = null; return; }
+    if (cur === "en") { M = null; KEYS = []; MH = null; MHN = null; return; }
     var i = ORD.indexOf(cur); M = {};
     for (var en in TR) { var t = TR[en][i]; if (t) M[en] = t; }
     KEYS = Object.keys(M).sort(function (a, b) { return b.length - a.length; });   // longest first
-    MH = {}; for (var eh in TRH) { var th = TRH[eh][i]; if (th) MH[eh] = th; }
+    MH = {}; MHN = {};
+    for (var eh in TRH) { var th = TRH[eh][i]; if (th) { MH[eh] = th; MHN[nmHTML(eh)] = th; } }
   }
   buildMap();
 
@@ -886,7 +899,12 @@
     });
   }
   // whole-block HTML swap for rich elements (tooltip body, beat lines) — preserves <b>/<i>
-  function trHTML(el) { if (!MH || !el) return; var h = el.innerHTML; if (MH[h] && h !== MH[h]) el.innerHTML = MH[h]; }
+  function trHTML(el) {
+    if (!MH || !el) return;
+    var h = el.innerHTML;
+    var t = MH[h] || (MHN && MHN[nmHTML(h)]);
+    if (t && t !== h) el.innerHTML = t;
+  }
   function translateRich(root) {
     if (!MH || !root) return;
     if (root.id === "tip") trHTML(root);
