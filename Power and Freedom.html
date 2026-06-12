@@ -187,6 +187,34 @@
   .expMenu a:hover{background:var(--panel2)}
   .expMenu a.cur{opacity:.55;cursor:default}
 
+  /* ===== match The Human Journey chrome: charcoal panels, brass, ivory, mono ===== */
+  .top{border-bottom-color:rgba(232,224,205,.14)}
+  .bottom{border-top-color:rgba(232,224,205,.14)}
+  .gauges,.palette{border-left-color:rgba(232,224,205,.14)}
+  .gauges h2,.pg{color:rgba(236,229,214,.5)!important;font-family:var(--mono)}
+  .g .lab{color:#ece5d6}
+  .mv{background:rgba(20,24,26,.72)!important;border-color:rgba(232,224,205,.14)!important}
+  .mvname{color:#ece5d6}
+  .mvtag{color:rgba(236,229,214,.5);border-color:rgba(232,224,205,.18)}
+  .mvpct{color:#cdb78c}
+  .mvdep{color:rgba(236,229,214,.45)}
+  .cmp{background:rgba(20,24,26,.72)!important;border-color:rgba(232,224,205,.14)!important}
+  .cmp:hover{border-color:rgba(199,154,78,.6)!important}
+  .cmp.sel{border-color:#c79a4e!important;box-shadow:0 0 0 1px #c79a4e!important}
+  .cmp .cv{color:rgba(236,229,214,.6)}
+  .btn{background:rgba(232,224,205,.06)!important;border-color:rgba(232,224,205,.14)!important;color:#ece5d6!important}
+  .btn:hover{background:rgba(232,224,205,.12)!important}
+  .btn.recall{background:rgba(199,154,78,.16)!important;border-color:rgba(199,154,78,.5)!important;color:#e7cfa0!important}
+  .chip{color:rgba(236,229,214,.7);border-color:rgba(232,224,205,.14)}
+  .chip:hover{background:rgba(232,224,205,.08);color:#ece5d6}
+  .tlyear{color:var(--brass);border-color:rgba(232,224,205,.14);background:rgba(20,24,26,.72)}
+  .tlnote b,.cmp .ct,.pvyear{color:var(--brass)}
+
+  /* match The Human Journey UI scale (0.85) on desktop — scale the chrome, not the scene */
+  @media (min-width:761px){
+    .top,.gauges,.palette,.bottom{zoom:.85}
+  }
+
   /* ===== mobile / small-screen layout ===== */
   @media (max-width:760px){
     body{overflow:auto;font-size:13.5px;-webkit-text-size-adjust:100%}
