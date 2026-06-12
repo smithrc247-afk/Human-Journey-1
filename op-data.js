@@ -202,8 +202,8 @@ window.OP_TOSCALE = [
   { id: "classical",  num: "IV",   name: "Classical Empires",       accent: "#6f93a8", pop: 2e8,   popLabel: "≈ 200 million", gsize: 6e7,   gsizeLabel: "empire ≈ 60 million",         gdp: 1e11,   gdpLabel: "≈ $100 billion" },
   { id: "feudal",     num: "V",    name: "Feudal & Tributary",      accent: "#9a7b4e", pop: 3.2e8, popLabel: "≈ 320 million", gsize: 2e6,   gsizeLabel: "realm ≈ 2 million",           gdp: 1.8e11, gdpLabel: "≈ $180 billion" },
   { id: "mercantile", num: "VI",   name: "Mercantilism & Atlantic", accent: "#7d8a6f", pop: 5.5e8, popLabel: "≈ 550 million", gsize: 3e7,   gsizeLabel: "empire & network ≈ 30 million", gdp: 3.5e11, gdpLabel: "≈ $350 billion" },
-  { id: "industrial", num: "VII",  name: "Industrial Capitalism",   accent: "#9a6f6a", pop: 1.4e9, popLabel: "≈ 1.4 billion", gsize: 1e8,   gsizeLabel: "nation-state ≈ 100 million",  gdp: 1.5e12, gdpLabel: "≈ $1.5 trillion" },
-  { id: "present",    num: "VIII", name: "The Present",             accent: "#8a7da0", pop: 8.1e9, popLabel: "≈ 8.1 billion", gsize: 8.1e9, gsizeLabel: "one connected species",       gdp: 1.3e14, gdpLabel: "≈ $130 trillion" },
+  { id: "industrial", num: "VII",  name: "Industrial Capitalism",   accent: "#9a6f6a", pop: 1.4e9, popLabel: "≈ 1.4 billion", gsize: 1e8,   gsizeLabel: "large nation-state · tens of millions",  gdp: 1.5e12, gdpLabel: "≈ $1.5 trillion" },
+  { id: "present",    num: "VIII", name: "The Present",             accent: "#8a7da0", pop: 8.1e9, popLabel: "≈ 8.1 billion", gsize: 8.1e9, gsizeLabel: "one connected species",       gdp: 1.1e14, gdpLabel: "≈ $110 trillion" },
 ];
 
 window.OP_SOCIETY = {
@@ -211,7 +211,7 @@ window.OP_SOCIETY = {
     caption: "A flat band. Skill earns respect, never command — and the leveling mechanisms cut down anyone who tries to rise.",
     tiers: [{ label: "The band", n: 9, power: 0.36, note: "roughly equal" }],
     leveling: ["Mockery", "Demand sharing", "Mobility / exit", "Ridicule & ostracism"] },
-  neolithic: { shape: "emerging", scale: { head: "150–1,000 per village", detail: "Çatalhöyük reached ~8,000" },
+  neolithic: { shape: "emerging", scale: { head: "150–1,000 per village", detail: "Çatalhöyük reached ~5,000–8,000" },
     caption: "Surplus appears, and with it the first tentative risers — whom many communities still refuse. The outcome is genuinely contested.",
     tiers: [
       { label: "Big-man / ritual figure?", n: 1, power: 0.6, note: "tentative · often refused" },
