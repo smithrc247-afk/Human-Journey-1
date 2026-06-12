@@ -821,7 +821,7 @@
   function trStr(s) {
     if (!M || !s) return s;
     var out = s;
-    for (var j = 0; j < KEYS.length; j++) { var k = KEYS[j]; if (out.indexOf(k) >= 0) out = out.split(k).join(M[k]); }
+    for (var j = 0; j < KEYS.length; j++) { var k = KEYS[j]; if (!k || !M[k]) continue; if (out.indexOf(k) >= 0) out = out.split(k).join(M[k]); }
     return out;
   }
 
@@ -865,7 +865,7 @@
     });
   }
   // whole-block HTML swap for rich elements (tooltip body, beat lines) — preserves <b>/<i>
-  function trHTML(el) { if (!MH || !el) return; var h = el.innerHTML; if (MH[h] != null && h !== MH[h]) el.innerHTML = MH[h]; }
+  function trHTML(el) { if (!MH || !el) return; var h = el.innerHTML; if (MH[h] && h !== MH[h]) el.innerHTML = MH[h]; }
   function translateRich(root) {
     if (!MH || !root) return;
     if (root.id === "tip") trHTML(root);
@@ -909,7 +909,7 @@
     host.insertBefore(sel, host.firstChild);
   }
 
-  function start() { buildSelector(); applyStatic(); observe(); translateDynamic(); }
+  function start() { try { buildSelector(); applyStatic(); observe(); translateDynamic(); } catch (e) { /* never break the host page */ } }
   if (document.readyState !== "loading") start();
   else document.addEventListener("DOMContentLoaded", start);
 })();
