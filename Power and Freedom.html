@@ -143,6 +143,32 @@
   .pvbtn{margin-top:10px;font-family:var(--ui);font-size:12.5px;font-weight:600;color:#f0d49a;background:rgba(231,178,76,.16);border:1px solid rgba(231,178,76,.5);border-radius:8px;padding:7px 15px;cursor:pointer}
   .pvbtn:hover{background:rgba(231,178,76,.26)}
   .palette.locked{pointer-events:none;opacity:.92}
+  /* ===== museum palette: brass / ivory controls (match The Human Journey) ===== */
+  :root{--brass:#C79A4E;--brass2:#E0B766;--ivory:#E8E0CD;--char:#0E1322}
+  .chip{font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;font-size:10px;color:var(--ivory);background:rgba(232,224,205,.06);border:1px solid rgba(232,224,205,.18);border-radius:30px;padding:7px 12px}
+  .chip:hover,.chip.on{background:rgba(232,224,205,.12);border-color:rgba(232,224,205,.3);color:var(--ivory)}
+  #timelineBtn{border-color:rgba(199,154,78,.5)!important;color:var(--brass2)!important}
+  .chip[data-pop="argument"]{border-color:rgba(199,154,78,.45)!important;color:var(--brass2)!important}
+  .ibtn{border-radius:50%;border:1px solid rgba(232,224,205,.22);color:var(--ivory)}
+  .ibtn:hover{border-color:var(--brass);color:var(--brass2)}
+  .btn{font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;font-size:11px;color:var(--ivory);background:rgba(232,224,205,.06);border:1px solid rgba(232,224,205,.18);border-radius:30px;padding:8px 14px}
+  .btn:hover{background:rgba(232,224,205,.12);border-color:rgba(232,224,205,.3)}
+  .btn.recall{color:var(--char)!important;background:var(--brass)!important;border-color:var(--brass)!important}
+  .btn.recall:hover{background:var(--brass2)!important}
+  .ibtnP{font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--char);background:var(--brass);border:1px solid var(--brass);border-radius:30px;padding:8px 15px;font-weight:600}
+  .ibtnP:hover{background:var(--brass2)}
+  .ibtnP.warm{color:var(--ivory);background:rgba(232,224,205,.06);border-color:rgba(232,224,205,.22)}
+  .ibtnP.warm:hover{background:rgba(232,224,205,.12)}
+  .pvbtn{color:var(--char);background:var(--brass);border:1px solid var(--brass);border-radius:30px}
+  .pvbtn:hover{background:var(--brass2)}
+  .ifill{background:var(--brass)!important}
+  /* timeline scrubber + move sliders → charcoal track, ivory disc / brass ring */
+  #tlScrub{height:6px;border-radius:4px;background:linear-gradient(90deg,#2a2018,#20262a)!important;border:1px solid rgba(232,224,205,.18);opacity:1}
+  #tlScrub::-webkit-slider-thumb{width:16px;height:16px;border-radius:50%;background:var(--ivory)!important;border:2px solid var(--brass)!important;box-shadow:0 2px 8px rgba(0,0,0,.6)}
+  #tlScrub::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ivory)!important;border:2px solid var(--brass)!important}
+  .mv input[type=range]{background:rgba(232,224,205,.13)}
+  .mv input[type=range]::-webkit-slider-thumb{width:13px;height:13px;border-radius:50%;background:var(--ivory)!important;border:2px solid var(--brass)!important}
+  .mv input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ivory)!important;border:2px solid var(--brass)!important}
   #tip{position:fixed;z-index:70;max-width:250px;background:#0a0f1c;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:12px;line-height:1.45;color:var(--tx);pointer-events:none;opacity:0;transition:opacity .12s;box-shadow:0 8px 26px rgba(0,0,0,.5)}
   #tip b{color:var(--free)}
   #overlay{position:absolute;inset:0;z-index:40;background:rgba(7,11,20,.66);display:none;align-items:center;justify-content:center;padding:24px}
