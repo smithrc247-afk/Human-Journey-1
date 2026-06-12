@@ -221,7 +221,7 @@ function OPApp() {
                 ))}
               </div>
               <button className={"op-endcard" + (activeId === "toscale" ? " on" : "")}
-                onClick={() => { setActiveId("toscale"); setFocusThread(null); if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: "smooth" }); }}>
+                onClick={() => { setActiveId("toscale"); setYa(300000); setFocusThread(null); if (mainRef.current) mainRef.current.scrollTo({ top: 0, behavior: "smooth" }); }}>
                 <span className="op-sc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="17" r="4"/><circle cx="15" cy="12" r="2.6"/><circle cx="20" cy="7" r="1.6"/></svg></span>
                 <span className="op-sc-body"><span className="op-sc-title">The Eras to Scale</span><span className="op-sc-sub">All eight, sized together</span></span>
               </button>
@@ -253,7 +253,7 @@ function OPApp() {
             : activeId === "primer"
               ? <OPPrimer onEnter={() => selectEra(eras[0])} />
             : activeId === "toscale"
-              ? <OPToScale />
+              ? <OPToScale ya={ya} />
               : <>
                 <OPDeepTime eras={eras} activeId={activeId} onSelect={selectEra} />
                 <OPEraVisual era={era} eras={eras} focusThread={focusThread} factors={factors} />
@@ -261,14 +261,14 @@ function OPApp() {
         </div>
       </main>
 
-      {mode === "eras" && activeId !== "primer" && activeId !== "toscale" && (
+      {mode === "eras" && activeId !== "primer" && (
         <div className="timeline op-timeline">
           <div className="tl-top">
             <div className="tl-date">
               <span className="big">{dt.big}</span>
               {dt.unit && <span className="unit">{dt.unit}</span>}
               {dt.cal && <span className="cal">{dt.cal}</span>}
-              <span className="era">{era.title}</span>
+              <span className="era">{(activeId === "toscale" ? window.opEraAtYa(ya).title : era.title)}</span>
             </div>
             <div className="tl-controls">
               <div className="speed-ctrl">
