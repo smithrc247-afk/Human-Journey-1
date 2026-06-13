@@ -24,6 +24,12 @@ window.I18N.no = {
   },
   ui: {
     eyebrow: "Et interaktivt atlas",
+    explore: "Utforsk", youAreHere: "Du er her",
+    nav_globe: "Den menneskelige reisen", nav_globe_note: "Ut av Afrika — atlaset",
+    nav_freedom: "Makt og frihet", nav_freedom_note: "Del VI · teorien om frihet",
+    nav_origins: "Maktens opphav", nav_origins_note: "Del I · mekanismene",
+    nav_iq: "Makt, rikdom og ulikhet", nav_iq_note: "Del II · mengdene",
+    nav_cast: "Rollebesetningen og maskinen", nav_cast_note: "Del III · roller og staten",
     titleA: "Den Menneskelige", titleB: "Reisen",
     credit1: "Ut av Afrika", credit2: "og troens opphav",
     mapLayers: "Kartlag",

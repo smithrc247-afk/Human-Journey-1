@@ -24,6 +24,12 @@ window.I18N.nl = {
   },
   ui: {
     eyebrow: "Een interactieve atlas",
+    explore: "Verkennen", youAreHere: "Je bent hier",
+    nav_globe: "De Menselijke Reis", nav_globe_note: "Uit Afrika — de atlas",
+    nav_freedom: "Macht en vrijheid", nav_freedom_note: "Deel VI · de theorie van vrijheid",
+    nav_origins: "De oorsprong van macht", nav_origins_note: "Deel I · de mechanismen",
+    nav_iq: "Macht, rijkdom en ongelijkheid", nav_iq_note: "Deel II · de hoeveelheden",
+    nav_cast: "De rolbezetting en de machine", nav_cast_note: "Deel III · rollen en de staat",
     titleA: "De Menselijke", titleB: "Reis",
     credit1: "Uit Afrika", credit2: "& de oorsprong van geloof",
     mapLayers: "Kaartlagen",

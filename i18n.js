@@ -22,6 +22,12 @@ window.LANGS = [
 window.I18N.en = {
   ui: {
     eyebrow: "An Interactive Atlas",
+    explore: "Explore", youAreHere: "You are here",
+    nav_globe: "The Human Journey", nav_globe_note: "Out of Africa — the atlas",
+    nav_freedom: "Power and Freedom", nav_freedom_note: "Part VI · the theory of freedom",
+    nav_origins: "The Origins of Power", nav_origins_note: "Part I · the mechanisms",
+    nav_iq: "Power, Wealth & Inequality", nav_iq_note: "Part II · the quantities",
+    nav_cast: "The Cast & the Machine", nav_cast_note: "Part III · roles & the state",
     titleA: "The Human", titleB: "Journey",
     credit1: "Out of Africa", credit2: "& the Origins of Belief",
     mapLayers: "Map layers",

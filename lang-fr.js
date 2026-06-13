@@ -24,6 +24,12 @@ window.I18N.fr = {
   },
   ui: {
     eyebrow: "Un atlas interactif",
+    explore: "Explorer", youAreHere: "Vous êtes ici",
+    nav_globe: "Le Voyage Humain", nav_globe_note: "Hors d'Afrique — l'atlas",
+    nav_freedom: "Pouvoir et liberté", nav_freedom_note: "Partie VI · la théorie de la liberté",
+    nav_origins: "Les origines du pouvoir", nav_origins_note: "Partie I · les mécanismes",
+    nav_iq: "Pouvoir, richesse et inégalité", nav_iq_note: "Partie II · les quantités",
+    nav_cast: "La distribution et la machine", nav_cast_note: "Partie III · les rôles et l'État",
     titleA: "Le Voyage", titleB: "Humain",
     credit1: "Hors d'Afrique", credit2: "et les origines de la croyance",
     mapLayers: "Calques de la carte",

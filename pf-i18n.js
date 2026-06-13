@@ -69,8 +69,8 @@
       "Toegang tot bestaansmiddelen", "Tilgang til livsgrunnlag"],
     "Access to knowledge": [
       "Accés al coneixement", "Acceso al conocimiento", "Accès au savoir", "Toegang tot kennis", "Tilgang til kunnskap"],
-    "Influence circulates": [
-      "La influència circula", "La influencia circula", "L'influence circule", "Invloed circuleert", "Innflytelse sirkulerer"],
+    "Influence rotates": [
+      "La influència rota", "La influencia rota", "L'influence tourne", "Invloed roteert", "Innflytelse roterer"],
     "Early city-states & god-kings": ["Primeres ciutats-estat i déus-reis", "Primeras ciudades-estado y reyes-dioses", "Premières cités-États et rois-dieux", "Vroege stadstaten en god-koningen", "Tidlige bystater og gudekonger"],
     "Classical empires": ["Imperis clàssics", "Imperios clásicos", "Empires classiques", "Klassieke rijken", "Klassiske imperier"],
     "Feudalism": ["Feudalisme", "Feudalismo", "Féodalité", "Feodalisme", "Føydalisme"],
@@ -197,9 +197,24 @@
     "the blurry zone": ["la zona difusa", "la zona difusa", "la zone floue", "de vage zone", "den uklare sonen"],
     "domination": ["dominació", "dominación", "domination", "overheersing", "dominans"],
     "decay": ["decadència", "decadencia", "déclin", "verval", "forfall"],
+    // preset-card verdict words (capitalized, after "· ") — full "· X" form so the bare word
+    // never gets substituted inside titles like the brand h1 "Power and Freedom"
+    "· Freedom": ["· Llibertat", "· Libertad", "· Liberté", "· Vrijheid", "· Frihet"],
+    "· Decay": ["· Decadència", "· Decadencia", "· Déclin", "· Verval", "· Forfall"],
 
     // ---- buttons ----
     "Reset": ["Reinicia", "Reiniciar", "Réinitialiser", "Herstellen", "Nullstill"],
+    "Power and Freedom": ["Poder i llibertat", "Poder y libertad", "Pouvoir et liberté", "Macht en vrijheid", "Makt og frihet"],
+    "The Human Journey": ["El Viatge Humà", "El Viaje Humano", "Le Voyage Humain", "De Menselijke Reis", "Den menneskelige reisen"],
+    "Out of Africa — the atlas": ["Fora d'Àfrica — l'atles", "Fuera de África — el atlas", "Hors d'Afrique — l'atlas", "Uit Afrika — de atlas", "Ut av Afrika — atlaset"],
+    "Part VI · the theory of freedom": ["Part VI · la teoria de la llibertat", "Parte VI · la teoría de la libertad", "Partie VI · la théorie de la liberté", "Deel VI · de theorie van vrijheid", "Del VI · teorien om frihet"],
+    "The Origins of Power": ["Els orígens del poder", "Los orígenes del poder", "Les origines du pouvoir", "De oorsprong van macht", "Maktens opphav"],
+    "Part I · the mechanisms": ["Part I · els mecanismes", "Parte I · los mecanismos", "Partie I · les mécanismes", "Deel I · de mechanismen", "Del I · mekanismene"],
+    "Power, Wealth & Inequality": ["Poder, riquesa i desigualtat", "Poder, riqueza y desigualdad", "Pouvoir, richesse et inégalité", "Macht, rijkdom en ongelijkheid", "Makt, rikdom og ulikhet"],
+    "Part II · the quantities": ["Part II · les quantitats", "Parte II · las cantidades", "Partie II · les quantités", "Deel II · de hoeveelheden", "Del II · mengdene"],
+    "The Cast & the Machine": ["El repartiment i la màquina", "El reparto y la máquina", "La distribution et la machine", "De rolbezetting en de machine", "Rollebesetningen og maskinen"],
+    "Part III · roles & the state": ["Part III · rols i l'estat", "Parte III · roles y el estado", "Partie III · les rôles et l'État", "Deel III · rollen en de staat", "Del III · roller og staten"],
+    "the power to take back:": ["el poder de recuperar:", "el poder de recuperar:", "le pouvoir de reprendre :", "de macht om terug te nemen:", "makten til å ta tilbake:"],
     "Pause": ["Pausa", "Pausa", "Pause", "Pauze", "Pause"],
     "Play": ["Reprodueix", "Reproducir", "Lecture", "Afspelen", "Spill"],
     "Replay": ["Repeteix", "Repetir", "Rejouer", "Opnieuw", "Spill igjen"],
@@ -228,6 +243,12 @@
     // ============================================================
     //  PASS 2A — live captions, timeline era subtitles, beat headlines
     // ============================================================
+    "Power is shared among equals. Apply moves from the right in any order — each can be partial, and any of them can be undone.": [
+      "El poder es comparteix entre iguals. Aplica els moviments de la dreta en qualsevol ordre — cada un pot ser parcial, i tots es poden desfer.",
+      "El poder se comparte entre iguales. Aplica los movimientos de la derecha en cualquier orden — cada uno puede ser parcial, y todos se pueden deshacer.",
+      "Le pouvoir est partagé entre égaux. Appliquez les mouvements de droite dans n'importe quel ordre — chacun peut être partiel, et tous peuvent être annulés.",
+      "Macht wordt gedeeld onder gelijken. Pas de zetten rechts in elke volgorde toe — elke zet kan deels, en alle kunnen ongedaan gemaakt worden.",
+      "Makt deles blant likemenn. Bruk trekkene til høyre i hvilken som helst rekkefølge — hvert kan være delvis, og alle kan angres."],
     "Power is shared among equals — the take-back power alive, kept in working order by daily use: teasing the boastful, ignoring the bossy. Apply moves in any order; each can be partial, and any can be undone.": [
       "El poder es comparteix entre iguals — el poder de recuperar és viu, mantingut en funcionament per l'ús diari: burlar-se del fanfarró, ignorar el manaire. Aplica els moviments en qualsevol ordre; cada un pot ser parcial, i qualsevol es pot desfer.",
       "El poder se comparte entre iguales — el poder de recuperar está vivo, mantenido en funcionamiento por el uso diario: burlarse del fanfarrón, ignorar al mandón. Aplica los movimientos en cualquier orden; cada uno puede ser parcial, y cualquiera puede deshacerse.",
@@ -680,7 +701,7 @@
       "<b>Non-liberté, de deux sortes.</b> Un pouvoir jamais employé finit par ne plus fonctionner — une société peut donc sortir de la liberté sans qu'aucun oppresseur n'apparaisse, simplement en laissant le pouvoir de reprendre rouiller jusqu'à ce qu'il échoue si on l'essayait. La <b>domination</b>, c'est quand quelqu'un vous ferme la porte ; le <b>déclin</b>, c'est quand la porte, jamais ouverte, rouille d'elle-même. Les deux sont non-liberté ; seule la première a un méchant. Et la ligne entre libre et non libre est une zone floue, non un bord net.",
       "<b>Onvrijheid, in twee soorten.</b> Een macht die nooit gebruikt wordt, stopt uiteindelijk met werken — dus een samenleving kan uit vrijheid wegdrijven zonder dat er ooit een onderdrukker verschijnt, enkel door de macht om terug te nemen te laten roesten tot ze zou falen als je het probeerde. <b>Overheersing</b> is wanneer iemand de deur voor je sluit; <b>verval</b> is wanneer de deur, nooit geopend, vanzelf vastroest. Beide zijn onvrijheid; alleen de eerste heeft een schurk. En de grens tussen vrij en onvrij is een vage zone, geen scherpe rand.",
       "<b>Ufrihet, i to slag.</b> En makt som aldri brukes, slutter til slutt å virke — så et samfunn kan drive ut av friheten uten at noen undertrykker noensinne dukker opp, bare ved å la makten til å ta tilbake ruste til den ville svikte om man prøvde. <b>Dominans</b> er når noen lukker døren for deg; <b>forfall</b> er når døren, aldri åpnet, ruster igjen av seg selv. Begge er ufrihet; bare den første har en skurk. Og grensen mellom fri og ufri er en uklar sone, ikke en skarp kant."],
-    "Five things determine whether you can take power back — <b style=\"color:#E8654B\">the price of saying no</b> (what happens if you refuse?), <b style=\"color:#3F6FC9\">the ability to leave</b> (could you walk away and survive?), <b style=\"color:#C9855A\">access to the means of living</b> (food, land, tools — or are they all owned?), <b style=\"color:#E7B24C\">access to knowledge</b> (can you learn what you’d need to live on your own and to judge the claims made over you?), and <b style=\"color:#9B8CFF\">whether influence circulates</b> (does sway pass from person to person, or has it settled permanently on someone?). These don’t simply add up — they switch each other on and off. Threats barely matter while the door is open; the same threats become total once the door shuts.": [
+    "Five things determine whether you can take power back — <b style=\"color:#E8654B\">the price of saying no</b> (what happens if you refuse?), <b style=\"color:#3F6FC9\">the ability to leave</b> (could you walk away and survive?), <b style=\"color:#C9855A\">access to the means of living</b> (food, land, tools — or are they all owned?), <b style=\"color:#E7B24C\">access to knowledge</b> (can you learn what you’d need to live on your own and to judge the claims made over you?), and <b style=\"color:#9B8CFF\">whether influence rotates</b> (does sway pass from person to person, or has it settled permanently on someone?). These don’t simply add up — they switch each other on and off. Threats barely matter while the door is open; the same threats become total once the door shuts.": [
       "Cinc coses determinen si pots recuperar el poder — <b style=\"color:#E8654B\">el preu de dir que no</b> (què passa si et negues?), <b style=\"color:#3F6FC9\">la capacitat de marxar</b> (podries anar-te'n i sobreviure?), <b style=\"color:#C9855A\">l'accés als mitjans de vida</b> (menjar, terra, eines — o tot és propietat d'algú?), <b style=\"color:#E7B24C\">l'accés al coneixement</b> (pots aprendre el que necessitaries per viure pel teu compte i per jutjar les pretensions que es fan sobre tu?), i <b style=\"color:#9B8CFF\">si la influència circula</b> (l'ascendent passa de persona a persona, o s'ha assentat permanentment en algú?). Aquestes coses no se sumen sense més — s'activen i es desactiven mútuament. Les amenaces gairebé no compten mentre la porta és oberta; les mateixes amenaces esdevenen totals un cop la porta es tanca.",
       "Cinco cosas determinan si puedes recuperar el poder — <b style=\"color:#E8654B\">el precio de decir que no</b> (¿qué pasa si te niegas?), <b style=\"color:#3F6FC9\">la capacidad de irse</b> (¿podrías marcharte y sobrevivir?), <b style=\"color:#C9855A\">el acceso a los medios de vida</b> (comida, tierra, herramientas — ¿o todo tiene dueño?), <b style=\"color:#E7B24C\">el acceso al conocimiento</b> (¿puedes aprender lo que necesitarías para vivir por tu cuenta y para juzgar las pretensiones que se hacen sobre ti?), y <b style=\"color:#9B8CFF\">si la influencia circula</b> (¿el ascendiente pasa de persona a persona, o se ha asentado permanentemente en alguien?). Estas cosas no se suman sin más — se activan y desactivan mutuamente. Las amenazas apenas cuentan mientras la puerta está abierta; las mismas amenazas se vuelven totales una vez que la puerta se cierra.",
       "Cinq choses déterminent si vous pouvez reprendre le pouvoir — <b style=\"color:#E8654B\">le prix de dire non</b> (que se passe-t-il si vous refusez ?), <b style=\"color:#3F6FC9\">la capacité de partir</b> (pourriez-vous partir et survivre ?), <b style=\"color:#C9855A\">l'accès aux moyens de subsistance</b> (nourriture, terre, outils — ou tout appartient-il à quelqu'un ?), <b style=\"color:#E7B24C\">l'accès au savoir</b> (pouvez-vous apprendre ce qu'il vous faudrait pour vivre par vous-même et pour juger les prétentions exercées sur vous ?), et <b style=\"color:#9B8CFF\">si l'influence circule</b> (l'ascendant passe-t-il de personne à personne, ou s'est-il fixé à demeure sur quelqu'un ?). Ces choses ne s'additionnent pas simplement — elles s'activent et se désactivent mutuellement. Les menaces comptent à peine tant que la porte est ouverte ; les mêmes menaces deviennent totales une fois la porte fermée.",
@@ -742,6 +763,67 @@
     "Start exploring ▸": ["Comença a explorar ▸", "Empieza a explorar ▸", "Commencer à explorer ▸", "Begin met verkennen ▸", "Begynn å utforske ▸"],
     "The fine print: full theory, formulas & sources": ["La lletra petita: teoria completa, fórmules i fonts", "La letra pequeña: teoría completa, fórmulas y fuentes", "Les détails : théorie complète, formules et sources", "De kleine lettertjes: volledige theorie, formules en bronnen", "Det med liten skrift: hele teorien, formler og kilder"],
     "Close": ["Tanca", "Cerrar", "Fermer", "Sluiten", "Lukk"],
+    "Take it back": ["Torna'l a prendre", "Vuelve a tomarlo", "Reprenez-le", "Neem haar terug", "Ta den tilbake"],
+    "Power handed upward — a leader stands above the band. Nothing has gone wrong yet… <i>if it can come back.</i>": [
+      "Poder cedit cap amunt — un líder s'alça per sobre de la banda. Encara no ha anat res malament… <i>si pot tornar.</i>",
+      "Poder cedido hacia arriba — un líder se alza por encima de la banda. Aún no ha ido nada mal… <i>si puede volver.</i>",
+      "Pouvoir cédé vers le haut — un chef se tient au-dessus de la bande. Rien n'a encore mal tourné… <i>s'il peut revenir.</i>",
+      "Macht naar boven overgedragen — een leider staat boven de groep. Er is nog niets misgegaan… <i>als ze terug kan komen.</i>",
+      "Makt overlatt oppover — en leder står over gruppen. Ingenting har gått galt ennå… <i>hvis den kan komme tilbake.</i>"],
+    "The door is open: even heavy threats cost little — refusal can walk away.": [
+      "La porta és oberta: fins i tot les amenaces greus costen poc — qui es nega pot marxar.",
+      "La puerta está abierta: incluso las amenazas graves cuestan poco — quien se niega puede marcharse.",
+      "La porte est ouverte : même les menaces lourdes coûtent peu — le refus peut s'en aller.",
+      "De deur is open: zelfs zware dreigingen kosten weinig — wie weigert kan weglopen.",
+      "Døren er åpen: selv tunge trusler koster lite — den som nekter kan gå sin vei."],
+    "Door shut: the same threats now bite in full. Nothing about the threats changed.": [
+      "Porta tancada: les mateixes amenaces ara mosseguen del tot. Res de les amenaces no ha canviat.",
+      "Puerta cerrada: las mismas amenazas ahora muerden del todo. Nada de las amenazas ha cambiado.",
+      "Porte fermée : les mêmes menaces mordent désormais pleinement. Rien n'a changé dans les menaces.",
+      "Deur dicht: dezelfde dreigingen bijten nu volledig. Aan de dreigingen zelf veranderde niets.",
+      "Døren lukket: de samme truslene biter nå for fullt. Ingenting ved truslene er endret."],
+    "The keystone is closing — every other loss starts to count double.": [
+      "La clau de volta s'està tancant — cada altra pèrdua comença a comptar el doble.",
+      "La piedra angular se está cerrando — cada otra pérdida empieza a contar el doble.",
+      "La clé de voûte se ferme — chaque autre perte commence à compter double.",
+      "De sluitsteen sluit zich — elk ander verlies begint dubbel te tellen.",
+      "Bærebjelken lukker seg — hvert annet tap begynner å telle dobbelt."],
+    "With the door open, even enclosed means or sealed knowledge cannot lock it alone.": [
+      "Amb la porta oberta, ni els mitjans tancats ni el coneixement segellat no poden bloquejar-la tots sols.",
+      "Con la puerta abierta, ni los medios cercados ni el conocimiento sellado pueden bloquearla por sí solos.",
+      "La porte ouverte, ni les moyens enclos ni le savoir scellé ne peuvent la verrouiller à eux seuls.",
+      "Met de deur open kunnen zelfs omheinde middelen of verzegelde kennis haar niet alleen vergrendelen.",
+      "Med døren åpen kan verken innhegnede midler eller forseglet kunnskap låse den alene."],
+    "Each bar gates the others — the result is a chain, not an average.": [
+      "Cada barra condiciona les altres — el resultat és una cadena, no una mitjana.",
+      "Cada barra condiciona a las demás — el resultado es una cadena, no una media.",
+      "Chaque barre conditionne les autres — le résultat est une chaîne, non une moyenne.",
+      "Elke balk poort de andere — het resultaat is een ketting, geen gemiddelde.",
+      "Hver søyle styrer de andre — resultatet er en kjede, ikke et gjennomsnitt."],
+    "Practiced and alive. No oppressor was ever needed for freedom — only upkeep.": [
+      "Practicat i viu. Mai no ha calgut cap opressor per a la llibertat — només manteniment.",
+      "Practicado y vivo. Nunca hizo falta ningún opresor para la libertad — solo mantenimiento.",
+      "Pratiqué et vivant. Aucun oppresseur n'a jamais été nécessaire à la liberté — seulement de l'entretien.",
+      "Geoefend en levend. Voor vrijheid was nooit een onderdrukker nodig — alleen onderhoud.",
+      "Praktisert og levende. Ingen undertrykker var noensinne nødvendig for friheten — bare vedlikehold."],
+    "Years pass. Nothing happens — and that is exactly the problem: a capacity stays alive only through use. The day someone finally hoards or commands, the band may reach for a refusal that no longer works.": [
+      "Passen els anys. No passa res — i això és exactament el problema: una capacitat només es manté viva amb l'ús. El dia que algú finalment acapari o mani, la banda pot recórrer a una negativa que ja no funciona.",
+      "Pasan los años. No pasa nada — y eso es exactamente el problema: una capacidad solo se mantiene viva con el uso. El día que alguien por fin acapare o mande, la banda puede recurrir a una negativa que ya no funciona.",
+      "Les années passent. Rien ne se produit — et c'est exactement le problème : une capacité ne reste vivante que par l'usage. Le jour où quelqu'un finit par accaparer ou commander, la bande peut saisir un refus qui ne fonctionne plus.",
+      "Jaren verstrijken. Er gebeurt niets — en dat is precies het probleem: een vermogen blijft alleen levend door gebruik. De dag dat iemand eindelijk hamstert of beveelt, grijpt de groep misschien naar een weigering die niet meer werkt.",
+      "Årene går. Ingenting skjer — og det er nettopp problemet: en evne holder seg levende bare gjennom bruk. Den dagen noen endelig hamstrer eller befaler, kan gruppen gripe etter en nektelse som ikke lenger virker."],
+    "Rusty, not seized — the blurry zone. Taking power back might still work, or might fail; no one can know without trying. Freedom doesn’t end at a knife-edge — it fades.": [
+      "Rovellat, no pres — la zona difusa. Recuperar el poder encara podria funcionar, o podria fallar; ningú no ho pot saber sense provar-ho. La llibertat no s'acaba en un fil de navalla — s'esvaeix.",
+      "Oxidado, no arrebatado — la zona difusa. Recuperar el poder aún podría funcionar, o podría fallar; nadie puede saberlo sin intentarlo. La libertad no termina en un filo de navaja — se desvanece.",
+      "Rouillé, non saisi — la zone floue. Reprendre le pouvoir pourrait encore fonctionner, ou échouer ; nul ne peut le savoir sans essayer. La liberté ne s'arrête pas à un fil du rasoir — elle s'estompe.",
+      "Verroest, niet gegrepen — de vage zone. Macht terugnemen zou nog kunnen werken, of kunnen falen; niemand kan het weten zonder het te proberen. Vrijheid eindigt niet op het scherp van de snede — ze vervaagt.",
+      "Rusten, ikke grepet — den uklare sonen. Å ta makten tilbake kan fortsatt virke, eller svikte; ingen kan vite det uten å prøve. Friheten slutter ikke på en knivsegg — den blekner."],
+    "The door, never opened, rusted shut on its own. Unfreedom means the power to take back would no longer work if tried — whether someone shut the door (domination) or, as here, it rusted away (decay): the habits that carried it — teasing the boastful, gathering to decide, walking away — went unpracticed so long that no one remembers how, and an attempt would now fail. No villain required.": [
+      "La porta, mai oberta, es va rovellar tota sola. La manca de llibertat vol dir que el poder de recuperar ja no funcionaria si s'intentés — tant si algú va tancar la porta (dominació) com si, com aquí, es va rovellar (decadència): els hàbits que el sostenien — burlar-se del fanfarró, reunir-se per decidir, marxar — van quedar tant de temps sense practicar que ningú no recorda com es fa, i un intent ara fallaria. No cal cap dolent.",
+      "La puerta, nunca abierta, se oxidó sola. La falta de libertad significa que el poder de recuperar ya no funcionaría si se intentara — ya sea porque alguien cerró la puerta (dominación) o, como aquí, porque se oxidó (decadencia): los hábitos que lo sostenían — burlarse del fanfarrón, reunirse para decidir, marcharse — quedaron tanto tiempo sin practicar que nadie recuerda cómo se hace, y un intento ahora fallaría. No hace falta ningún villano.",
+      "La porte, jamais ouverte, a rouillé d'elle-même. La non-liberté signifie que le pouvoir de reprendre ne fonctionnerait plus si on l'essayait — que quelqu'un ait fermé la porte (domination) ou, comme ici, qu'elle ait rouillé (déclin) : les habitudes qui le portaient — se moquer du vantard, se réunir pour décider, partir — sont restées si longtemps sans pratique que nul ne se souvient comment faire, et une tentative échouerait désormais. Aucun méchant requis.",
+      "De deur, nooit geopend, roestte vanzelf vast. Onvrijheid betekent dat de macht om terug te nemen niet meer zou werken als het geprobeerd werd — of iemand nu de deur sloot (overheersing) of, zoals hier, ze wegroestte (verval): de gewoonten die haar droegen — de opschepper plagen, samenkomen om te beslissen, weglopen — bleven zo lang ongeoefend dat niemand nog weet hoe, en een poging zou nu falen. Geen schurk nodig.",
+      "Døren, aldri åpnet, rustet igjen av seg selv. Ufrihet betyr at makten til å ta tilbake ikke lenger ville virke om den ble prøvd — enten noen lukket døren (dominans) eller, som her, den rustet bort (forfall): vanene som bar den — å gjøre narr av skrytepaven, å samles for å bestemme, å gå sin vei — ble stående ubrukt så lenge at ingen husker hvordan, og et forsøk ville nå mislykkes. Ingen skurk nødvendig."],
     "<b>Whether influence rotates</b> — does sway pass from person to person, or has it settled permanently on someone and their line?": [
       "<b>Si la influència rota</b> — l'ascendent passa de persona a persona, o s'ha assentat permanentment en algú i el seu llinatge?",
       "<b>Si la influencia rota</b> — ¿el ascendiente pasa de persona a persona, o se ha asentado permanentemente en alguien y su linaje?",
@@ -824,7 +906,68 @@
     "For the first time the trend reverses: the worker is legally free to leave, refuse and organise.": ["Per primera vegada la tendència s'inverteix: el treballador és legalment lliure de marxar, negar-se i organitzar-se.", "Por primera vez la tendencia se invierte: el trabajador es legalmente libre de marcharse, negarse y organizarse.", "Pour la première fois, la tendance s'inverse : l'ouvrier est légalement libre de partir, de refuser et de s'organiser.", "Voor het eerst keert de trend: de arbeider is wettelijk vrij om te vertrekken, te weigeren en zich te organiseren.", "For første gang snur trenden: arbeideren er juridisk fri til å dra, nekte og organisere seg."],
     "Unions, the vote and the welfare state claw the take-back power partway back.": ["Els sindicats, el vot i l'estat del benestar recuperen en part el poder de recuperar.", "Los sindicatos, el voto y el estado de bienestar recuperan en parte el poder de recuperar.", "Les syndicats, le vote et l'État-providence regagnent en partie le pouvoir de reprendre.", "Vakbonden, het stemrecht en de verzorgingsstaat heroveren de macht om terug te nemen deels.", "Fagforeninger, stemmeretten og velferdsstaten vinner makten til å ta tilbake delvis tilbake."],
     "One-person-one-vote, yet ownership re-merges with management and influence runs worldwide.": ["Un vot per persona, però la propietat es torna a fusionar amb la gestió i la influència opera arreu del món.", "Un voto por persona, pero la propiedad se vuelve a fusionar con la gestión y la influencia opera por todo el mundo.", "Un vote par personne, mais la propriété refusionne avec la gestion et l'influence opère dans le monde entier.", "Eén persoon, één stem, maar eigendom versmelt opnieuw met management en invloed werkt wereldwijd.", "Én person, én stemme, men eierskap smelter på nytt sammen med ledelse og innflytelse virker verden over."],
-    "Costly to hold up, never quite beyond undoing — and any undoing still begins at the door.": ["Costós de mantenir dret, mai del tot impossible de desfer — i qualsevol desfeta encara comença a la porta.", "Costoso de mantener en pie, nunca del todo imposible de deshacer — y cualquier deshacer aún empieza en la puerta.", "Coûteux à maintenir debout, jamais tout à fait impossible à défaire — et tout défaire commence encore à la porte.", "Kostbaar om overeind te houden, nooit helemaal onomkeerbaar — en elk ongedaan maken begint nog steeds bij de deur.", "Kostbar å holde oppe, aldri helt umulig å oppheve — og enhver oppheving begynner fortsatt ved døren."]
+    "Costly to hold up, never quite beyond undoing — and any undoing still begins at the door.": ["Costós de mantenir dret, mai del tot impossible de desfer — i qualsevol desfeta encara comença a la porta.", "Costoso de mantener en pie, nunca del todo imposible de deshacer — y cualquier deshacer aún empieza en la puerta.", "Coûteux à maintenir debout, jamais tout à fait impossible à défaire — et tout défaire commence encore à la porte.", "Kostbaar om overeind te houden, nooit helemaal onomkeerbaar — en elk ongedaan maken begint nog steeds bij de deur.", "Kostbar å holde oppe, aldri helt umulig å oppheve — og enhver oppheving begynner fortsatt ved døren."],
+
+    // ============================================================
+    //  PASS 3 — fine-print sources & formulas, intro nav buttons
+    // ============================================================
+    "Next ▸": ["Següent ▸", "Siguiente ▸", "Suivant ▸", "Volgende ▸", "Neste ▸"],
+    "◂ Back": ["◂ Enrere", "◂ Atrás", "◂ Retour", "◂ Terug", "◂ Tilbake"],
+    "reset": ["reinicia", "reiniciar", "réinitialiser", "herstel", "nullstill"],
+    "<b>How the bars are computed.</b> Each move’s slider (0–100%) feeds the five bars as a weighted loss; every bar shows what remains of a fully open 1.0:": [
+      "<b>Com es calculen les barres.</b> El control lliscant de cada moviment (0–100%) alimenta les cinc barres com una pèrdua ponderada; cada barra mostra el que queda d'un 1.0 totalment obert:",
+      "<b>Cómo se calculan las barras.</b> El control deslizante de cada movimiento (0–100%) alimenta las cinco barras como una pérdida ponderada; cada barra muestra lo que queda de un 1.0 totalmente abierto:",
+      "<b>Comment les barres sont calculées.</b> Le curseur de chaque mouvement (0–100 %) alimente les cinq barres comme une perte pondérée ; chaque barre montre ce qui reste d'un 1.0 pleinement ouvert :",
+      "<b>Hoe de balken worden berekend.</b> De schuifregelaar van elke zet (0–100%) voedt de vijf balken als een gewogen verlies; elke balk toont wat er overblijft van een volledig open 1.0:",
+      "<b>Slik beregnes søylene.</b> Glidebryteren for hvert trekk (0–100 %) mater de fem søylene som et vektet tap; hver søyle viser hva som gjenstår av en helt åpen 1.0:"],
+    "Saying no is safe = 1 − (.48·war + .26·aggrandizer + .18·sacralize + .12·property)": [
+      "Dir que no és segur = 1 − (.48·guerra + .26·engrandidor + .18·sacralització + .12·propietat)",
+      "Decir que no es seguro = 1 − (.48·guerra + .26·engrandecedor + .18·sacralización + .12·propiedad)",
+      "Dire non est sans risque = 1 − (.48·guerre + .26·magnificateur + .18·sacralisation + .12·propriété)",
+      "Nee zeggen is veilig = 1 − (.48·oorlog + .26·grootmaker + .18·sacralisering + .12·eigendom)",
+      "Å si nei er trygt = 1 − (.48·krig + .26·storgjører + .18·sakralisering + .12·eiendom)"],
+    "Ability to leave = 1 − (.50·sedentism + .26·property + .20·war)": [
+      "Capacitat de marxar = 1 − (.50·sedentarisme + .26·propietat + .20·guerra)",
+      "Capacidad de irse = 1 − (.50·sedentarismo + .26·propiedad + .20·guerra)",
+      "Capacité de partir = 1 − (.50·sédentarité + .26·propriété + .20·guerre)",
+      "Mogelijkheid om te vertrekken = 1 − (.50·sedentarisme + .26·eigendom + .20·oorlog)",
+      "Evne til å dra = 1 − (.50·bofasthet + .26·eiendom + .20·krig)"],
+    "Access to means of living = 1 − (.38·property + .30·tribute + .20·records + .12·monument)": [
+      "Accés als mitjans de vida = 1 − (.38·propietat + .30·tribut + .20·registres + .12·monument)",
+      "Acceso a los medios de vida = 1 − (.38·propiedad + .30·tributo + .20·registros + .12·monumento)",
+      "Accès aux moyens de subsistance = 1 − (.38·propriété + .30·tribut + .20·archives + .12·monument)",
+      "Toegang tot bestaansmiddelen = 1 − (.38·eigendom + .30·schatting + .20·administratie + .12·monument)",
+      "Tilgang til livsgrunnlag = 1 − (.38·eiendom + .30·tributt + .20·opptegnelser + .12·monument)"],
+    "Access to knowledge = 1 − (.45·sacred + .30·records + .25·sacralize)": [
+      "Accés al coneixement = 1 − (.45·sagrat + .30·registres + .25·sacralització)",
+      "Acceso al conocimiento = 1 − (.45·sagrado + .30·registros + .25·sacralización)",
+      "Accès au savoir = 1 − (.45·sacré + .30·archives + .25·sacralisation)",
+      "Toegang tot kennis = 1 − (.45·het heilige + .30·administratie + .25·sacralisering)",
+      "Tilgang til kunnskap = 1 − (.45·det hellige + .30·opptegnelser + .25·sakralisering)"],
+    "Influence rotates = 1 − (.30·aggrandizer + .28·lifelong + .30·hereditary + .14·monument + .12·sacralize)": [
+      "La influència rota = 1 − (.30·engrandidor + .28·vitalici + .30·hereditari + .14·monument + .12·sacralització)",
+      "La influencia rota = 1 − (.30·engrandecedor + .28·vitalicio + .30·hereditario + .14·monumento + .12·sacralización)",
+      "L'influence tourne = 1 − (.30·magnificateur + .28·charge à vie + .30·héréditaire + .14·monument + .12·sacralisation)",
+      "Invloed roteert = 1 − (.30·grootmaker + .28·levenslang ambt + .30·erfelijk + .14·monument + .12·sacralisering)",
+      "Innflytelse roterer = 1 − (.30·storgjører + .28·livsvarig + .30·arvelig + .14·monument + .12·sakralisering)"],
+    "The power to take back combines them <b>non-additively</b>, with leaving as the gate: the effective threat is (1−safe) × (1−0.65·leave) — threats are discounted while the door is open — and W = leave<sup>0.45</sup> × (1−threat) × (0.30 + 0.70·mean(living, knowledge, influence)). Disuse then rusts whatever stands: W × (1−0.78·disuse). The verdict reads W against thresholds (below 0.35 unfree, above 0.55 free, a blurry zone between; unfree splits into domination or decay by whether the structure or only the practice is gone), and verticality is 1 − structural W. The weights are judgement calls chosen to express the gating and keystone claims — a model of the theory, not measurements.": [
+      "El poder de recuperar les combina de manera <b>no additiva</b>, amb marxar com a porta: l'amenaça efectiva és (1−segur) × (1−0.65·marxar) — les amenaces es descompten mentre la porta és oberta — i W = marxar<sup>0.45</sup> × (1−amenaça) × (0.30 + 0.70·mitjana(vida, coneixement, influència)). Després el desús rovella el que queda dret: W × (1−0.78·desús). El veredicte llegeix W contra llindars (per sota de 0.35 no lliure, per sobre de 0.55 lliure, una zona difusa entremig; no lliure es divideix en dominació o decadència segons si ha desaparegut l'estructura o només la pràctica), i la verticalitat és 1 − W estructural. Els pesos són judicis triats per expressar les afirmacions de porta i de clau de volta — un model de la teoria, no mesuraments.",
+      "El poder de recuperar los combina de forma <b>no aditiva</b>, con irse como puerta: la amenaza efectiva es (1−seguro) × (1−0.65·irse) — las amenazas se descuentan mientras la puerta está abierta — y W = irse<sup>0.45</sup> × (1−amenaza) × (0.30 + 0.70·media(vida, conocimiento, influencia)). Luego el desuso oxida lo que queda en pie: W × (1−0.78·desuso). El veredicto lee W contra umbrales (por debajo de 0.35 no libre, por encima de 0.55 libre, una zona difusa entre medias; no libre se divide en dominación o decadencia según haya desaparecido la estructura o solo la práctica), y la verticalidad es 1 − W estructural. Los pesos son juicios elegidos para expresar las afirmaciones de puerta y de piedra angular — un modelo de la teoría, no mediciones.",
+      "Le pouvoir de reprendre les combine de façon <b>non additive</b>, avec le départ comme porte : la menace effective est (1−sûr) × (1−0.65·partir) — les menaces sont escomptées tant que la porte est ouverte — et W = partir<sup>0.45</sup> × (1−menace) × (0.30 + 0.70·moyenne(subsistance, savoir, influence)). La désuétude rouille ensuite ce qui tient debout : W × (1−0.78·désuétude). Le verdict lit W contre des seuils (au-dessous de 0.35 non libre, au-dessus de 0.55 libre, une zone floue entre les deux ; non libre se divise en domination ou déclin selon que la structure ou seulement la pratique a disparu), et la verticalité est 1 − W structurel. Les poids sont des choix de jugement faits pour exprimer les affirmations de porte et de clé de voûte — un modèle de la théorie, non des mesures.",
+      "De macht om terug te nemen combineert ze <b>niet-additief</b>, met vertrekken als poort: de effectieve dreiging is (1−veilig) × (1−0.65·vertrek) — dreigingen worden verdisconteerd zolang de deur open is — en W = vertrek<sup>0.45</sup> × (1−dreiging) × (0.30 + 0.70·gemiddelde(bestaan, kennis, invloed)). Onbruik laat vervolgens roesten wat overeind staat: W × (1−0.78·onbruik). Het oordeel leest W tegen drempels (onder 0.35 onvrij, boven 0.55 vrij, een vage zone ertussen; onvrij splitst in overheersing of verval naargelang de structuur of alleen de praktijk verdwenen is), en verticaliteit is 1 − structurele W. De gewichten zijn beoordelingskeuzes om de poort- en sluitsteenclaims uit te drukken — een model van de theorie, geen metingen.",
+      "Makten til å ta tilbake kombinerer dem <b>ikke-additivt</b>, med det å dra som port: den effektive trusselen er (1−trygt) × (1−0.65·dra) — trusler diskonteres mens døren er åpen — og W = dra<sup>0.45</sup> × (1−trussel) × (0.30 + 0.70·snitt(livsgrunnlag, kunnskap, innflytelse)). Bruksopphør ruster så det som står: W × (1−0.78·bruksopphør). Dommen leser W mot terskler (under 0.35 ufri, over 0.55 fri, en uklar sone imellom; ufri deles i dominans eller forfall etter om strukturen eller bare praksisen er borte), og vertikalitet er 1 − strukturell W. Vektene er skjønnsvalg gjort for å uttrykke port- og bærebjelke-påstandene — en modell av teorien, ikke målinger."],
+    "<b>Where this comes from, and where it’s weakest.</b> This reworks Graeber &amp; Wengrow’s three freedoms (to move, to disobey, to remake society) and three forms of domination (violence, knowledge, charisma) into one variable — the power to take back — with several determinants. It’s a synthesis built from their material, not their stated view, and it leans on interpretations specialists still dispute. Its softest spot: freedom here depends on whether the take-back power <i>would</i> work if tried — and a power never tested is hard to verify. Disuse erodes it, but how fast? And how would we know, before the moment we need it? The keystone claim may also be true but uncheckable for deep prehistory, where we often can’t see who could leave or when the door closed. Some foundations (whether things started equal, when violence began, whether the sacred ever came \"first\") remain choices, not facts.": [
+      "<b>D'on ve això, i on és més feble.</b> Això reelabora les tres llibertats de Graeber i Wengrow (moure's, desobeir, refer la societat) i les tres formes de dominació (violència, coneixement, carisma) en una sola variable — el poder de recuperar — amb diversos determinants. És una síntesi construïda a partir del seu material, no la seva posició declarada, i es recolza en interpretacions que els especialistes encara discuteixen. El seu punt més feble: la llibertat aquí depèn de si el poder de recuperar <i>funcionaria</i> si s'intentés — i un poder mai posat a prova és difícil de verificar. El desús l'erosiona, però a quina velocitat? I com ho sabríem, abans del moment en què el necessitem? L'afirmació de la clau de volta també pot ser certa però incomprovable per a la prehistòria profunda, on sovint no podem veure qui podia marxar ni quan es va tancar la porta. Alguns fonaments (si les coses van començar iguals, quan va començar la violència, si el sagrat va venir mai \"primer\") continuen sent eleccions, no fets.",
+      "<b>De dónde viene esto, y dónde es más débil.</b> Esto reelabora las tres libertades de Graeber y Wengrow (moverse, desobedecer, rehacer la sociedad) y las tres formas de dominación (violencia, conocimiento, carisma) en una sola variable — el poder de recuperar — con varios determinantes. Es una síntesis construida a partir de su material, no su posición declarada, y se apoya en interpretaciones que los especialistas aún discuten. Su punto más débil: la libertad aquí depende de si el poder de recuperar <i>funcionaría</i> si se intentara — y un poder nunca puesto a prueba es difícil de verificar. El desuso lo erosiona, pero ¿a qué velocidad? ¿Y cómo lo sabríamos, antes del momento en que lo necesitamos? La afirmación de la piedra angular también puede ser cierta pero incomprobable para la prehistoria profunda, donde a menudo no podemos ver quién podía irse ni cuándo se cerró la puerta. Algunos fundamentos (si las cosas empezaron iguales, cuándo empezó la violencia, si lo sagrado vino alguna vez \"primero\") siguen siendo elecciones, no hechos.",
+      "<b>D'où cela vient, et où c'est le plus fragile.</b> Ceci retravaille les trois libertés de Graeber et Wengrow (se déplacer, désobéir, refaire la société) et les trois formes de domination (violence, savoir, charisme) en une seule variable — le pouvoir de reprendre — avec plusieurs déterminants. C'est une synthèse bâtie à partir de leur matériau, non leur position déclarée, et elle s'appuie sur des interprétations que les spécialistes discutent encore. Son point le plus faible : la liberté dépend ici de savoir si le pouvoir de reprendre <i>fonctionnerait</i> si on l'essayait — et un pouvoir jamais mis à l'épreuve est difficile à vérifier. La désuétude l'érode, mais à quelle vitesse ? Et comment le saurions-nous, avant le moment où nous en avons besoin ? L'affirmation de la clé de voûte peut aussi être vraie mais invérifiable pour la préhistoire profonde, où l'on ne peut souvent pas voir qui pouvait partir ni quand la porte s'est fermée. Certains fondements (si les choses ont commencé égales, quand la violence a commencé, si le sacré est jamais venu « en premier ») restent des choix, non des faits.",
+      "<b>Waar dit vandaan komt, en waar het het zwakst is.</b> Dit herwerkt Graeber &amp; Wengrows drie vrijheden (zich verplaatsen, ongehoorzaam zijn, de samenleving hervormen) en drie vormen van overheersing (geweld, kennis, charisma) tot één variabele — de macht om terug te nemen — met meerdere determinanten. Het is een synthese gebouwd uit hun materiaal, niet hun verklaarde standpunt, en ze leunt op interpretaties die specialisten nog betwisten. De zwakste plek: vrijheid hangt hier af van of de macht om terug te nemen <i>zou</i> werken als het geprobeerd werd — en een macht die nooit getest is, is moeilijk te verifiëren. Onbruik tast haar aan, maar hoe snel? En hoe zouden we het weten, vóór het moment dat we haar nodig hebben? De sluitsteenclaim kan ook waar maar oncontroleerbaar zijn voor de diepe prehistorie, waar we vaak niet kunnen zien wie kon vertrekken of wanneer de deur sloot. Sommige fundamenten (of dingen gelijk begonnen, wanneer geweld begon, of het heilige ooit \"eerst\" kwam) blijven keuzes, geen feiten.",
+      "<b>Hvor dette kommer fra, og hvor det er svakest.</b> Dette omarbeider Graeber &amp; Wengrows tre friheter (å flytte, å være ulydig, å omforme samfunnet) og tre former for dominans (vold, kunnskap, karisma) til én variabel — makten til å ta tilbake — med flere determinanter. Det er en syntese bygd av deres materiale, ikke deres uttalte syn, og den lener seg på tolkninger spesialister fortsatt strides om. Det svakeste punktet: friheten her avhenger av om makten til å ta tilbake <i>ville</i> virke om den ble prøvd — og en makt som aldri er testet, er vanskelig å verifisere. Bruksopphør tærer på den, men hvor fort? Og hvordan ville vi vite det, før øyeblikket vi trenger den? Bærebjelke-påstanden kan også være sann, men usjekkbar for dyp forhistorie, der vi ofte ikke kan se hvem som kunne dra eller når døren ble lukket. Noen grunnlag (om ting begynte likt, når volden begynte, om det hellige noen gang kom \"først\") forblir valg, ikke fakta."],
+    "<b>Where the numbers come from.</b> The slider values are not measurements from a dataset — no such dataset exists. In the sandbox <b>you</b> set them; the four openings are stylized compositions assembled from the ethnographic and archaeological literature (the Uruk temple economy, steppe conquest polities, Melanesian big-men and Northwest-Coast potlatch rank, Clastres’ societies against the state). In the timeline they follow a hand-authored schedule: each move rises over a window <b>anchored to attested horizons</b> — the sacred to Göbekli Tepe’s sanctuaries, records to the clay-token accounting of the Near East, monuments to the Eridu–Uruk temple sequence, hereditary office to the Early Dynastic, sacralization to Akkad — but the intensities (a move at “80%”) are stylized, chosen to tell one common road plausibly. The only empirical series in the app is <b>world population</b>, log-interpolated between published historical-demography estimates, and even those carry wide scholarly ranges. Everything on screen is a model to think with, not a measurement to cite.": [
+      "<b>D'on surten els nombres.</b> Els valors dels controls no són mesuraments d'un conjunt de dades — aquest conjunt no existeix. A l'espai lliure els fixes <b>tu</b>; les quatre obertures són composicions estilitzades muntades a partir de la literatura etnogràfica i arqueològica (l'economia del temple d'Uruk, els poders de conquesta de l'estepa, els big-men melanesis i el rang del potlatch de la costa nord-oest, les societats contra l'estat de Clastres). En la línia del temps segueixen un calendari fet a mà: cada moviment puja durant una finestra <b>ancorada a horitzons documentats</b> — el sagrat als santuaris de Göbekli Tepe, els registres a la comptabilitat de fitxes d'argila del Pròxim Orient, els monuments a la seqüència de temples d'Eridu–Uruk, el càrrec hereditari al Dinàstic Primerenc, la sacralització a Accad — però les intensitats (un moviment al «80%») són estilitzades, triades per explicar un camí comú de manera plausible. L'única sèrie empírica de l'aplicació és la <b>població mundial</b>, interpolada logarítmicament entre estimacions publicades de demografia històrica, i fins i tot aquestes tenen marges acadèmics amplis. Tot el que hi ha a la pantalla és un model per pensar, no un mesurament per citar.",
+      "<b>De dónde salen los números.</b> Los valores de los controles no son mediciones de un conjunto de datos — ese conjunto no existe. En el entorno libre los fijas <b>tú</b>; las cuatro aperturas son composiciones estilizadas montadas a partir de la literatura etnográfica y arqueológica (la economía del templo de Uruk, los poderes de conquista de la estepa, los big-men melanesios y el rango del potlatch de la costa noroeste, las sociedades contra el estado de Clastres). En la línea del tiempo siguen un calendario hecho a mano: cada movimiento sube durante una ventana <b>anclada a horizontes documentados</b> — lo sagrado a los santuarios de Göbekli Tepe, los registros a la contabilidad de fichas de arcilla del Próximo Oriente, los monumentos a la secuencia de templos de Eridu–Uruk, el cargo hereditario al Dinástico Temprano, la sacralización a Acad — pero las intensidades (un movimiento al «80%») son estilizadas, elegidas para contar un camino común de forma plausible. La única serie empírica de la aplicación es la <b>población mundial</b>, interpolada logarítmicamente entre estimaciones publicadas de demografía histórica, e incluso esas tienen márgenes académicos amplios. Todo lo que hay en pantalla es un modelo para pensar, no una medición para citar.",
+      "<b>D'où viennent les nombres.</b> Les valeurs des curseurs ne sont pas des mesures issues d'un jeu de données — un tel jeu n'existe pas. Dans le bac à sable, c'est <b>vous</b> qui les fixez ; les quatre ouvertures sont des compositions stylisées assemblées à partir de la littérature ethnographique et archéologique (l'économie du temple d'Uruk, les pouvoirs de conquête de la steppe, les big-men mélanésiens et le rang du potlatch de la côte Nord-Ouest, les sociétés contre l'État de Clastres). Dans la frise, ils suivent un calendrier écrit à la main : chaque mouvement monte sur une fenêtre <b>ancrée à des horizons attestés</b> — le sacré aux sanctuaires de Göbekli Tepe, les archives à la comptabilité par jetons d'argile du Proche-Orient, les monuments à la séquence des temples d'Eridu–Uruk, la charge héréditaire au Dynastique archaïque, la sacralisation à Akkad — mais les intensités (un mouvement à « 80 % ») sont stylisées, choisies pour raconter de façon plausible un chemin commun. La seule série empirique de l'application est la <b>population mondiale</b>, interpolée en log entre des estimations publiées de démographie historique, et même celles-ci portent de larges fourchettes savantes. Tout ce qui est à l'écran est un modèle pour penser, non une mesure à citer.",
+      "<b>Waar de getallen vandaan komen.</b> De schuifwaarden zijn geen metingen uit een dataset — zo'n dataset bestaat niet. In de zandbak stel <b>jij</b> ze in; de vier openingen zijn gestileerde composities samengesteld uit de etnografische en archeologische literatuur (de tempeleconomie van Uruk, veroveringsrijken van de steppe, Melanesische big-men en de potlatch-rang van de noordwestkust, Clastres' samenlevingen tegen de staat). In de tijdlijn volgen ze een handgeschreven schema: elke zet stijgt over een venster <b>verankerd aan geattesteerde horizonten</b> — het heilige aan de heiligdommen van Göbekli Tepe, administratie aan de kleifiches-boekhouding van het Nabije Oosten, monumenten aan de tempelreeks van Eridu–Uruk, erfelijk ambt aan het Vroeg-Dynastiek, sacralisering aan Akkad — maar de intensiteiten (een zet op “80%”) zijn gestileerd, gekozen om één gemeenschappelijke weg aannemelijk te vertellen. De enige empirische reeks in de app is de <b>wereldbevolking</b>, log-geïnterpoleerd tussen gepubliceerde historisch-demografische schattingen, en zelfs die kennen ruime wetenschappelijke marges. Alles op het scherm is een model om mee te denken, geen meting om te citeren.",
+      "<b>Hvor tallene kommer fra.</b> Glideverdiene er ikke målinger fra et datasett — noe slikt datasett finnes ikke. I sandkassen setter <b>du</b> dem; de fire åpningene er stiliserte sammensetninger satt sammen fra den etnografiske og arkeologiske litteraturen (tempeløkonomien i Uruk, erobringsmakter på steppen, melanesiske stormenn og potlatch-rang på nordvestkysten, Clastres' samfunn mot staten). I tidslinjen følger de en håndskrevet plan: hvert trekk stiger over et vindu <b>forankret i belagte horisonter</b> — det hellige til helligdommene i Göbekli Tepe, opptegnelser til leirsjetong-regnskapet i Midtøsten, monumenter til tempelrekken Eridu–Uruk, arvelig embete til tidlig-dynastisk tid, sakralisering til Akkad — men intensitetene (et trekk på «80 %») er stiliserte, valgt for å fortelle én vanlig vei troverdig. Den eneste empiriske serien i appen er <b>verdens befolkning</b>, log-interpolert mellom publiserte historisk-demografiske estimater, og selv de har vide faglige spenn. Alt på skjermen er en modell å tenke med, ikke en måling å sitere."]
   };
 
   // ---- engine ----
@@ -862,9 +1005,11 @@
   var DYN_IDS = ["verdict", "cfg", "rc", "pvEra", "pvEraSub", "pvYear", "tlYear"];
   var SKIP_SEL = "#" + DYN_IDS.join(",#");
   var ORIG = new WeakMap();
+  var ORIGH = new WeakMap();   // pristine English innerHTML of rich blocks (before any text pass touches them)
+  var SWAPPED = new WeakSet();  // elements whose innerHTML we replaced with a whole-block translation
 
   function staticRoots() {
-    return [".brand", ".gauges", "#palette", "#compare", ".acts", "#expBtn", '[data-pop="argument"]', "#timelineBtn"]
+    return [".brand", ".gauges", "#palette", "#compare", ".acts", "#expBtn", "#expMenu", '[data-pop="argument"]', "#timelineBtn"]
       .map(function (s) { return document.querySelector(s); }).filter(Boolean);
   }
   function textNodes(root) {
@@ -895,24 +1040,56 @@
     if (!M || !root) return;
     textNodes(root).forEach(function (nd) {
       var v = nd.nodeValue; if (!v || !v.trim()) return;
+      var p = nd.parentElement;
+      if (p && p.closest && p.closest("[data-i18n-block]")) return;   // handled wholesale by trHTML — don't corrupt it
       var t = trStr(v); if (t !== v) nd.nodeValue = t;
     });
   }
-  // whole-block HTML swap for rich elements (tooltip body, beat lines) — preserves <b>/<i>
+  // whole-block HTML swap for rich elements (tooltip body, beat lines, theory essay) — preserves <b>/<i>.
+  // Matches against the pristine English snapshot, so a partial text-pass translation can never
+  // de-match the block; marks translated blocks so the text pass skips inside them.
   function trHTML(el) {
-    if (!MH || !el) return;
+    if (!el) return;
     var h = el.innerHTML;
-    var t = MH[h] || (MHN && MHN[nmHTML(h)]);
-    if (t && t !== h) el.innerHTML = t;
+    var direct = MH && (MH[h] || (MHN && MHN[nmHTML(h)]));
+    if (direct) {                                  // current content is pristine English with a whole-block translation
+      ORIGH.set(el, h);                            // remember the exact English that produced this translation
+      SWAPPED.add(el);
+      el.setAttribute("data-i18n-block", "");
+      if (h !== direct) el.innerHTML = direct;
+      return;
+    }
+    if (!MH) {                                     // English mode: undo ONLY our own block swaps (leave dynamic text alone)
+      if (SWAPPED.has(el)) {
+        SWAPPED.delete(el);
+        el.removeAttribute("data-i18n-block");
+        var o0 = ORIGH.get(el);
+        if (o0 != null && h !== o0) el.innerHTML = o0;
+      }
+      return;
+    }
+    // translated language, current content not a direct English match:
+    // either it is already our translated output, or it has no whole-block translation at all.
+    if (ORIGH.has(el)) {
+      var o = ORIGH.get(el);
+      var t = MH[o] || (MHN && MHN[nmHTML(o)]);
+      if (t) {
+        SWAPPED.add(el);
+        el.setAttribute("data-i18n-block", "");
+        if (h !== t) el.innerHTML = t;
+        return;
+      }
+    }
+    el.removeAttribute("data-i18n-block");          // no whole-block translation — let the text pass handle it
   }
   function translateRich(root) {
-    if (!MH || !root) return;
+    if (!root) return;
     if (root.id === "tip") trHTML(root);
     var els = root.querySelectorAll ? root.querySelectorAll(".pvline, #pop p, #pop li, #pop h3, #pop h4, #pop .k, #pop .icap, #pop .ict, #pop .ilab, #pop button") : [];
     for (var i = 0; i < els.length; i++) trHTML(els[i]);
   }
   function translateDynamic() {
-    DYN_ROOTS.forEach(function (s) { var r = document.querySelector(s); translateRoot(r); translateRich(r); });
+    DYN_ROOTS.forEach(function (s) { var r = document.querySelector(s); translateRich(r); translateRoot(r); });   // rich first: snapshot pristine, then text pass skips marked blocks
   }
 
   var obs = null;
@@ -927,7 +1104,7 @@
         var r = el.closest(DYN_ROOTS.join(","));
         if (r && roots.indexOf(r) < 0) roots.push(r);
       });
-      roots.forEach(function (r) { translateRoot(r); translateRich(r); });
+      roots.forEach(function (r) { translateRich(r); translateRoot(r); });
     });
     DYN_ROOTS.forEach(function (s) {
       var r = document.querySelector(s);

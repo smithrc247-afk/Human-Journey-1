@@ -27,7 +27,7 @@ const RELATED_APPS = [
     glyph: "M9 7a3 3 0 100-6 3 3 0 000 6zM3 21v-1.5A4.5 4.5 0 017.5 15M15 11a3 3 0 100-6 3 3 0 000 6zM21 21v-1.5A4.5 4.5 0 0016.5 15" },
 ];
 
-function RelatedIdeas() {
+function RelatedIdeas({ ui = (k) => window.I18N.en.ui[k] }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   useEffect(() => {
@@ -42,21 +42,21 @@ function RelatedIdeas() {
     <span className="tb-related" ref={wrapRef}>
       <button className={"tb-related-btn" + (open ? " on" : "")} onClick={() => setOpen((v) => !v)} aria-haspopup="true" aria-expanded={open}>
         <svg className="tb-related-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
-        Explore
+        {ui("explore")}
         <svg className="tb-related-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       {open && (
         <div className="tb-related-menu" role="menu">
-          <p className="tb-related-head">The Human Journey</p>
+          <p className="tb-related-head">{ui("nav_globe")}</p>
           {RELATED_APPS.map((a) => (
             a.current
               ? <span key={a.id} className="tb-related-item current" role="menuitem" aria-disabled="true">
                   <span className="tb-related-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={a.glyph}/></svg></span>
-                  <span className="tb-related-txt"><span className="tb-related-lab">{a.label}</span><span className="tb-related-note">You are here</span></span>
+                  <span className="tb-related-txt"><span className="tb-related-lab">{ui("nav_" + a.id) || a.label}</span><span className="tb-related-note">{ui("youAreHere")}</span></span>
                 </span>
               : <a key={a.id} className="tb-related-item" href={a.href} role="menuitem">
                   <span className="tb-related-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={a.glyph}/></svg></span>
-                  <span className="tb-related-txt"><span className="tb-related-lab">{a.label}</span><span className="tb-related-note">{a.note}</span></span>
+                  <span className="tb-related-txt"><span className="tb-related-lab">{ui("nav_" + a.id) || a.label}</span><span className="tb-related-note">{ui("nav_" + a.id + "_note") || a.note}</span></span>
                   <svg className="tb-related-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </a>
           ))}
@@ -834,7 +834,7 @@ function App() {
         <select className="tb-select" value={lang} onChange={(e) => setLang(e.target.value)} aria-label={ui("language")}>
           {window.LANGS.map((L) => <option key={L.code} value={L.code}>{L.label}</option>)}
         </select>
-        <RelatedIdeas />
+        <RelatedIdeas ui={ui} />
         <button className="tb-about" onClick={() => setAboutOpen(true)}>{(TL.about || EN.about).open}</button>
       </div>}
 

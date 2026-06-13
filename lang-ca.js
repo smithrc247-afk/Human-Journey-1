@@ -24,6 +24,12 @@ window.I18N.ca = {
   },
   ui: {
     eyebrow: "Un atles interactiu",
+    explore: "Explora", youAreHere: "Ets aquí",
+    nav_globe: "El Viatge Humà", nav_globe_note: "Fora d'Àfrica — l'atles",
+    nav_freedom: "Poder i llibertat", nav_freedom_note: "Part VI · la teoria de la llibertat",
+    nav_origins: "Els orígens del poder", nav_origins_note: "Part I · els mecanismes",
+    nav_iq: "Poder, riquesa i desigualtat", nav_iq_note: "Part II · les quantitats",
+    nav_cast: "El repartiment i la màquina", nav_cast_note: "Part III · rols i l'estat",
     titleA: "El Viatge", titleB: "Humà",
     credit1: "Fora d'Àfrica", credit2: "i els orígens de la creença",
     mapLayers: "Capes del mapa",

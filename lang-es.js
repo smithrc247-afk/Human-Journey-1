@@ -24,6 +24,12 @@ window.I18N.es = {
   },
   ui: {
     eyebrow: "Un atlas interactivo",
+    explore: "Explorar", youAreHere: "Estás aquí",
+    nav_globe: "El Viaje Humano", nav_globe_note: "Fuera de África — el atlas",
+    nav_freedom: "Poder y libertad", nav_freedom_note: "Parte VI · la teoría de la libertad",
+    nav_origins: "Los orígenes del poder", nav_origins_note: "Parte I · los mecanismos",
+    nav_iq: "Poder, riqueza y desigualdad", nav_iq_note: "Parte II · las cantidades",
+    nav_cast: "El reparto y la máquina", nav_cast_note: "Parte III · roles y el estado",
     titleA: "El Viaje", titleB: "Humano",
     credit1: "Fuera de África", credit2: "y los orígenes de la creencia",
     mapLayers: "Capas del mapa",
