@@ -326,7 +326,7 @@
       <div class="verdict" id="verdict" data-tip="st">Freedom — alive</div>
       <h2 style="margin-top:6px">What decides it</h2>
       <div class="g" data-tip="M"><div class="lab"><span>Ability to leave &#9919;</span><b id="vM">100%</b></div><div class="track"><div class="fill" id="fM" style="background:var(--agency)"></div></div></div>
-      <div class="g" data-tip="C"><div class="lab"><span>Saying no is safe</span><b id="vC">100%</b></div><div class="track"><div class="fill" id="fC" style="background:var(--vert)"></div></div></div>
+      <div class="g" data-tip="C"><div class="lab"><span>Disobeying is safe</span><b id="vC">100%</b></div><div class="track"><div class="fill" id="fC" style="background:var(--vert)"></div></div></div>
       <div class="g" data-tip="B"><div class="lab"><span>Access to means of living</span><b id="vB">100%</b></div><div class="track"><div class="fill" id="fB" style="background:#C9855A"></div></div></div>
       <div class="g" data-tip="E"><div class="lab"><span>Access to knowledge</span><b id="vE">100%</b></div><div class="track"><div class="fill" id="fE" style="background:var(--info)"></div></div></div>
       <div class="g" data-tip="N"><div class="lab"><span>Influence rotates</span><b id="vN">100%</b></div><div class="track"><div class="fill" id="fN" style="background:var(--reneg)"></div></div></div>
@@ -478,7 +478,62 @@ const ELITEROLL=(()=>{const r=mulberry32(99),a=[];for(let i=0;i<12;i++)a.push(r(
 const ROWANIM=ROWS.map((r,i)=>{const rnd=mulberry32(137+i*31);const jit=[];for(let k=0;k<r.cap;k++)jit.push(rnd());return {rate:0.036+0.028*rnd(),lag:0.8+1.6*rnd(),jit};});
 const SROW=(()=>{const a=[];let prev=Infinity;for(const r of ROWS){let s=r.cap>1?2*hwAt(r.y)*0.9/(r.cap-1):0;if(r.cap>1){s=Math.min(s,prev*0.96);prev=s;}a.push(s);}return a;})(); // figure spacing never widens going up: each row sits squeezed inside the one below
 let DEX=null, crowdSnap=true;
+let SCENE_PS=null;   // eased on-screen scale: structure grows, view steps back to refit
 function crowdFig(x,y,s,fill,op){return `<g opacity="${op}"><path d="M${(x-3.8*s).toFixed(1)},${y.toFixed(1)} L${(x-3*s).toFixed(1)},${(y-9*s).toFixed(1)} Q${x.toFixed(1)},${(y-12*s).toFixed(1)} ${(x+3*s).toFixed(1)},${(y-9*s).toFixed(1)} L${(x+3.8*s).toFixed(1)},${y.toFixed(1)} Z" fill="${fill}"/><circle cx="${x.toFixed(1)}" cy="${(y-15*s).toFixed(1)}" r="${(4.4*s).toFixed(1)}" fill="${fill}"/></g>`;}
+/* ---- GDP per capita (illustrative, ~1990 intl $) & era station names ---- */
+const GDPCAP=[[-300000,440],[-3000,460],[1,500],[1000,540],[1500,640],[1700,720],[1800,1050],[1870,1500],[1900,2000],[1950,3000],[1980,5500],[2000,8000],[2025,16000]];
+function gdpCapOf(year){
+  if(year<=GDPCAP[0][0])return GDPCAP[0][1];
+  for(let i=1;i<GDPCAP.length;i++){if(year<=GDPCAP[i][0]){const a=GDPCAP[i-1],b=GDPCAP[i],f=(year-a[0])/(b[0]-a[0]);return Math.exp(lerp(Math.log(a[1]),Math.log(b[1]),f));}}
+  return GDPCAP[GDPCAP.length-1][1];
+}
+const fmtGdp=g=>g>=1000?'$'+(g/1000).toFixed(g<9500?1:0)+'k':'$'+Math.round(g/10)*10;
+// era-appropriate names for each station, localized; null in the sandbox (no year).
+// Labels are SVG text rewritten every frame, so we localize at the source (reading the
+// active pf-lang) rather than through the runtime DOM translation layer.
+const PF_LANGS=['en','ca','es','fr','nl','no'];
+const STATE_TR=['The State',"L'Estat",'El Estado',"L'État",'De Staat','Staten'];
+const STATION_TR=[
+  { r:['Big-man','Home fort','Hombre grande','Grand homme','Grote man','Stormann'],
+    p:['Shaman','Xaman','Chamán','Chamane','Sjamaan','Sjaman'],
+    e:['','','','','',''],
+    d:['Foragers','Recol·lectors','Recolectores','Cueilleurs','Verzamelaars','Sankere'] },
+  { r:['Priest-king','Rei-sacerdot','Rey-sacerdote','Roi-prêtre','Priester-koning','Prestekonge'],
+    p:['Priesthood','Sacerdoci','Sacerdocio','Clergé','Priesterschap','Presteskap'],
+    e:['Soldiers','Soldats','Soldados','Soldats','Soldaten','Soldater'],
+    d:['Farmers','Pagesos','Campesinos','Paysans','Boeren','Bønder'] },
+  { r:['Emperor','Emperador','Emperador','Empereur','Keizer','Keiser'],
+    p:['Priesthood','Sacerdoci','Sacerdocio','Clergé','Priesterschap','Presteskap'],
+    e:['Legions','Legions','Legiones','Légions','Legioenen','Legioner'],
+    d:['Citizens','Ciutadans','Ciudadanos','Citoyens','Burgers','Borgere'] },
+  { r:['King','Rei','Rey','Roi','Koning','Konge'],
+    p:['Clergy','Clergat','Clero','Clergé','Geestelijkheid','Geistlighet'],
+    e:['Knights','Cavallers','Caballeros','Chevaliers','Ridders','Riddere'],
+    d:['Serfs','Serfs','Siervos','Serfs','Horigen','Livegne'] },
+  { r:['Sovereign','Sobirà','Soberano','Souverain','Vorst','Suveren'],
+    p:['Church','Església','Iglesia','Église','Kerk','Kirke'],
+    e:['Company armies','Exèrcits de companyia','Ejércitos de compañía','Armées de compagnie','Compagnielegers','Kompaniarmeer'],
+    d:['Labourers','Treballadors','Trabajadores','Ouvriers','Arbeiders','Arbeidere'] },
+  { r:['Magnate & state','Magnat i estat','Magnate y estado','Magnat et État','Magnaat en staat','Magnat og stat'],
+    p:['','','','','',''],
+    e:['Police','Policia','Policía','Police','Politie','Politi'],
+    d:['Workers','Obrers','Obreros','Ouvriers','Arbeiders','Arbeidere'] },
+  { r:['Capital','Capital','Capital','Capital','Kapitaal','Kapital'],
+    p:['','','','','',''],
+    e:['','','','','',''],
+    d:['Citizens','Ciutadans','Ciudadanos','Citoyens','Burgers','Borgere'] }
+];
+function pfLangIdx(){try{var i=PF_LANGS.indexOf(localStorage.getItem('pf-lang'));return i<0?0:i;}catch(e){return 0;}}
+function stationNames(year){
+  if(year==null)return null;
+  var ei = year<-3000?0 : year<-800?1 : year<500?2 : year<1450?3 : year<1800?4 : year<1970?5 : 6;
+  var li=pfLangIdx(), s=STATION_TR[ei];
+  return {ruler:s.r[li], priest:s.p[li], enforcer:s.e[li], producer:s.d[li], state:STATE_TR[li]};
+}
+function stationLabel(x,y,txt,col,op,anchor){
+  if(!txt||op<0.05)return '';
+  return `<text x="${x.toFixed(0)}" y="${y.toFixed(0)}" text-anchor="${anchor||'middle'}" font-family="IBM Plex Mono,monospace" font-size="9.5" letter-spacing="1.6" font-weight="500" fill="${col}" opacity="${Math.min(0.92,op).toFixed(2)}">${txt.toUpperCase()}</text>`;
+}
 function sceneSVG(ev,F,pk,year){
   const v=1-F.Wl;
   const tPriest=ev.sacred,tRuler=Math.max(ev.aggr,ev.war),tEnf=ev.war,tProd=ss(v);
@@ -501,7 +556,19 @@ function sceneSVG(ev,F,pk,year){
     items.push({x,y,sc,fill,role:r,crown,ped,op});
   }
   items.sort((a,b)=>a.y-b.y);
-  const ps = 1;
+  // World scale ∝ GDP per capita: the structure GROWS; when it would outgrow the
+  // frame, the view steps back a notch (zoom out) and it keeps growing — so it reads
+  // as growth, never shrinkage. Eased so each step-back is a smooth camera pull-back.
+  let ps;
+  if(year==null){ ps=1; SCENE_PS=null; }
+  else {
+    const G0=450, STEP=1.75, PS0=0.60;
+    const wgrow=Math.max(1, gdpCapOf(year)/G0);
+    const zbr=Math.pow(STEP, Math.floor(Math.log(wgrow)/Math.log(STEP)));
+    const targetPs=PS0*(wgrow/zbr);                    // grows PS0 → PS0·STEP within a bracket, then the camera steps back
+    SCENE_PS=(SCENE_PS==null||crowdSnap)?targetPs:SCENE_PS+(targetPs-SCENE_PS)*0.08;
+    ps=SCENE_PS;
+  }
   const secK = year==null?0:cl((year-1400)/625);
   const ttD = tt*(1-0.5*secK), ppD = pp*(1+0.05*secK);
   let sc='';
@@ -557,9 +624,18 @@ function sceneSVG(ev,F,pk,year){
   sc+=fx;
   sc+=items.map(it=>figSVG(it.x,it.y,it.sc,it.fill,it.role,{crown:it.crown,ped:it.ped},it.op)).join('');
   if(ttD>0.05&&ppD>0.05&&fuse>0.03)sc+=`<path d="M${tCx.toFixed(0)},${(bY-ttD*150).toFixed(0)} Q360,62 ${pCx.toFixed(0)},${(bY-ppD*118).toFixed(0)}" fill="none" stroke="${COL.gold}" stroke-width="1.4" opacity="${(fuse*0.5).toFixed(2)}" stroke-dasharray="2 5"/>`;
+  // station labels — a legend down the right margin, clear of the figures
+  const SN=stationNames(year);
+  if(SN){
+    const lab=(yy,txt,col,op)=>stationLabel(360+hwAt(yy)+10,yy,txt,col,op,'start');  // just outside the right slope, stepping out along the contour
+    if(fuse>0.03)sc+=lab(108,SN.state,COL.gold,fuse*0.8);
+    sc+=lab(126,SN.ruler,COL.vert,cl((tRuler-0.08)*1.7));
+    sc+=lab(170,SN.priest,COL.info,cl((tPriest-0.08)*1.7));
+    sc+=lab(242,SN.enforcer,COL.warrior,cl((tEnf-0.10)*1.7));
+    sc+=lab(352,SN.producer,'rgba(220,225,235,.7)',cl(0.42+0.5*tProd));
+  }
   const groundU=`<line x1="70" y1="402" x2="650" y2="402" stroke="rgba(255,255,255,.10)" stroke-width="1"/>`;
   let labelU='';
-  if(fuse>0.03)labelU=`<text x="${(rulerPos.x+15).toFixed(0)}" y="${(rulerPos.y-14).toFixed(0)}" text-anchor="start" font-family="IBM Plex Mono,monospace" font-size="9.5" letter-spacing="2.5" fill="${COL.gold}" opacity="${(fuse*0.72).toFixed(2)}">THE STATE</text>`;
   return `<defs><marker id="up" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 8 L6 5 L2 2" fill="none" stroke="context-stroke" stroke-width="1.4"/></marker></defs>${groundU}<g transform="translate(360,400) scale(${ps.toFixed(3)}) translate(-360,-400)">${sc}</g>${labelU}`;
 }
 
@@ -636,18 +712,22 @@ function clearPresetSel(){selPreset=null;document.querySelectorAll('#compare .cm
 function syncSliders(){MOVES.forEach(m=>{const inp=$('mv-'+m.id).querySelector('input');inp.value=Math.round(state[m.id].x*100);});}
 
 /* ---- timeline: one common, illustrative road ---- */
+// Strict historical dating: each move's rise spans its first appearance → entrenchment,
+// converted to T through the (piecewise) year axis. Deep-prehistory moves (sacred, aggr,
+// sed) sit in the forager era; the state toolkit assembles across the city-states era
+// (~3300–1200 BCE) and is complete by the classical era.
 const TL=[
-  {id:'sacred',  a:0.211,b:0.314,v:0.80},
-  {id:'aggr',    a:0.331,b:0.434,v:0.70},
-  {id:'tribute', a:0.366,b:0.486,v:0.80},
-  {id:'war',     a:0.400,b:0.520,v:0.85},
-  {id:'sed',     a:0.451,b:0.571,v:0.72},
-  {id:'property',a:0.503,b:0.606,v:0.82},
-  {id:'records', a:0.537,b:0.640,v:0.70},
-  {id:'lifelong',a:0.589,b:0.674,v:0.82},
-  {id:'monument',a:0.657,b:0.760,v:0.76},
-  {id:'hered',   a:0.709,b:0.811,v:0.76},
-  {id:'sacralize',a:0.709,b:0.846,v:0.85}
+  {id:'sacred',  a:0.105,b:0.135,v:0.80},   // shaman / sacred specialist · Upper Palaeolithic ~50,000 BCE
+  {id:'aggr',    a:0.120,b:0.138,v:0.70},   // big-man, feasts & debt · Late Palaeolithic ~30,000 BCE
+  {id:'sed',     a:0.139,b:0.141,v:0.72},   // sedentism & circumscription · ~12,000–6,000 BCE
+  {id:'monument',a:0.143,b:0.175,v:0.76},   // temples → pyramids · ~3,000–2,500 BCE
+  {id:'tribute', a:0.143,b:0.208,v:0.80},   // temple redistribution · ~3,300–2,000 BCE
+  {id:'records', a:0.143,b:0.208,v:0.70},   // proto-writing → cuneiform · ~3,300–2,000 BCE
+  {id:'lifelong',a:0.149,b:0.188,v:0.82},   // lifelong office / kingship · ~2,900–2,300 BCE
+  {id:'property',a:0.143,b:0.240,v:0.82},   // private property in land · ~3,000–1,500 BCE
+  {id:'war',     a:0.143,b:0.260,v:0.85},   // war-leader → standing forces · ~3,000–1,200 BCE
+  {id:'hered',   a:0.162,b:0.208,v:0.76},   // hereditary dynasties · ~2,700–2,000 BCE
+  {id:'sacralize',a:0.175,b:0.221,v:0.85}   // divine kingship / god-kings · ~2,500–1,800 BCE
 ];
 const sched=(id,T)=>{const e=TL.find(x=>x.id===id);return e?e.v*ss((T-e.a)/(e.b-e.a)):0;};
 function eraFor(T){const y=yearFor(T);
@@ -663,7 +743,7 @@ function yearFor(T){const S=[[-300000,-3000],[-3000,-800],[-800,500],[500,1450],
 function fmtYear(y){y=Math.round(y);if(y<0){const a=-y,r=a>3000?100:50,v=Math.round(a/r)*r;return v.toLocaleString()+' BCE';}const v=Math.max(5,Math.round(y/5)*5);return v+' CE';}
 const FLAB={C:'Saying no grows costly',M:'The door is closing',B:'The means of living enclosed',E:'Knowledge narrows',N:'Influence settles on one person'};
 const BEATS=[
-  {t:0.05,f:[['M','The door is open'],['C','Saying no is safe']],title:'Power is shared',body:['For most of human history, power lived in relationships and stayed flat — kept flat on purpose.','The boastful were teased, the bossy ignored, and anyone could walk away.','The take-back power is alive and used daily: no one keeps what they hoard or commands what they cannot persuade.']},
+  {t:0.05,f:[['M','The door is open'],['C','Disobeying is safe']],title:'Power is shared',body:['For most of human history, power lived in relationships and stayed flat — kept flat on purpose.','The boastful were teased, the bossy ignored, and anyone could walk away.','The take-back power is alive and used daily: no one keeps what they hoard or commands what they cannot persuade.']},
   {t:0.17,f:[['E','Knowledge sealed'],['B','Means of living enclosed']],title:'The state is born',body:['Stored grain feeds priests, scribes and soldiers who never farm.','The temple keeps the accounts and the god-king fuses throne and altar — refusal becomes heresy.','The take-back power, once lent, is now seized: this is the power of the state.']},
   {t:0.31,f:[['C','Force becomes law'],['B','Slavery at the base']],title:'Power outlives the ruler',body:['Codified law, coinage and a standing army turn the order into a <b>structure</b>, not just a person.','Mass slavery is built into the economy — the enslaved produce much and own nothing.','Power now outlives any single ruler; the machinery persists.']},
   {t:0.46,f:[['M','The door stays shut'],['N','Office made hereditary']],title:'The door is bolted',body:['Every escape route is shut at once: no exit, no refusal, no independent living.','The take-back power is no longer just blocked — it is now believed to be illegitimate.']},
@@ -728,7 +808,7 @@ function frame(now){
   sVert.textContent=pct(1-F.Wl);
   updatePalette(); reading(ev,F);
   if(tlMode){syncSliders();$('tlScrub').value=Math.round(T*1000);$('tlYear').textContent=fmtYear(yearFor(T));
-    const er=eraFor(T),yr=yearFor(T);$('pvYear').textContent=fmtYear(yr)+'  \u00b7  world pop '+fmtPop(popOf(yr));$('pvEra').innerHTML=er[0];$('pvEraSub').innerHTML=er[1];}
+    const er=eraFor(T),yr=yearFor(T);$('pvYear').textContent=fmtYear(yr)+'  \u00b7  world pop '+fmtPop(popOf(yr))+'  \u00b7  GDP/capita '+fmtGdp(gdpCapOf(yr));$('pvEra').innerHTML=er[0];$('pvEraSub').innerHTML=er[1];}
   requestAnimationFrame(frame);
 }
 ['fW','vW','fM','vM','fC','vC','fB','vB','fE','vE','fN','vN','sVert'].forEach(k=>window[k]=$(k));
@@ -849,7 +929,7 @@ const POP={
   <h4>The determinants gate each other</h4>
   <p>Freedom and domination aren\u2019t opposites on a scale — they\u2019re zones of one capacity. Five things set where a society sits. They don\u2019t add up — they switch each other on and off. Move them one at a time and watch the result:</p>
   <div class="irow"><span class="ilab" data-tip="M" style="color:#3F6FC9;cursor:help;border-bottom:1px dotted rgba(255,255,255,.25)">Ability to leave &#9919;</span><input type="range" id="iaM" min="0" max="100" value="100" oninput="i3u()"><b id="ivM">100%</b></div>
-  <div class="irow"><span class="ilab" data-tip="C" style="color:#E8654B;cursor:help;border-bottom:1px dotted rgba(255,255,255,.25)">Saying no is safe</span><input type="range" id="iaC" min="0" max="100" value="100" oninput="i3u()"><b id="ivC">100%</b></div>
+  <div class="irow"><span class="ilab" data-tip="C" style="color:#E8654B;cursor:help;border-bottom:1px dotted rgba(255,255,255,.25)">Disobeying is safe</span><input type="range" id="iaC" min="0" max="100" value="100" oninput="i3u()"><b id="ivC">100%</b></div>
   <div class="irow"><span class="ilab" data-tip="B" style="color:#C9855A;cursor:help;border-bottom:1px dotted rgba(255,255,255,.25)">Access to means of living</span><input type="range" id="iaB" min="0" max="100" value="100" oninput="i3u()"><b id="ivB">100%</b></div>
   <div class="irow"><span class="ilab" data-tip="E" style="color:#E7B24C;cursor:help;border-bottom:1px dotted rgba(255,255,255,.25)">Access to knowledge</span><input type="range" id="iaE" min="0" max="100" value="100" oninput="i3u()"><b id="ivE">100%</b></div>
   <div class="irow"><span class="ilab" data-tip="N" style="color:#9B8CFF;cursor:help;border-bottom:1px dotted rgba(255,255,255,.25)">Influence rotates</span><input type="range" id="iaN" min="0" max="100" value="100" oninput="i3u()"><b id="ivN">100%</b></div>
@@ -889,7 +969,7 @@ const POP={
 <p style="color:var(--tx3);font-size:12px"><b>Where this comes from, and where it\u2019s weakest.</b> This reworks Graeber &amp; Wengrow\u2019s three freedoms (to move, to disobey, to remake society) and three forms of domination (violence, knowledge, charisma) into one variable — the power to take back — with several determinants. It\u2019s a synthesis built from their material, not their stated view, and it leans on interpretations specialists still dispute. Its softest spot: freedom here depends on whether the take-back power <i>would</i> work if tried — and a power never tested is hard to verify. Disuse erodes it, but how fast? And how would we know, before the moment we need it? The keystone claim may also be true but uncheckable for deep prehistory, where we often can\u2019t see who could leave or when the door closed. Some foundations (whether things started equal, when violence began, whether the sacred ever came "first") remain choices, not facts.</p>
 <p style="color:var(--tx3);font-size:12px"><b>How the bars are computed.</b> Each move\u2019s slider (0\u2013100%) feeds the five bars as a weighted loss; every bar shows what remains of a fully open 1.0:</p>
 <ul style="color:var(--tx3);font-size:11.5px;font-family:var(--mono);line-height:1.55;margin:4px 0 8px;padding-left:18px">
-<li>Saying no is safe = 1 \u2212 (.48\u00b7war + .26\u00b7aggrandizer + .18\u00b7sacralize + .12\u00b7property)</li>
+<li>Disobeying is safe = 1 \u2212 (.48\u00b7war + .26\u00b7aggrandizer + .18\u00b7sacralize + .12\u00b7property)</li>
 <li>Ability to leave = 1 \u2212 (.50\u00b7sedentism + .26\u00b7property + .20\u00b7war)</li>
 <li>Access to means of living = 1 \u2212 (.38\u00b7property + .30\u00b7tribute + .20\u00b7records + .12\u00b7monument)</li>
 <li>Access to knowledge = 1 \u2212 (.45\u00b7sacred + .30\u00b7records + .25\u00b7sacralize)</li>
@@ -930,6 +1010,6 @@ document.addEventListener('click',()=>m.classList.remove('open'));})();
 
 buildPalette(); buildCompare(); requestAnimationFrame(frame); openPop('argument'); introInit();
 </script>
-<script src="pf-i18n.js?v=27"></script>
+<script src="pf-i18n.js?v=28"></script>
 </body>
 </html>

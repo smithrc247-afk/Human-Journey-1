@@ -62,8 +62,8 @@
       "Què ho decideix", "Qué lo decide", "Ce qui le décide", "Wat het bepaalt", "Hva som avgjør det"],
     "Ability to leave": [
       "Capacitat de marxar", "Capacidad de irse", "Capacité de partir", "Mogelijkheid om te vertrekken", "Evne til å dra"],
-    "Saying no is safe": [
-      "Dir que no és segur", "Decir que no es seguro", "Dire non est sans risque", "Nee zeggen is veilig", "Å si nei er trygt"],
+    "Disobeying is safe": [
+      "Desobeir és segur", "Desobedecer es seguro", "Désobéir est sans risque", "Ongehoorzaam zijn is veilig", "Å være ulydig er trygt"],
     "Access to means of living": [
       "Accés als mitjans de vida", "Acceso a los medios de vida", "Accès aux moyens de subsistance",
       "Toegang tot bestaansmiddelen", "Tilgang til livsgrunnlag"],
@@ -239,6 +239,7 @@
     " BCE": [" aEC", " a.C.", " av. J.-C.", " v.Chr.", " f.Kr."],
     " CE": [" dEC", " d.C.", " apr. J.-C.", " n.Chr.", " e.Kr."],
     "world pop": ["pob. mundial", "pobl. mundial", "pop. mondiale", "wereldbev.", "verdensbef."],
+    "GDP/capita": ["PIB/càpita", "PIB/cápita", "PIB/hab.", "bbp/hoofd", "BNP/innb."],
 
     // ============================================================
     //  PASS 2A — live captions, timeline era subtitles, beat headlines
@@ -920,12 +921,12 @@
       "<b>Comment les barres sont calculées.</b> Le curseur de chaque mouvement (0–100 %) alimente les cinq barres comme une perte pondérée ; chaque barre montre ce qui reste d'un 1.0 pleinement ouvert :",
       "<b>Hoe de balken worden berekend.</b> De schuifregelaar van elke zet (0–100%) voedt de vijf balken als een gewogen verlies; elke balk toont wat er overblijft van een volledig open 1.0:",
       "<b>Slik beregnes søylene.</b> Glidebryteren for hvert trekk (0–100 %) mater de fem søylene som et vektet tap; hver søyle viser hva som gjenstår av en helt åpen 1.0:"],
-    "Saying no is safe = 1 − (.48·war + .26·aggrandizer + .18·sacralize + .12·property)": [
-      "Dir que no és segur = 1 − (.48·guerra + .26·engrandidor + .18·sacralització + .12·propietat)",
-      "Decir que no es seguro = 1 − (.48·guerra + .26·engrandecedor + .18·sacralización + .12·propiedad)",
-      "Dire non est sans risque = 1 − (.48·guerre + .26·magnificateur + .18·sacralisation + .12·propriété)",
-      "Nee zeggen is veilig = 1 − (.48·oorlog + .26·grootmaker + .18·sacralisering + .12·eigendom)",
-      "Å si nei er trygt = 1 − (.48·krig + .26·storgjører + .18·sakralisering + .12·eiendom)"],
+    "Disobeying is safe = 1 − (.48·war + .26·aggrandizer + .18·sacralize + .12·property)": [
+      "Desobeir és segur = 1 − (.48·guerra + .26·engrandidor + .18·sacralització + .12·propietat)",
+      "Desobedecer es seguro = 1 − (.48·guerra + .26·engrandecedor + .18·sacralización + .12·propiedad)",
+      "Désobéir est sans risque = 1 − (.48·guerre + .26·magnificateur + .18·sacralisation + .12·propriété)",
+      "Ongehoorzaam zijn is veilig = 1 − (.48·oorlog + .26·grootmaker + .18·sacralisering + .12·eigendom)",
+      "Å være ulydig er trygt = 1 − (.48·krig + .26·storgjører + .18·sakralisering + .12·eiendom)"],
     "Ability to leave = 1 − (.50·sedentism + .26·property + .20·war)": [
       "Capacitat de marxar = 1 − (.50·sedentarisme + .26·propietat + .20·guerra)",
       "Capacidad de irse = 1 − (.50·sedentarismo + .26·propiedad + .20·guerra)",
